@@ -88,6 +88,58 @@ SpeedMaster2/
 - **Mobile nav** toggles via hamburger button at <768px viewport width.
 - **Accordion, PDP tabs, filter tabs, qty selector** are all handled in `main.js`.
 
+## Cart & Account Features
+
+### New Pages
+
+| Page | URL | Description |
+|------|-----|-------------|
+| Login | `account/login.html` | Sign-in form with inline validation, forgot-password notice, guest checkout link |
+| Register | `account/register.html` | New account creation with client-side validation |
+| Dashboard | `account/dashboard.html` | Account overview: order count, default address, recent orders |
+| My Orders | `account/orders.html` | Full order history with expandable order details |
+| Addresses | `account/addresses.html` | Saved addresses CRUD — add, remove, set default |
+| Account Details | `account/details.html` | Edit name/email/phone and change password |
+| Checkout | `checkout/index.html` | 4-step checkout: Cart → Details → Payment → Review |
+| Order Confirmation | `checkout/confirmation.html` | Post-purchase confirmation with guest account creation prompt |
+
+### localStorage Data Model
+
+| Key | Contents |
+|-----|----------|
+| `sm_cart` | Array of cart items `{ id, name, price, qty, thumb, category, color }` |
+| `sm_users` | Array of user objects `{ id, email, password, firstName, lastName, addresses[], orderIds[] }` |
+| `sm_session` | Current session `{ userId, email }` |
+| `sm_orders` | Array of orders `{ id, status, items[], shipping, total, createdAt, ... }` |
+
+All data is managed via the `window.SM` global exposed by `assets/js/store.js`, which must be loaded **before** `main.js` on every page.
+
+### Demo Coupon Code
+
+Enter `SPEED10` at checkout for **10% off** any order.
+
+### Reset All Data
+
+To clear all cart, user, and order data, run in the browser console:
+```javascript
+localStorage.clear();
+```
+
+### Security Notice
+
+**Passwords are stored in plaintext in localStorage.** This is a demo only. In production you must use a real backend with proper password hashing (bcrypt/argon2) and secure session management. Never ship this to production as-is.
+
+### TODO: Production Integrations
+
+- Replace localStorage with a real backend API (Node/Django/Laravel etc.)
+- Add real payment processors: Stripe for card, Klarna SDK, PayPal JS SDK
+- Add server-side email confirmations (order receipt, shipping notifications)
+- Add password hashing before any backend implementation
+- Replace guest session storage with server-side sessions / JWTs
+- Add Google OAuth / social login
+- Wire newsletter signup to Mailchimp/Klaviyo
+- Add Trustpilot / Judge.me reviews integration
+
 ## TODOs / Placeholders
 
 - **Replace placehold.co images** with real product photos

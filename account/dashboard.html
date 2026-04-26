@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account — SpeedMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+<div id="sm-header"></div>
+
+<main>
+  <div class="container">
+    <div class="account-layout">
+      <div class="account-layout__inner">
+
+        <!-- Sidebar -->
+        <aside class="account-sidebar">
+          <nav class="account-nav" aria-label="Account navigation">
+            <a href="dashboard.html" class="account-nav__item account-nav__item--active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Overview
+            </a>
+            <a href="orders.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              My Orders
+            </a>
+            <a href="addresses.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Addresses
+            </a>
+            <a href="details.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Account Details
+            </a>
+            <button id="signout-btn" class="account-nav__item account-nav__item--danger" style="background:none;border:none;font-family:inherit;text-align:left;width:100%;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </nav>
+        </aside>
+
+        <!-- Main content -->
+        <div>
+          <h1 class="account-greeting" id="greeting">Hello!</h1>
+          <p class="account-subhead" id="account-email-sub"></p>
+
+          <div class="account-cards" id="stat-cards">
+            <div class="account-card">
+              <div class="account-card__label">Orders Placed</div>
+              <div class="account-card__value" id="orders-count">0</div>
+              <div class="account-card__sub"><a href="orders.html" style="color:var(--color-brand-black);font-weight:700;text-decoration:underline;">View all orders →</a></div>
+            </div>
+            <div class="account-card">
+              <div class="account-card__label">Default Address</div>
+              <div class="account-card__value" style="font-size:1.125rem;font-weight:700;" id="default-address-val">None saved</div>
+              <div class="account-card__sub"><a href="addresses.html" style="color:var(--color-brand-black);font-weight:700;text-decoration:underline;">Manage addresses →</a></div>
+            </div>
+          </div>
+
+          <h2 style="font-size:1.125rem;font-weight:800;margin-bottom:1rem;">Recent Orders</h2>
+          <div id="recent-orders">
+            <div style="padding:2rem;text-align:center;background:var(--color-bg-subtle);border-radius:10px;color:var(--color-text-muted);">
+              <p style="margin-bottom:1rem;">No orders yet.</p>
+              <a href="../collections/all-products.html" class="btn btn--primary btn--sm">Start Shopping</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="sm-footer"></div>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var user = SM.currentUser();
+  if (!user) {
+    window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+    return;
+  }
+
+  document.getElementById('greeting').textContent = 'Hello, ' + (user.firstName || user.email.split('@')[0]) + '!';
+  document.getElementById('account-email-sub').textContent = user.email;
+
+  // Orders count
+  var orders = SM.userOrders(user.id);
+  document.getElementById('orders-count').textContent = orders.length;
+
+  // Default address
+  var defaultAddr = (user.addresses || []).find(function (a) { return a.isDefault; }) || (user.addresses || [])[0];
+  if (defaultAddr) {
+    document.getElementById('default-address-val').textContent = defaultAddr.city || defaultAddr.line1 || 'Saved';
+  }
+
+  // Recent orders (last 3)
+  var recentEl = document.getElementById('recent-orders');
+  if (orders.length > 0) {
+    var html = '';
+    orders.slice(0, 3).forEach(function (order) {
+      var date = new Date(order.createdAt).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+      var itemCount = (order.items || []).reduce(function (s, i) { return s + i.qty; }, 0);
+      html += '<div class="order-row" onclick="window.location.href=\'orders.html\'">'
+        + '<span class="order-row__id">' + order.id + '</span>'
+        + '<span class="order-row__date">' + date + '</span>'
+        + '<span class="order-row__items">' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + '</span>'
+        + '<span class="order-row__total">' + SM.fmt(order.total || 0) + '</span>'
+        + '<span class="order-row__status status--' + (order.status || 'confirmed') + '">' + (order.status || 'Confirmed') + '</span>'
+        + '</div>';
+    });
+    recentEl.innerHTML = html;
+  }
+
+  // Sign out
+  document.getElementById('signout-btn').addEventListener('click', function () {
+    SM.logout();
+    window.location.href = '../index.html';
+  });
+})();
+</script>
+</body>
+</html>

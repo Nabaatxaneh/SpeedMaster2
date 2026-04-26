@@ -8,7 +8,9 @@
   if (
     path.indexOf('/collections/') !== -1 ||
     path.indexOf('/products/')    !== -1 ||
-    path.indexOf('/pages/')       !== -1
+    path.indexOf('/pages/')       !== -1 ||
+    path.indexOf('/account/')     !== -1 ||
+    path.indexOf('/checkout/')    !== -1
   ) {
     root = '../';
   }
@@ -42,11 +44,12 @@
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </button>
-        <button class="icon-btn" aria-label="My account">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <a class="icon-btn" id="account-btn" href="${root}account/dashboard.html" aria-label="My account" style="text-decoration:none;">
+          <svg id="account-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
           </svg>
-        </button>
+          <span id="account-initials-badge" class="account-initials" style="display:none;"></span>
+        </a>
         <button class="icon-btn" id="cart-btn" aria-label="Cart — 0 items">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
@@ -174,32 +177,25 @@
 <div class="cart-overlay" id="cart-overlay"></div>
 <div class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping cart">
   <div class="cart-drawer__header">
-    <span>Your Cart</span>
+    <span>Your Cart (<span id="cart-header-count">0</span>)</span>
     <button class="cart-drawer__close" id="cart-close" aria-label="Close cart">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </button>
   </div>
-  <div class="cart-drawer__body">
-    <div class="cart-drawer__empty">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 1rem;opacity:0.3">
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-      </svg>
-      <p>Your cart is empty.</p>
-      <a href="${root}collections/all-products.html" class="btn btn--primary btn--sm">Continue Shopping</a>
-    </div>
+  <div class="cart-drawer__body" id="cart-drawer-body">
   </div>
-  <div class="cart-drawer__footer" style="display:none" id="cart-footer">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-      <span style="font-weight:800;text-transform:uppercase;letter-spacing:0.05em;font-size:0.875rem;">Total</span>
-      <span style="font-size:1.25rem;font-weight:900;" id="cart-total">£0.00</span>
+  <div class="cart-drawer__footer" id="cart-footer" style="display:none">
+    <div class="cart-drawer__subtotal">
+      <span class="cart-drawer__subtotal-label">Subtotal</span>
+      <span class="cart-drawer__subtotal-val" id="cart-total">£0.00</span>
     </div>
-    <button class="btn btn--primary" style="width:100%;margin-bottom:0.5rem;">Checkout</button>
+    <a href="${root}checkout/index.html" class="btn btn--primary" style="width:100%;margin-bottom:0.5rem;text-align:center;">CHECKOUT</a>
     <a href="${root}collections/all-products.html" class="btn btn--ghost btn--sm" style="width:100%;text-align:center;">Continue Shopping</a>
   </div>
-</div>`;
+</div>
+<div class="sm-toast" id="sm-toast"></div>`;
 
   // ── INJECT HTML ────────────────────────────────────────────────────────────
   var headerEl = document.getElementById('sm-header');
@@ -208,6 +204,79 @@
   if (footerEl) {
     footerEl.outerHTML = footerHTML;
     document.body.insertAdjacentHTML('beforeend', cartHTML);
+  }
+
+  // ── CART DRAWER RENDER ────────────────────────────────────────────────────
+  function renderCartDrawer() {
+    var body   = document.getElementById('cart-drawer-body');
+    var footer = document.getElementById('cart-footer');
+    var pill   = document.querySelector('.cart-pill');
+    var headerCount = document.getElementById('cart-header-count');
+    var totalEl = document.getElementById('cart-total');
+    if (!body) return;
+
+    var cart  = (typeof SM !== 'undefined') ? SM.getCart() : [];
+    var count = (typeof SM !== 'undefined') ? SM.cartCount() : 0;
+    var total = (typeof SM !== 'undefined') ? SM.cartTotal() : 0;
+
+    if (pill) pill.textContent = count;
+    if (headerCount) headerCount.textContent = count;
+    if (totalEl && typeof SM !== 'undefined') totalEl.textContent = SM.fmt(total);
+
+    if (cart.length === 0) {
+      body.innerHTML = `
+        <div class="cart-drawer__empty">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 1rem;opacity:0.3">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <p>Your cart is empty.</p>
+          <a href="${root}collections/all-products.html" class="btn btn--primary btn--sm">Continue Shopping</a>
+        </div>`;
+      if (footer) footer.style.display = 'none';
+    } else {
+      var html = '';
+      cart.forEach(function (item) {
+        var thumbHtml = item.thumb
+          ? '<img src="' + item.thumb + '" alt="' + item.name + '">'
+          : '<div style="width:100%;height:100%;background:var(--color-bg-muted);display:flex;align-items:center;justify-content:center;font-size:0.625rem;color:var(--color-text-muted);">IMG</div>';
+        html += `
+          <div class="cart-item" data-id="${item.id}" data-color="${item.color || ''}">
+            <div class="cart-item__thumb">${thumbHtml}</div>
+            <div class="cart-item__info">
+              <div class="cart-item__name">${item.name}</div>
+              ${item.color ? '<div class="cart-item__meta">' + item.color + '</div>' : ''}
+              <div class="cart-item__price">${typeof SM !== 'undefined' ? SM.fmt(item.price * item.qty) : '£' + (item.price * item.qty).toFixed(2)}</div>
+              <div class="cart-item__controls">
+                <button class="cart-item__qty-btn" data-action="minus" aria-label="Decrease quantity">−</button>
+                <span class="cart-item__qty-val">${item.qty}</span>
+                <button class="cart-item__qty-btn" data-action="plus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+            <button class="cart-item__remove" aria-label="Remove item">×</button>
+          </div>`;
+      });
+      body.innerHTML = html;
+      if (footer) footer.style.display = 'block';
+
+      // Wire qty buttons
+      body.querySelectorAll('.cart-item').forEach(function (row) {
+        var id    = row.dataset.id;
+        var color = row.dataset.color;
+        var qtyEl = row.querySelector('.cart-item__qty-val');
+        row.querySelector('[data-action="minus"]').addEventListener('click', function () {
+          var qty = parseInt(qtyEl.textContent) - 1;
+          if (typeof SM !== 'undefined') SM.updateQty(id, color, qty);
+        });
+        row.querySelector('[data-action="plus"]').addEventListener('click', function () {
+          var qty = parseInt(qtyEl.textContent) + 1;
+          if (typeof SM !== 'undefined') SM.updateQty(id, color, qty);
+        });
+        row.querySelector('.cart-item__remove').addEventListener('click', function () {
+          if (typeof SM !== 'undefined') SM.removeFromCart(id, color);
+        });
+      });
+    }
   }
 
   // ── ANNOUNCEMENT BAR ROTATION ─────────────────────────────────────────────
@@ -241,7 +310,6 @@
       hamburger.classList.toggle('is-open', isOpen);
       hamburger.setAttribute('aria-expanded', String(isOpen));
     });
-    // Close on outside click
     document.addEventListener('click', function (e) {
       if (!hamburger.contains(e.target) && !siteNav.contains(e.target)) {
         siteNav.classList.remove('is-open');
@@ -270,16 +338,60 @@
       document.body.style.overflow = '';
     }
   }
-  var cartBtn   = document.getElementById('cart-btn');
-  var cartClose = document.getElementById('cart-close');
+  var cartBtn     = document.getElementById('cart-btn');
+  var cartClose   = document.getElementById('cart-close');
   var cartOverlay = document.getElementById('cart-overlay');
   if (cartBtn)     cartBtn.addEventListener('click', openCart);
   if (cartClose)   cartClose.addEventListener('click', closeCart);
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
 
-  // Close on Escape
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeCart();
+  });
+
+  // ── INITIAL RENDER + REACTIVE UPDATE ─────────────────────────────────────
+  renderCartDrawer();
+  document.addEventListener('sm:cart:updated', renderCartDrawer);
+
+  // ── ACCOUNT STATE INDICATOR ───────────────────────────────────────────────
+  function updateAccountIndicator() {
+    var svg    = document.getElementById('account-icon-svg');
+    var badge  = document.getElementById('account-initials-badge');
+    if (!svg || !badge) return;
+    var user = (typeof SM !== 'undefined') ? SM.currentUser() : null;
+    if (user) {
+      var initials = ((user.firstName || '').charAt(0) + (user.lastName || '').charAt(0)).toUpperCase() || user.email.charAt(0).toUpperCase();
+      badge.textContent = initials;
+      badge.style.display = 'flex';
+      svg.style.display   = 'none';
+    } else {
+      badge.style.display = 'none';
+      svg.style.display   = 'block';
+    }
+  }
+  updateAccountIndicator();
+  document.addEventListener('sm:auth:changed', updateAccountIndicator);
+
+  // ── ADD TO CART WIRING ────────────────────────────────────────────────────
+  document.querySelectorAll('[data-add-to-cart]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (typeof SM === 'undefined') return;
+      var item = {
+        id:       btn.dataset.productId    || 'unknown',
+        name:     btn.dataset.productName  || 'Product',
+        price:    parseFloat(btn.dataset.productPrice) || 0,
+        qty:      1,
+        thumb:    btn.dataset.productThumb || '',
+        category: btn.dataset.productCat   || '',
+        color:    btn.dataset.productColor || ''
+      };
+      SM.addToCart(item);
+      openCart();
+      var orig = btn.textContent;
+      btn.textContent = '✓ Added!';
+      btn.disabled = true;
+      setTimeout(function () { btn.textContent = orig; btn.disabled = false; }, 1500);
+    });
   });
 
   // ── FILTER TABS ───────────────────────────────────────────────────────────
@@ -298,9 +410,9 @@
   // ── PDP TAB SWITCHING ─────────────────────────────────────────────────────
   document.querySelectorAll('.pdp__tab-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var tabs    = document.querySelectorAll('.pdp__tab-btn');
-      var panels  = document.querySelectorAll('.pdp__tab-panel');
-      var target  = btn.dataset.tab;
+      var tabs   = document.querySelectorAll('.pdp__tab-btn');
+      var panels = document.querySelectorAll('.pdp__tab-panel');
+      var target = btn.dataset.tab;
       tabs.forEach(function (t) { t.classList.remove('pdp__tab-btn--active'); });
       panels.forEach(function (p) { p.classList.remove('pdp__tab-panel--active'); });
       btn.classList.add('pdp__tab-btn--active');
@@ -312,9 +424,7 @@
   // ── PDP THUMBNAIL SWITCHING ──────────────────────────────────────────────
   document.querySelectorAll('.pdp__thumb').forEach(function (thumb) {
     thumb.addEventListener('click', function () {
-      document.querySelectorAll('.pdp__thumb').forEach(function (t) {
-        t.classList.remove('is-active');
-      });
+      document.querySelectorAll('.pdp__thumb').forEach(function (t) { t.classList.remove('is-active'); });
       thumb.classList.add('is-active');
       var mainImg = document.getElementById('pdp-main-img');
       var src = thumb.dataset.src;
@@ -325,7 +435,7 @@
   // ── ACCORDION ─────────────────────────────────────────────────────────────
   document.querySelectorAll('.accordion-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var body = btn.nextElementSibling;
+      var body   = btn.nextElementSibling;
       var isOpen = btn.classList.toggle('is-open');
       if (body) body.classList.toggle('is-open', isOpen);
       btn.setAttribute('aria-expanded', String(isOpen));
@@ -334,7 +444,7 @@
 
   // ── QTY SELECTOR ─────────────────────────────────────────────────────────
   document.querySelectorAll('.qty-selector').forEach(function (sel) {
-    var input   = sel.querySelector('.qty-input');
+    var input    = sel.querySelector('.qty-input');
     var btnMinus = sel.querySelector('[data-action="minus"]');
     var btnPlus  = sel.querySelector('[data-action="plus"]');
     if (btnMinus && input) {
@@ -350,10 +460,5 @@
       });
     }
   });
-
-  // ── CAROUSELS ─────────────────────────────────────────────────────────────
-  // Simple show/hide for carousel (desktop grid, no overflow scroll needed)
-  // Left/right arrows on .you-may-like section — no-op visual affordance for now
-  // (full carousel logic would require overflow-x scroll on mobile)
 
 })();

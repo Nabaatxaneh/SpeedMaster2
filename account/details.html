@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Details — SpeedMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+<div id="sm-header"></div>
+
+<main>
+  <div class="container">
+    <div class="account-layout">
+      <div class="account-layout__inner">
+
+        <!-- Sidebar -->
+        <aside class="account-sidebar">
+          <nav class="account-nav" aria-label="Account navigation">
+            <a href="dashboard.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Overview
+            </a>
+            <a href="orders.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              My Orders
+            </a>
+            <a href="addresses.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Addresses
+            </a>
+            <a href="details.html" class="account-nav__item account-nav__item--active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Account Details
+            </a>
+            <button id="signout-btn" class="account-nav__item account-nav__item--danger" style="background:none;border:none;font-family:inherit;text-align:left;width:100%;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </nav>
+        </aside>
+
+        <!-- Main content -->
+        <div>
+          <h1 class="account-greeting">Account Details</h1>
+          <p class="account-subhead">Update your personal information and password.</p>
+
+          <!-- Profile info -->
+          <div class="checkout-panel" style="margin-bottom:2rem;">
+            <div class="checkout-panel__head"><span class="checkout-panel__title">Personal Information</span></div>
+            <div class="checkout-panel__body">
+              <div id="profile-success" style="display:none;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:8px;padding:0.625rem 1rem;margin-bottom:1rem;font-size:0.875rem;color:var(--color-success);font-weight:600;">Profile updated successfully!</div>
+              <div class="form-row" style="margin-bottom:1.25rem;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" for="first-name">First name</label>
+                  <input class="form-input" id="first-name" type="text">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" for="last-name">Last name</label>
+                  <input class="form-input" id="last-name" type="text">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">Email address</label>
+                <input class="form-input" id="email" type="email">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="phone">Phone</label>
+                <input class="form-input" id="phone" type="tel" placeholder="+44 7700 900000">
+              </div>
+              <button id="save-profile-btn" class="btn btn--primary btn--sm">Save Changes</button>
+            </div>
+          </div>
+
+          <!-- Change password -->
+          <div class="checkout-panel">
+            <div class="checkout-panel__head"><span class="checkout-panel__title">Change Password</span></div>
+            <div class="checkout-panel__body">
+              <div id="pass-success" style="display:none;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:8px;padding:0.625rem 1rem;margin-bottom:1rem;font-size:0.875rem;color:var(--color-success);font-weight:600;">Password updated!</div>
+              <div id="pass-error" style="display:none;background:#FFF0EF;border:1px solid #FFCDD2;border-radius:8px;padding:0.625rem 1rem;margin-bottom:1rem;font-size:0.875rem;color:var(--color-danger);font-weight:600;"></div>
+              <div class="form-group">
+                <label class="form-label" for="current-pass">Current password</label>
+                <input class="form-input" id="current-pass" type="password" placeholder="••••••••">
+                <span class="field-error" id="current-pass-error">Incorrect current password.</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="new-pass">New password <span style="font-weight:400;color:var(--color-text-muted);">(min 6 characters)</span></label>
+                <input class="form-input" id="new-pass" type="password" placeholder="••••••••">
+                <span class="field-error" id="new-pass-error">Password must be at least 6 characters.</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="confirm-pass">Confirm new password</label>
+                <input class="form-input" id="confirm-pass" type="password" placeholder="••••••••">
+                <span class="field-error" id="confirm-pass-error">Passwords do not match.</span>
+              </div>
+              <button id="save-pass-btn" class="btn btn--primary btn--sm">Change Password</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="sm-footer"></div>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var user = SM.currentUser();
+  if (!user) {
+    window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+    return;
+  }
+
+  document.getElementById('signout-btn').addEventListener('click', function () {
+    SM.logout(); window.location.href = '../index.html';
+  });
+
+  // Populate fields
+  document.getElementById('first-name').value = user.firstName || '';
+  document.getElementById('last-name').value  = user.lastName  || '';
+  document.getElementById('email').value       = user.email    || '';
+  document.getElementById('phone').value       = user.phone    || '';
+
+  // Save profile
+  document.getElementById('save-profile-btn').addEventListener('click', function () {
+    user = SM.currentUser();
+    SM.updateUser(user.id, {
+      firstName: document.getElementById('first-name').value.trim(),
+      lastName:  document.getElementById('last-name').value.trim(),
+      email:     document.getElementById('email').value.trim(),
+      phone:     document.getElementById('phone').value.trim()
+    });
+    var successEl = document.getElementById('profile-success');
+    successEl.style.display = 'block';
+    setTimeout(function () { successEl.style.display = 'none'; }, 3000);
+  });
+
+  // Change password
+  document.getElementById('save-pass-btn').addEventListener('click', function () {
+    user = SM.currentUser();
+    var currEl    = document.getElementById('current-pass');
+    var newEl     = document.getElementById('new-pass');
+    var confirmEl = document.getElementById('confirm-pass');
+    var errEl     = document.getElementById('pass-error');
+    var succEl    = document.getElementById('pass-success');
+
+    [currEl, newEl, confirmEl].forEach(function (el) { el.classList.remove('form-input--error'); });
+    ['current-pass-error','new-pass-error','confirm-pass-error'].forEach(function (id) {
+      document.getElementById(id).classList.remove('show');
+    });
+    errEl.style.display = 'none';
+    succEl.style.display = 'none';
+
+    var valid = true;
+    if (currEl.value !== user.password) {
+      currEl.classList.add('form-input--error');
+      document.getElementById('current-pass-error').classList.add('show');
+      valid = false;
+    }
+    if (!newEl.value || newEl.value.length < 6) {
+      newEl.classList.add('form-input--error');
+      document.getElementById('new-pass-error').classList.add('show');
+      valid = false;
+    }
+    if (newEl.value !== confirmEl.value) {
+      confirmEl.classList.add('form-input--error');
+      document.getElementById('confirm-pass-error').classList.add('show');
+      valid = false;
+    }
+    if (!valid) return;
+
+    SM.updateUser(user.id, { password: newEl.value });
+    currEl.value = ''; newEl.value = ''; confirmEl.value = '';
+    succEl.style.display = 'block';
+    setTimeout(function () { succEl.style.display = 'none'; }, 3000);
+  });
+})();
+</script>
+</body>
+</html>

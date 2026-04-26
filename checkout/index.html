@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — SpeedMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+<div id="sm-header"></div>
+
+<main class="checkout-page">
+  <div class="checkout-inner">
+
+    <!-- LEFT: Step panels -->
+    <div>
+      <!-- Step Indicator -->
+      <div class="checkout-steps" id="step-indicator">
+        <span class="checkout-step checkout-step--active" data-step="1">Cart</span>
+        <span class="checkout-step" data-step="2">Details</span>
+        <span class="checkout-step" data-step="3">Payment</span>
+        <span class="checkout-step" data-step="4">Review</span>
+      </div>
+
+      <!-- ── STEP 1: Cart Review ─────────────────────────── -->
+      <div class="step-panel step-panel--active" id="step-1">
+        <div class="checkout-panel">
+          <div class="checkout-panel__head"><span class="checkout-panel__title">Your Cart</span></div>
+          <div class="checkout-panel__body">
+            <div id="checkout-cart-items"></div>
+            <!-- Coupon -->
+            <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--color-border);">
+              <label class="form-label" for="coupon-input">Coupon Code</label>
+              <div style="display:flex;gap:0.625rem;margin-top:0.375rem;">
+                <input class="form-input" id="coupon-input" type="text" placeholder="Enter code" style="max-width:200px;">
+                <button id="coupon-apply" class="btn btn--ghost btn--sm">Apply</button>
+              </div>
+              <div id="coupon-msg" style="margin-top:0.5rem;font-size:0.8125rem;display:none;"></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:0.5rem;">
+          <button id="step1-next" class="btn btn--primary" disabled>Proceed to Details →</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 2: Contact & Shipping ─────────────────── -->
+      <div class="step-panel" id="step-2">
+        <!-- Logged-in banner OR contact form -->
+        <div class="checkout-panel">
+          <div class="checkout-panel__head"><span class="checkout-panel__title">Contact Information</span></div>
+          <div class="checkout-panel__body">
+            <div id="logged-in-contact" style="display:none;">
+              <div style="background:var(--color-bg-subtle);border:1px solid var(--color-border);border-radius:8px;padding:0.875rem 1rem;margin-bottom:1rem;font-size:0.875rem;">
+                Logged in as <strong id="logged-in-email"></strong> · <a href="../account/dashboard.html" style="color:var(--color-brand-black);font-weight:700;text-decoration:underline;">My account</a>
+              </div>
+            </div>
+            <div id="guest-email-section">
+              <div class="form-group">
+                <label class="form-label" for="contact-email">Email address *</label>
+                <input class="form-input" id="contact-email" type="email" placeholder="you@example.com" autocomplete="email">
+                <span class="field-error" id="contact-email-error">Valid email required.</span>
+              </div>
+              <!-- Inline login prompt -->
+              <div class="inline-login" id="inline-login" style="display:none;">
+                <div class="inline-login__msg">An account with <strong id="inline-login-email"></strong> exists. Sign in to use saved addresses:</div>
+                <div class="inline-login__row">
+                  <input class="form-input" id="inline-password" type="password" placeholder="Your password" style="max-width:220px;">
+                  <button id="inline-signin-btn" class="btn btn--primary btn--sm">Sign In</button>
+                  <button id="inline-guest-btn" class="btn btn--ghost btn--sm">Continue as guest</button>
+                </div>
+                <div id="inline-login-err" style="display:none;font-size:0.8125rem;color:var(--color-danger);margin-top:0.5rem;font-weight:600;"></div>
+              </div>
+            </div>
+            <div class="form-row" style="margin-bottom:1.25rem;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="contact-first">First name *</label>
+                <input class="form-input" id="contact-first" type="text" autocomplete="given-name">
+                <span class="field-error" id="contact-first-error">First name required.</span>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="contact-last">Last name *</label>
+                <input class="form-input" id="contact-last" type="text" autocomplete="family-name">
+                <span class="field-error" id="contact-last-error">Last name required.</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-phone">Phone</label>
+              <input class="form-input" id="contact-phone" type="tel" autocomplete="tel">
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping Address Panel -->
+        <div class="checkout-panel">
+          <div class="checkout-panel__head"><span class="checkout-panel__title">Shipping Address</span></div>
+          <div class="checkout-panel__body">
+            <div id="saved-addr-section" style="display:none;margin-bottom:1.25rem;">
+              <label class="form-label" for="saved-addr-select">Use saved address</label>
+              <select class="form-input" id="saved-addr-select" style="margin-top:0.375rem;"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ship-line1">Address line 1 *</label>
+              <input class="form-input" id="ship-line1" type="text" autocomplete="address-line1">
+              <span class="field-error" id="ship-line1-error">Required.</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ship-line2">Address line 2</label>
+              <input class="form-input" id="ship-line2" type="text" autocomplete="address-line2">
+            </div>
+            <div class="form-row" style="margin-bottom:1.25rem;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="ship-city">City *</label>
+                <input class="form-input" id="ship-city" type="text" autocomplete="address-level2">
+                <span class="field-error" id="ship-city-error">Required.</span>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="ship-postcode">Postcode *</label>
+                <input class="form-input" id="ship-postcode" type="text" autocomplete="postal-code">
+                <span class="field-error" id="ship-postcode-error">Required.</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ship-country">Country</label>
+              <select class="form-input" id="ship-country" autocomplete="country-name">
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Ireland">Ireland</option>
+                <option value="France">France</option>
+                <option value="Germany">Germany</option>
+                <option value="Spain">Spain</option>
+                <option value="Italy">Italy</option>
+              </select>
+            </div>
+            <div id="save-addr-row" style="display:none;margin-top:0.75rem;">
+              <input type="checkbox" id="save-addr-check" style="accent-color:var(--color-brand-black);">
+              <label for="save-addr-check" style="font-size:0.875rem;font-weight:600;margin-left:0.5rem;cursor:pointer;">Save this address to my account</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping Method Panel -->
+        <div class="checkout-panel">
+          <div class="checkout-panel__head"><span class="checkout-panel__title">Shipping Method</span></div>
+          <div class="checkout-panel__body">
+            <div class="shipping-options" id="shipping-options">
+              <label class="shipping-option is-selected" id="ship-standard">
+                <input type="radio" name="shipping" value="standard" checked>
+                <div class="shipping-option__label">
+                  <div class="shipping-option__name">Standard Delivery</div>
+                  <div class="shipping-option__desc">3–5 working days</div>
+                </div>
+                <span class="shipping-option__price" id="standard-price">£9.99</span>
+              </label>
+              <label class="shipping-option" id="ship-express">
+                <input type="radio" name="shipping" value="express">
+                <div class="shipping-option__label">
+                  <div class="shipping-option__name">Express Delivery</div>
+                  <div class="shipping-option__desc">1–2 working days</div>
+                </div>
+                <span class="shipping-option__price">£14.99</span>
+              </label>
+              <label class="shipping-option" id="ship-nextday">
+                <input type="radio" name="shipping" value="nextday">
+                <div class="shipping-option__label">
+                  <div class="shipping-option__name">Next Day Delivery</div>
+                  <div class="shipping-option__desc">Next working day before 1pm</div>
+                </div>
+                <span class="shipping-option__price">£24.99</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;margin-top:0.5rem;">
+          <button id="step2-back" class="btn btn--ghost">← Back to Cart</button>
+          <button id="step2-next" class="btn btn--primary">Proceed to Payment →</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: Payment ────────────────────────────── -->
+      <div class="step-panel" id="step-3">
+        <div class="checkout-panel">
+          <div class="checkout-panel__head"><span class="checkout-panel__title">Payment Method</span></div>
+          <div class="checkout-panel__body">
+            <div class="payment-methods" id="payment-methods">
+              <div class="pay-method is-selected" data-method="card">
+                <span class="pay-method__icon">💳</span>
+                <span class="pay-method__label">Credit / Debit Card</span>
+              </div>
+              <div class="pay-method" data-method="paypal">
+                <span class="pay-method__icon">🅿</span>
+                <span class="pay-method__label">PayPal</span>
+              </div>
+              <div class="pay-method" data-method="klarna">
+                <span class="pay-method__icon">K</span>
+                <span class="pay-method__label">Klarna</span>
+              </div>
+              <div class="pay-method" data-method="applepay">
+                <span class="pay-method__icon">🍎</span>
+                <span class="pay-method__label">Apple Pay</span>
+              </div>
+            </div>
+
+            <!-- Card fields -->
+            <div id="card-fields-section">
+              <div class="card-fields">
+                <div class="form-group">
+                  <label class="form-label" for="card-name">Cardholder name</label>
+                  <input class="form-input" id="card-name" type="text" autocomplete="cc-name" placeholder="Jane Smith">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="card-number">Card number</label>
+                  <div style="position:relative;">
+                    <input class="form-input" id="card-number" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" maxlength="19">
+                    <span id="card-brand" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);font-size:0.75rem;font-weight:900;color:var(--color-text-muted);"></span>
+                  </div>
+                </div>
+                <div class="card-row">
+                  <div class="form-group">
+                    <label class="form-label" for="card-expiry">Expiry (MM/YY)</label>
+                    <input class="form-input" id="card-expiry" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="card-cvv">CVV</label>
+                    <input class="form-input" id="card-cvv" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="•••" maxlength="4">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PayPal info -->
+            <div id="paypal-info" style="display:none;background:var(--color-bg-subtle);border-radius:8px;padding:1rem;font-size:0.875rem;color:var(--color-text-muted);">
+              You will be redirected to PayPal to complete your payment securely.
+            </div>
+
+            <!-- Klarna info -->
+            <div id="klarna-info" style="display:none;background:var(--color-bg-subtle);border-radius:8px;padding:1rem;font-size:0.875rem;color:var(--color-text-muted);">
+              Pay in 3 equal interest-free payments. First payment today, then every 30 days. Subject to eligibility.
+            </div>
+
+            <!-- Apple Pay info -->
+            <div id="applepay-info" style="display:none;background:var(--color-bg-subtle);border-radius:8px;padding:1rem;font-size:0.875rem;color:var(--color-text-muted);">
+              Apple Pay is supported on Safari and iOS devices. Please use Safari on an Apple device to pay with Apple Pay.
+            </div>
+
+            <!-- Billing address -->
+            <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--color-border);">
+              <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.875rem;font-weight:600;cursor:pointer;">
+                <input type="checkbox" id="billing-same" checked style="accent-color:var(--color-brand-black);">
+                Billing address same as shipping
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;margin-top:0.5rem;">
+          <button id="step3-back" class="btn btn--ghost">← Back</button>
+          <button id="step3-next" class="btn btn--primary">Review Order →</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 4: Review & Place Order ──────────────── -->
+      <div class="step-panel" id="step-4">
+        <div class="checkout-panel">
+          <div class="checkout-panel__head"><span class="checkout-panel__title">Order Review</span></div>
+          <div class="checkout-panel__body">
+            <div id="review-contact" style="margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--color-border);">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.375rem;">
+                <span style="font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);">Contact</span>
+                <button class="checkout-panel__edit" onclick="goToStep(2)">Edit</button>
+              </div>
+              <div id="review-contact-val" style="font-size:0.875rem;"></div>
+            </div>
+            <div id="review-shipping" style="margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--color-border);">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.375rem;">
+                <span style="font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);">Ship to</span>
+                <button class="checkout-panel__edit" onclick="goToStep(2)">Edit</button>
+              </div>
+              <div id="review-shipping-val" style="font-size:0.875rem;line-height:1.65;"></div>
+            </div>
+            <div id="review-payment" style="margin-bottom:1.25rem;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.375rem;">
+                <span style="font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);">Payment</span>
+                <button class="checkout-panel__edit" onclick="goToStep(3)">Edit</button>
+              </div>
+              <div id="review-payment-val" style="font-size:0.875rem;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terms + Place Order -->
+        <div style="margin-top:1rem;">
+          <label style="display:flex;align-items:center;gap:0.625rem;font-size:0.875rem;cursor:pointer;margin-bottom:1.25rem;">
+            <input type="checkbox" id="terms-check" style="accent-color:var(--color-brand-black);width:16px;height:16px;">
+            I agree to the <a href="../pages/terms.html" target="_blank" style="color:var(--color-brand-black);font-weight:700;text-decoration:underline;">Terms of Service</a>
+          </label>
+          <div id="place-order-err" style="display:none;background:#FFF0EF;border:1px solid #FFCDD2;border-radius:8px;padding:0.625rem 1rem;margin-bottom:1rem;font-size:0.875rem;color:var(--color-danger);font-weight:600;"></div>
+          <button id="place-order-btn" class="btn btn--primary" style="width:100%;font-size:1rem;">Place Order →</button>
+          <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:1rem;font-size:0.75rem;color:var(--color-text-muted);">
+            <span>🔒 Secure checkout</span>
+            <span>↩ 30-day returns</span>
+            <span>🛡 2-year warranty</span>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-start;margin-top:1rem;">
+          <button id="step4-back" class="btn btn--ghost btn--sm">← Edit Payment</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Order Summary Sidebar -->
+    <div>
+      <div class="order-summary">
+        <div class="order-summary__title">Order Summary</div>
+        <div class="order-summary__items" id="summary-items"></div>
+        <hr class="order-summary__divider">
+        <div class="order-summary__row"><span>Subtotal</span><span id="summary-subtotal">£0.00</span></div>
+        <div class="order-summary__row" id="summary-shipping-row"><span>Shipping</span><span id="summary-shipping">TBD</span></div>
+        <div class="order-summary__row" id="summary-discount-row" style="display:none;color:var(--color-success);"><span>Discount (SPEED10)</span><span id="summary-discount">−£0.00</span></div>
+        <div class="order-summary__row order-summary__row--total"><span>Total</span><span id="summary-total">£0.00</span></div>
+        <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--color-border);display:flex;flex-direction:column;gap:0.5rem;">
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--color-text-muted);">🔒 Secure checkout — SSL encrypted</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--color-text-muted);">↩ Free 30-day returns</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--color-text-muted);">🛡 2-year manufacturer warranty</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div id="sm-footer"></div>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var SHIPPING_COSTS = { standard: 9.99, express: 14.99, nextday: 24.99 };
+  var COUPON_CODE    = 'SPEED10';
+  var state = {
+    step: 1,
+    couponApplied: false,
+    shippingMethod: 'standard',
+    paymentMethod: 'card',
+    contact: {},
+    shipping: {}
+  };
+
+  // ── STEP NAVIGATION ─────────────────────────────────────────
+  function goToStep(n) {
+    state.step = n;
+    document.querySelectorAll('.step-panel').forEach(function (p) { p.classList.remove('step-panel--active'); });
+    document.getElementById('step-' + n).classList.add('step-panel--active');
+
+    document.querySelectorAll('.checkout-step').forEach(function (s) {
+      var num = parseInt(s.dataset.step);
+      s.classList.remove('checkout-step--active', 'checkout-step--done');
+      if (num === n) s.classList.add('checkout-step--active');
+      else if (num < n) s.classList.add('checkout-step--done');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (n === 4) buildReviewSummary();
+  }
+  window.goToStep = goToStep;
+
+  // ── SUMMARY SIDEBAR ─────────────────────────────────────────
+  function renderSummary() {
+    var cart = SM.getCart();
+    var subtotal = SM.cartTotal();
+    var discount = state.couponApplied ? subtotal * 0.1 : 0;
+    var shippingCost = subtotal >= 500 && state.shippingMethod === 'standard' ? 0 : SHIPPING_COSTS[state.shippingMethod] || 9.99;
+    var total = subtotal - discount + shippingCost;
+
+    var itemsHtml = cart.map(function (item) {
+      return '<div class="order-summary__item">'
+        + '<div class="order-summary__item-thumb" style="position:relative;">'
+        + (item.thumb ? '<img src="' + item.thumb + '" alt="' + item.name + '">' : '')
+        + '<span class="order-summary__item-badge">' + item.qty + '</span>'
+        + '</div>'
+        + '<span class="order-summary__item-name">' + item.name + (item.color ? ' · ' + item.color : '') + '</span>'
+        + '<span class="order-summary__item-price">' + SM.fmt(item.price * item.qty) + '</span>'
+        + '</div>';
+    }).join('');
+
+    document.getElementById('summary-items').innerHTML = itemsHtml || '<p style="font-size:0.8125rem;color:var(--color-text-muted);">Cart is empty.</p>';
+    document.getElementById('summary-subtotal').textContent = SM.fmt(subtotal);
+    document.getElementById('summary-shipping').textContent = shippingCost === 0 ? 'FREE' : SM.fmt(shippingCost);
+    document.getElementById('summary-total').textContent = SM.fmt(total);
+
+    var discRow = document.getElementById('summary-discount-row');
+    discRow.style.display = state.couponApplied ? 'flex' : 'none';
+    document.getElementById('summary-discount').textContent = '−' + SM.fmt(discount);
+  }
+
+  renderSummary();
+  document.addEventListener('sm:cart:updated', renderSummary);
+
+  // ── STEP 1: Cart ─────────────────────────────────────────────
+  function renderCheckoutCart() {
+    var cart = SM.getCart();
+    var container = document.getElementById('checkout-cart-items');
+    var nextBtn = document.getElementById('step1-next');
+
+    if (cart.length === 0) {
+      container.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--color-text-muted);">'
+        + '<p style="margin-bottom:1rem;">Your cart is empty.</p>'
+        + '<a href="../collections/all-products.html" class="btn btn--primary btn--sm">Continue Shopping</a>'
+        + '</div>';
+      if (nextBtn) nextBtn.disabled = true;
+      return;
+    }
+    if (nextBtn) nextBtn.disabled = false;
+
+    container.innerHTML = cart.map(function (item) {
+      return '<div class="cart-item" data-id="' + item.id + '" data-color="' + (item.color || '') + '">'
+        + '<div class="cart-item__thumb">'
+        + (item.thumb ? '<img src="' + item.thumb + '" alt="' + item.name + '">' : '')
+        + '</div>'
+        + '<div class="cart-item__info">'
+        + '<div class="cart-item__name">' + item.name + '</div>'
+        + (item.color ? '<div class="cart-item__meta">' + item.color + '</div>' : '')
+        + '<div class="cart-item__price">' + SM.fmt(item.price * item.qty) + '</div>'
+        + '<div class="cart-item__controls">'
+        + '<button class="cart-item__qty-btn" data-action="minus">−</button>'
+        + '<span class="cart-item__qty-val">' + item.qty + '</span>'
+        + '<button class="cart-item__qty-btn" data-action="plus">+</button>'
+        + '</div></div>'
+        + '<button class="cart-item__remove" aria-label="Remove">×</button>'
+        + '</div>';
+    }).join('');
+
+    container.querySelectorAll('.cart-item').forEach(function (row) {
+      var id    = row.dataset.id;
+      var color = row.dataset.color;
+      var qtyEl = row.querySelector('.cart-item__qty-val');
+      row.querySelector('[data-action="minus"]').addEventListener('click', function () {
+        SM.updateQty(id, color, parseInt(qtyEl.textContent) - 1);
+      });
+      row.querySelector('[data-action="plus"]').addEventListener('click', function () {
+        SM.updateQty(id, color, parseInt(qtyEl.textContent) + 1);
+      });
+      row.querySelector('.cart-item__remove').addEventListener('click', function () {
+        SM.removeFromCart(id, color);
+      });
+    });
+  }
+  renderCheckoutCart();
+  document.addEventListener('sm:cart:updated', function () { renderCheckoutCart(); renderSummary(); });
+
+  // Coupon
+  document.getElementById('coupon-apply').addEventListener('click', function () {
+    var val = document.getElementById('coupon-input').value.trim().toUpperCase();
+    var msg = document.getElementById('coupon-msg');
+    if (val === COUPON_CODE) {
+      state.couponApplied = true;
+      msg.textContent = '✓ Coupon applied! 10% off your order.';
+      msg.style.color = 'var(--color-success)';
+    } else {
+      state.couponApplied = false;
+      msg.textContent = '✗ Invalid coupon code.';
+      msg.style.color = 'var(--color-danger)';
+    }
+    msg.style.display = 'block';
+    renderSummary();
+  });
+
+  document.getElementById('step1-next').addEventListener('click', function () {
+    var user = SM.currentUser();
+    if (user) {
+      document.getElementById('logged-in-contact').style.display = 'block';
+      document.getElementById('logged-in-email').textContent = user.email;
+      document.getElementById('guest-email-section').style.display = 'none';
+      document.getElementById('contact-first').value = user.firstName || '';
+      document.getElementById('contact-last').value  = user.lastName  || '';
+      document.getElementById('contact-phone').value = user.phone     || '';
+
+      var addresses = user.addresses || [];
+      if (addresses.length > 0) {
+        var sel = document.getElementById('saved-addr-select');
+        document.getElementById('saved-addr-section').style.display = 'block';
+        sel.innerHTML = '<option value="">-- New address --</option>'
+          + addresses.map(function (a, i) {
+            return '<option value="' + i + '"' + (a.isDefault ? ' selected' : '') + '>'
+              + (a.label || '') + ': ' + a.line1 + ', ' + a.city + '</option>';
+          }).join('');
+        // Pre-fill default
+        var def = addresses.find(function (a) { return a.isDefault; }) || addresses[0];
+        if (def) fillShipping(def);
+
+        sel.addEventListener('change', function () {
+          if (sel.value !== '') fillShipping(addresses[parseInt(sel.value)]);
+          else clearShipping();
+        });
+      }
+      document.getElementById('save-addr-row').style.display = 'flex';
+    }
+    goToStep(2);
+  });
+
+  function fillShipping(addr) {
+    document.getElementById('ship-line1').value    = addr.line1    || '';
+    document.getElementById('ship-line2').value    = addr.line2    || '';
+    document.getElementById('ship-city').value     = addr.city     || '';
+    document.getElementById('ship-postcode').value = addr.postcode || '';
+  }
+  function clearShipping() {
+    ['ship-line1','ship-line2','ship-city','ship-postcode'].forEach(function (id) {
+      document.getElementById(id).value = '';
+    });
+  }
+
+  // Email blur — check for existing account
+  document.getElementById('contact-email').addEventListener('blur', function () {
+    var email = this.value.trim();
+    if (!email) return;
+    var existing = SM.findByEmail(email);
+    var inlineLogin = document.getElementById('inline-login');
+    if (existing && !SM.currentUser()) {
+      document.getElementById('inline-login-email').textContent = email;
+      inlineLogin.style.display = 'block';
+    } else {
+      inlineLogin.style.display = 'none';
+    }
+  });
+
+  document.getElementById('inline-signin-btn').addEventListener('click', function () {
+    var email = document.getElementById('contact-email').value.trim();
+    var pass  = document.getElementById('inline-password').value;
+    var errEl = document.getElementById('inline-login-err');
+    var result = SM.login(email, pass);
+    if (result.error) {
+      errEl.textContent = result.error;
+      errEl.style.display = 'block';
+      return;
+    }
+    document.getElementById('inline-login').style.display = 'none';
+    errEl.style.display = 'none';
+    // Pre-fill from account
+    var user = SM.currentUser();
+    document.getElementById('contact-first').value = user.firstName || '';
+    document.getElementById('contact-last').value  = user.lastName  || '';
+    document.getElementById('contact-phone').value = user.phone     || '';
+  });
+
+  document.getElementById('inline-guest-btn').addEventListener('click', function () {
+    document.getElementById('inline-login').style.display = 'none';
+  });
+
+  // Shipping method
+  document.querySelectorAll('[name="shipping"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      state.shippingMethod = radio.value;
+      document.querySelectorAll('.shipping-option').forEach(function (opt) { opt.classList.remove('is-selected'); });
+      radio.closest('.shipping-option').classList.add('is-selected');
+      // Free standard if over £500
+      if (radio.value === 'standard') {
+        var free = SM.cartTotal() >= 500;
+        document.getElementById('standard-price').textContent = free ? 'FREE' : '£9.99';
+      }
+      renderSummary();
+    });
+  });
+  // Init standard price
+  (function () {
+    var free = SM.cartTotal() >= 500;
+    document.getElementById('standard-price').textContent = free ? 'FREE' : '£9.99';
+  })();
+
+  document.getElementById('step2-back').addEventListener('click', function () { goToStep(1); });
+  document.getElementById('step2-next').addEventListener('click', function () {
+    var user = SM.currentUser();
+    var email = user ? user.email : document.getElementById('contact-email').value.trim();
+    var first = document.getElementById('contact-first').value.trim();
+    var last  = document.getElementById('contact-last').value.trim();
+    var line1 = document.getElementById('ship-line1').value.trim();
+    var city  = document.getElementById('ship-city').value.trim();
+    var pc    = document.getElementById('ship-postcode').value.trim();
+
+    var valid = true;
+    function checkField(inputId, errorId) {
+      var val = document.getElementById(inputId).value.trim();
+      if (!val) { document.getElementById(inputId).classList.add('form-input--error'); document.getElementById(errorId).classList.add('show'); valid = false; }
+      else { document.getElementById(inputId).classList.remove('form-input--error'); document.getElementById(errorId).classList.remove('show'); }
+    }
+    if (!user) checkField('contact-email','contact-email-error');
+    checkField('contact-first','contact-first-error');
+    checkField('contact-last','contact-last-error');
+    checkField('ship-line1','ship-line1-error');
+    checkField('ship-city','ship-city-error');
+    checkField('ship-postcode','ship-postcode-error');
+    if (!valid) return;
+
+    state.contact = { email: email, firstName: first, lastName: last, phone: document.getElementById('contact-phone').value.trim() };
+    state.shipping = {
+      firstName: first, lastName: last,
+      line1: line1,
+      line2: document.getElementById('ship-line2').value.trim(),
+      city: city,
+      postcode: pc,
+      country: document.getElementById('ship-country').value
+    };
+
+    // Save address if checked
+    var saveCheck = document.getElementById('save-addr-check');
+    if (saveCheck && saveCheck.checked && user) {
+      SM.addAddress(user.id, Object.assign({}, state.shipping, { label: 'Shipping', isDefault: false }));
+    }
+
+    goToStep(3);
+  });
+
+  // ── STEP 3: Payment ──────────────────────────────────────────
+  document.querySelectorAll('.pay-method').forEach(function (tile) {
+    tile.addEventListener('click', function () {
+      document.querySelectorAll('.pay-method').forEach(function (t) { t.classList.remove('is-selected'); });
+      tile.classList.add('is-selected');
+      state.paymentMethod = tile.dataset.method;
+      document.getElementById('card-fields-section').style.display = state.paymentMethod === 'card' ? 'block' : 'none';
+      document.getElementById('paypal-info').style.display   = state.paymentMethod === 'paypal'   ? 'block' : 'none';
+      document.getElementById('klarna-info').style.display   = state.paymentMethod === 'klarna'   ? 'block' : 'none';
+      document.getElementById('applepay-info').style.display = state.paymentMethod === 'applepay' ? 'block' : 'none';
+    });
+  });
+
+  // Card number formatting
+  document.getElementById('card-number').addEventListener('input', function () {
+    var v = this.value.replace(/\D/g, '').slice(0, 16);
+    this.value = v.replace(/(.{4})/g, '$1 ').trim();
+    var brand = document.getElementById('card-brand');
+    if (v.startsWith('4')) brand.textContent = 'VISA';
+    else if (v.startsWith('5') || v.startsWith('2')) brand.textContent = 'MC';
+    else brand.textContent = '';
+  });
+  document.getElementById('card-expiry').addEventListener('input', function () {
+    var v = this.value.replace(/\D/g, '');
+    if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2,4);
+    this.value = v;
+  });
+
+  document.getElementById('step3-back').addEventListener('click', function () { goToStep(2); });
+  document.getElementById('step3-next').addEventListener('click', function () { goToStep(4); });
+  document.getElementById('step4-back').addEventListener('click', function () { goToStep(3); });
+
+  // ── STEP 4: Review ────────────────────────────────────────────
+  function buildReviewSummary() {
+    var c = state.contact;
+    var s = state.shipping;
+    document.getElementById('review-contact-val').textContent = (c.email || '') + ' · ' + (c.firstName || '') + ' ' + (c.lastName || '') + (c.phone ? ' · ' + c.phone : '');
+    document.getElementById('review-shipping-val').innerHTML =
+      (s.firstName || '') + ' ' + (s.lastName || '') + '<br>'
+      + (s.line1 || '') + (s.line2 ? ', ' + s.line2 : '') + '<br>'
+      + (s.city || '') + ', ' + (s.postcode || '') + '<br>'
+      + (s.country || 'United Kingdom');
+    var methodLabels = { card:'Credit / Debit Card', paypal:'PayPal', klarna:'Klarna', applepay:'Apple Pay' };
+    document.getElementById('review-payment-val').textContent = methodLabels[state.paymentMethod] || state.paymentMethod;
+  }
+
+  // ── PLACE ORDER ───────────────────────────────────────────────
+  document.getElementById('place-order-btn').addEventListener('click', function () {
+    var errEl = document.getElementById('place-order-err');
+    errEl.style.display = 'none';
+
+    if (!document.getElementById('terms-check').checked) {
+      errEl.textContent = 'Please agree to the Terms of Service to continue.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    var cart     = SM.getCart();
+    var subtotal = SM.cartTotal();
+    var discount = state.couponApplied ? subtotal * 0.1 : 0;
+    var shippingCost = subtotal >= 500 && state.shippingMethod === 'standard' ? 0 : SHIPPING_COSTS[state.shippingMethod] || 9.99;
+    var total = subtotal - discount + shippingCost;
+    var user  = SM.currentUser();
+
+    var orderData = {
+      userId:       user ? user.id : null,
+      contactEmail: state.contact.email,
+      items:        cart,
+      shipping:     state.shipping,
+      shippingMethod: state.shippingMethod,
+      shippingCost: shippingCost,
+      paymentMethod: state.paymentMethod,
+      subtotal:     subtotal,
+      discount:     discount,
+      total:        total,
+      coupon:       state.couponApplied ? COUPON_CODE : null
+    };
+
+    var result = SM.createOrder(orderData);
+    SM.clearCart();
+    sessionStorage.setItem('sm_last_order', result.order.id);
+    window.location.href = 'confirmation.html?order=' + result.order.id;
+  });
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Addresses — SpeedMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+<div id="sm-header"></div>
+
+<main>
+  <div class="container">
+    <div class="account-layout">
+      <div class="account-layout__inner">
+
+        <!-- Sidebar -->
+        <aside class="account-sidebar">
+          <nav class="account-nav" aria-label="Account navigation">
+            <a href="dashboard.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Overview
+            </a>
+            <a href="orders.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              My Orders
+            </a>
+            <a href="addresses.html" class="account-nav__item account-nav__item--active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Addresses
+            </a>
+            <a href="details.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Account Details
+            </a>
+            <button id="signout-btn" class="account-nav__item account-nav__item--danger" style="background:none;border:none;font-family:inherit;text-align:left;width:100%;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </nav>
+        </aside>
+
+        <!-- Main content -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <h1 class="account-greeting" style="margin-bottom:0.125rem;">Addresses</h1>
+              <p style="font-size:0.875rem;color:var(--color-text-muted);">Manage your saved delivery addresses.</p>
+            </div>
+            <button id="add-addr-toggle" class="btn btn--primary btn--sm">+ Add New Address</button>
+          </div>
+
+          <div id="addresses-grid" class="addresses-grid"></div>
+
+          <!-- Add Address Form -->
+          <div class="add-address-form" id="add-address-form">
+            <h3 style="font-weight:800;font-size:1rem;margin-bottom:1.25rem;">New Address</h3>
+            <div id="addr-form-error" style="display:none;background:#FFF0EF;border:1px solid #FFCDD2;border-radius:8px;padding:0.625rem 1rem;margin-bottom:1rem;font-size:0.875rem;color:var(--color-danger);font-weight:600;"></div>
+            <div class="form-group">
+              <label class="form-label" for="addr-label">Label</label>
+              <select class="form-input" id="addr-label">
+                <option value="Home">Home</option>
+                <option value="Work">Work</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-row" style="margin-bottom:1.25rem;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="addr-first">First name</label>
+                <input class="form-input" id="addr-first" type="text" placeholder="Jane">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="addr-last">Last name</label>
+                <input class="form-input" id="addr-last" type="text" placeholder="Smith">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="addr-line1">Address line 1 *</label>
+              <input class="form-input" id="addr-line1" type="text" placeholder="123 High Street" required>
+              <span class="field-error" id="addr-line1-error">Address line 1 is required.</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="addr-line2">Address line 2</label>
+              <input class="form-input" id="addr-line2" type="text" placeholder="Flat / Apartment">
+            </div>
+            <div class="form-row" style="margin-bottom:1.25rem;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="addr-city">City *</label>
+                <input class="form-input" id="addr-city" type="text" placeholder="London" required>
+                <span class="field-error" id="addr-city-error">City is required.</span>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="addr-postcode">Postcode *</label>
+                <input class="form-input" id="addr-postcode" type="text" placeholder="SW1A 1AA" required>
+                <span class="field-error" id="addr-postcode-error">Postcode is required.</span>
+              </div>
+            </div>
+            <div class="form-row" style="margin-bottom:1.25rem;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="addr-country">Country</label>
+                <select class="form-input" id="addr-country">
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Ireland">Ireland</option>
+                  <option value="France">France</option>
+                  <option value="Germany">Germany</option>
+                  <option value="Spain">Spain</option>
+                  <option value="Italy">Italy</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" for="addr-phone">Phone</label>
+                <input class="form-input" id="addr-phone" type="tel" placeholder="+44 7700 900000">
+              </div>
+            </div>
+            <div class="form-group" style="flex-direction:row;align-items:center;gap:0.5rem;">
+              <input type="checkbox" id="addr-default" style="width:16px;height:16px;accent-color:var(--color-brand-black);">
+              <label for="addr-default" style="font-size:0.875rem;font-weight:600;cursor:pointer;">Set as default address</label>
+            </div>
+            <div style="display:flex;gap:0.75rem;margin-top:1rem;">
+              <button id="save-addr-btn" class="btn btn--primary btn--sm">Save Address</button>
+              <button id="cancel-addr-btn" class="btn btn--ghost btn--sm">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="sm-footer"></div>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var user = SM.currentUser();
+  if (!user) {
+    window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+    return;
+  }
+
+  document.getElementById('signout-btn').addEventListener('click', function () {
+    SM.logout(); window.location.href = '../index.html';
+  });
+
+  function renderAddresses() {
+    user = SM.currentUser();
+    var grid = document.getElementById('addresses-grid');
+    var addresses = user.addresses || [];
+    if (addresses.length === 0) {
+      grid.innerHTML = '<p style="color:var(--color-text-muted);font-size:0.875rem;">No addresses saved yet. Add one below.</p>';
+      return;
+    }
+    grid.innerHTML = addresses.map(function (addr) {
+      return '<div class="address-card">'
+        + (addr.isDefault ? '<div class="address-card__default">Default</div><br>' : '')
+        + '<div class="address-card__label">' + (addr.label || 'Address') + '</div>'
+        + '<div class="address-card__body">'
+        + (addr.firstName || '') + ' ' + (addr.lastName || '') + '<br>'
+        + (addr.line1 || '') + (addr.line2 ? '<br>' + addr.line2 : '') + '<br>'
+        + (addr.city || '') + ', ' + (addr.postcode || '') + '<br>'
+        + (addr.country || 'United Kingdom')
+        + (addr.phone ? '<br>' + addr.phone : '')
+        + '</div>'
+        + '<div class="address-card__actions">'
+        + (!addr.isDefault ? '<button class="btn btn--ghost btn--sm" onclick="setDefault(\'' + addr.id + '\')">Set Default</button>' : '')
+        + '<button class="btn btn--ghost btn--sm" onclick="removeAddr(\'' + addr.id + '\')" style="color:var(--color-danger);">Remove</button>'
+        + '</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  window.setDefault = function (addrId) {
+    user = SM.currentUser();
+    var addresses = (user.addresses || []).map(function (a) {
+      a.isDefault = (a.id === addrId);
+      return a;
+    });
+    SM.updateUser(user.id, { addresses: addresses });
+    renderAddresses();
+  };
+
+  window.removeAddr = function (addrId) {
+    if (!confirm('Remove this address?')) return;
+    SM.removeAddress(user.id, addrId);
+    renderAddresses();
+  };
+
+  // Toggle add form
+  var toggleBtn = document.getElementById('add-addr-toggle');
+  var addForm   = document.getElementById('add-address-form');
+  toggleBtn.addEventListener('click', function () {
+    addForm.classList.toggle('is-open');
+    toggleBtn.textContent = addForm.classList.contains('is-open') ? '✕ Cancel' : '+ Add New Address';
+  });
+  document.getElementById('cancel-addr-btn').addEventListener('click', function () {
+    addForm.classList.remove('is-open');
+    toggleBtn.textContent = '+ Add New Address';
+  });
+
+  // Save address
+  document.getElementById('save-addr-btn').addEventListener('click', function () {
+    var errEl = document.getElementById('addr-form-error');
+    errEl.style.display = 'none';
+    ['addr-line1','addr-city','addr-postcode'].forEach(function (id) {
+      document.getElementById(id).classList.remove('form-input--error');
+      document.getElementById(id + '-error').classList.remove('show');
+    });
+
+    var line1    = document.getElementById('addr-line1').value.trim();
+    var city     = document.getElementById('addr-city').value.trim();
+    var postcode = document.getElementById('addr-postcode').value.trim();
+    var valid    = true;
+
+    if (!line1)    { document.getElementById('addr-line1').classList.add('form-input--error'); document.getElementById('addr-line1-error').classList.add('show'); valid = false; }
+    if (!city)     { document.getElementById('addr-city').classList.add('form-input--error'); document.getElementById('addr-city-error').classList.add('show'); valid = false; }
+    if (!postcode) { document.getElementById('addr-postcode').classList.add('form-input--error'); document.getElementById('addr-postcode-error').classList.add('show'); valid = false; }
+    if (!valid) return;
+
+    SM.addAddress(user.id, {
+      label:     document.getElementById('addr-label').value,
+      firstName: document.getElementById('addr-first').value.trim(),
+      lastName:  document.getElementById('addr-last').value.trim(),
+      line1:     line1,
+      line2:     document.getElementById('addr-line2').value.trim(),
+      city:      city,
+      postcode:  postcode,
+      country:   document.getElementById('addr-country').value,
+      phone:     document.getElementById('addr-phone').value.trim(),
+      isDefault: document.getElementById('addr-default').checked
+    });
+
+    // Reset form
+    addForm.querySelectorAll('input, select').forEach(function (el) { el.value = el.tagName === 'SELECT' ? el.options[0].value : ''; });
+    document.getElementById('addr-default').checked = false;
+    addForm.classList.remove('is-open');
+    toggleBtn.textContent = '+ Add New Address';
+    renderAddresses();
+  });
+
+  renderAddresses();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account — SpeedMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+<div id="sm-header"></div>
+
+<main class="auth-page">
+  <div class="auth-box">
+    <div class="auth-box__logo">
+      <a href="../index.html">
+        <img src="../brand_assets/logo.png" alt="SpeedMaster" height="44" style="display:inline-block;">
+      </a>
+    </div>
+    <h1 class="auth-box__title">Create your account</h1>
+    <p class="auth-box__sub">Join SpeedMaster and track your orders, save addresses, and more.</p>
+
+    <div id="form-error" style="display:none;background:#FFF0EF;border:1px solid #FFCDD2;border-radius:8px;padding:0.75rem 1rem;margin-bottom:1.25rem;font-size:0.875rem;color:var(--color-danger);font-weight:600;"></div>
+
+    <form id="register-form" novalidate>
+      <div class="form-row" style="margin-bottom:1.25rem;">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="first-name">First name</label>
+          <input class="form-input" id="first-name" type="text" autocomplete="given-name" placeholder="Jane" required>
+          <span class="field-error" id="first-name-error">First name is required.</span>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="last-name">Last name</label>
+          <input class="form-input" id="last-name" type="text" autocomplete="family-name" placeholder="Smith" required>
+          <span class="field-error" id="last-name-error">Last name is required.</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input class="form-input" id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        <span class="field-error" id="email-error">Please enter a valid email address.</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password <span style="font-weight:400;color:var(--color-text-muted);">(min 6 characters)</span></label>
+        <input class="form-input" id="password" type="password" autocomplete="new-password" placeholder="••••••••" required>
+        <span class="field-error" id="password-error">Password must be at least 6 characters.</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="confirm-password">Confirm password</label>
+        <input class="form-input" id="confirm-password" type="password" autocomplete="new-password" placeholder="••••••••" required>
+        <span class="field-error" id="confirm-error">Passwords do not match.</span>
+      </div>
+      <button type="submit" class="btn btn--primary" style="width:100%;margin-top:0.5rem;">Create Account</button>
+    </form>
+
+    <p class="auth-link">Already have an account? <a href="login.html">Sign in</a></p>
+  </div>
+</main>
+
+<div id="sm-footer"></div>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  if (SM.currentUser()) {
+    window.location.href = 'dashboard.html';
+    return;
+  }
+
+  var form        = document.getElementById('register-form');
+  var firstEl     = document.getElementById('first-name');
+  var lastEl      = document.getElementById('last-name');
+  var emailEl     = document.getElementById('email');
+  var passEl      = document.getElementById('password');
+  var confirmEl   = document.getElementById('confirm-password');
+  var formErr     = document.getElementById('form-error');
+
+  function showErr(id, msg) {
+    var el = document.getElementById(id);
+    el.textContent = msg || el.textContent;
+    el.classList.add('show');
+    document.getElementById(id.replace('-error', '')).classList.add('form-input--error');
+  }
+  function clearErrors() {
+    ['first-name', 'last-name', 'email', 'password', 'confirm-password'].forEach(function (id) {
+      var errEl = document.getElementById(id + '-error');
+      if (errEl) { errEl.classList.remove('show'); }
+      var inputEl = document.getElementById(id);
+      if (inputEl) inputEl.classList.remove('form-input--error');
+    });
+    formErr.style.display = 'none';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrors();
+    var valid = true;
+
+    if (!firstEl.value.trim()) { showErr('first-name-error', null); valid = false; }
+    if (!lastEl.value.trim())  { showErr('last-name-error', null);  valid = false; }
+    if (!emailEl.value.trim() || !/\S+@\S+\.\S+/.test(emailEl.value)) { showErr('email-error', null); valid = false; }
+    if (!passEl.value || passEl.value.length < 6) { showErr('password-error', null); valid = false; }
+    if (passEl.value !== confirmEl.value) { showErr('confirm-password-error', null); valid = false; }
+    if (!valid) return;
+
+    var result = SM.register({
+      email:     emailEl.value.trim(),
+      password:  passEl.value,
+      firstName: firstEl.value.trim(),
+      lastName:  lastEl.value.trim()
+    });
+
+    if (result.error) {
+      formErr.textContent = result.error;
+      formErr.style.display = 'block';
+      return;
+    }
+
+    window.location.href = 'dashboard.html';
+  });
+})();
+</script>
+</body>
+</html>

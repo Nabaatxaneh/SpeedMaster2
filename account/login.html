@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — SpeedMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+<div id="sm-header"></div>
+
+<main class="auth-page">
+  <div class="auth-box">
+    <div class="auth-box__logo">
+      <a href="../index.html">
+        <img src="../brand_assets/logo.png" alt="SpeedMaster" height="44" style="display:inline-block;">
+      </a>
+    </div>
+    <h1 class="auth-box__title">Sign in to your account</h1>
+    <p class="auth-box__sub">Welcome back — let's get you riding.</p>
+
+    <div id="form-error" style="display:none;background:#FFF0EF;border:1px solid #FFCDD2;border-radius:8px;padding:0.75rem 1rem;margin-bottom:1.25rem;font-size:0.875rem;color:var(--color-danger);font-weight:600;"></div>
+
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input class="form-input" id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        <span class="field-error" id="email-error">Please enter a valid email address.</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password" style="display:flex;justify-content:space-between;align-items:center;">
+          Password
+          <button type="button" id="forgot-btn" style="background:none;border:none;font-size:0.8125rem;font-weight:600;color:var(--color-text-muted);cursor:pointer;text-decoration:underline;">Forgot password?</button>
+        </label>
+        <input class="form-input" id="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+        <span class="field-error" id="password-error">Please enter your password.</span>
+      </div>
+      <button type="submit" class="btn btn--primary" style="width:100%;margin-top:0.5rem;">Sign In</button>
+    </form>
+
+    <div class="auth-divider">or</div>
+
+    <a href="register.html" class="btn btn--ghost" style="width:100%;margin-bottom:0.75rem;">Create an account</a>
+    <a href="../checkout/index.html" style="display:block;text-align:center;font-size:0.875rem;color:var(--color-text-muted);">Continue as guest →</a>
+
+    <p class="auth-link">Don't have an account? <a href="register.html">Sign up free</a></p>
+  </div>
+</main>
+
+<div id="sm-footer"></div>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // If already logged in, redirect to dashboard
+  if (SM.currentUser()) {
+    window.location.href = 'dashboard.html';
+    return;
+  }
+
+  var forgotBtn = document.getElementById('forgot-btn');
+  forgotBtn.addEventListener('click', function () {
+    alert('Password reset is not available in this demo. Please contact us.');
+  });
+
+  var form      = document.getElementById('login-form');
+  var emailEl   = document.getElementById('email');
+  var passEl    = document.getElementById('password');
+  var emailErr  = document.getElementById('email-error');
+  var passErr   = document.getElementById('password-error');
+  var formErr   = document.getElementById('form-error');
+
+  function clearErrors() {
+    emailErr.classList.remove('show');
+    passErr.classList.remove('show');
+    emailEl.classList.remove('form-input--error');
+    passEl.classList.remove('form-input--error');
+    formErr.style.display = 'none';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrors();
+    var valid = true;
+
+    if (!emailEl.value.trim() || !/\S+@\S+\.\S+/.test(emailEl.value)) {
+      emailErr.classList.add('show');
+      emailEl.classList.add('form-input--error');
+      valid = false;
+    }
+    if (!passEl.value) {
+      passErr.classList.add('show');
+      passEl.classList.add('form-input--error');
+      valid = false;
+    }
+    if (!valid) return;
+
+    var result = SM.login(emailEl.value.trim(), passEl.value);
+    if (result.error) {
+      formErr.textContent = result.error;
+      formErr.style.display = 'block';
+      return;
+    }
+
+    // Success — redirect
+    var params = new URLSearchParams(window.location.search);
+    var redirect = params.get('redirect');
+    window.location.href = redirect ? decodeURIComponent(redirect) : 'dashboard.html';
+  });
+})();
+</script>
+</body>
+</html>

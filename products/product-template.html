@@ -113,9 +113,9 @@
           <div style="margin-bottom:1.25rem;">
             <p style="font-size:0.875rem;font-weight:700;margin-bottom:0.5rem;">Colour: <span style="font-weight:400;color:var(--color-text-muted);">Midnight Black</span></p>
             <div style="display:flex;gap:0.5rem;">
-              <button style="width:28px;height:28px;border-radius:50%;background:#0E0E0E;border:2px solid var(--color-brand-black);cursor:pointer;" aria-label="Midnight Black" title="Midnight Black"></button>
-              <button style="width:28px;height:28px;border-radius:50%;background:#F8E300;border:2px solid transparent;cursor:pointer;" aria-label="Signal Yellow" title="Signal Yellow"></button>
-              <button style="width:28px;height:28px;border-radius:50%;background:#EFEEE9;border:1px solid var(--color-border);cursor:pointer;" aria-label="Glacier White" title="Glacier White"></button>
+              <button class="color-swatch is-selected" data-color="Midnight Black" style="width:28px;height:28px;border-radius:50%;background:#0E0E0E;border:2px solid var(--color-brand-black);cursor:pointer;" aria-label="Midnight Black" title="Midnight Black"></button>
+              <button class="color-swatch" data-color="Signal Yellow" style="width:28px;height:28px;border-radius:50%;background:#F8E300;border:2px solid transparent;cursor:pointer;" aria-label="Signal Yellow" title="Signal Yellow"></button>
+              <button class="color-swatch" data-color="Glacier White" style="width:28px;height:28px;border-radius:50%;background:#EFEEE9;border:1px solid var(--color-border);cursor:pointer;" aria-label="Glacier White" title="Glacier White"></button>
             </div>
           </div>
 
@@ -346,6 +346,86 @@
 </main>
 
 <div id="sm-footer"></div>
+<script src="../assets/js/store.js"></script>
 <script src="../assets/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Wire colour swatches
+  var swatches = document.querySelectorAll('.color-swatch');
+  swatches.forEach(function (sw) {
+    sw.addEventListener('click', function () {
+      swatches.forEach(function (s) { s.classList.remove('is-selected'); });
+      sw.classList.add('is-selected');
+      var colorLabel = sw.closest('[style]')?.querySelector('span');
+      var parentEl = sw.parentElement.previousElementSibling;
+      if (parentEl) {
+        var span = parentEl.querySelector('span:last-child');
+        if (span) span.textContent = sw.dataset.color || sw.title || '';
+      }
+    });
+  });
+
+  // Add to cart
+  var addBtn = document.querySelector('.pdp__add-btn .btn--primary');
+  if (addBtn) {
+    addBtn.id = 'pdp-add-btn';
+    addBtn.addEventListener('click', function () {
+      var qtyInput = document.querySelector('.qty-input');
+      var qty = qtyInput ? (parseInt(qtyInput.value) || 1) : 1;
+      var selectedSwatch = document.querySelector('.color-swatch.is-selected');
+      var color = selectedSwatch ? (selectedSwatch.dataset.color || selectedSwatch.title || '') : '';
+
+      SM.addToCart({
+        id:       'x1-pro',
+        name:     'SpeedMaster X1 Pro',
+        price:    2199,
+        qty:      qty,
+        color:    color,
+        category: 'Electric Bike',
+        thumb:    'https://placehold.co/80x60/0E0E0E/F8E300?text=X1+Pro'
+      });
+
+      var overlay = document.getElementById('cart-overlay');
+      var drawer  = document.getElementById('cart-drawer');
+      if (overlay && drawer) {
+        overlay.classList.add('is-open');
+        drawer.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      var orig = addBtn.textContent;
+      addBtn.textContent = '✓ Added!';
+      addBtn.disabled = true;
+      setTimeout(function () { addBtn.textContent = orig; addBtn.disabled = false; }, 1500);
+    });
+  }
+
+  // Wire related product ADD TO CART buttons
+  document.querySelectorAll('[data-add-to-cart]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      SM.addToCart({
+        id:       btn.dataset.productId    || 'unknown',
+        name:     btn.dataset.productName  || 'Product',
+        price:    parseFloat(btn.dataset.productPrice) || 0,
+        qty:      1,
+        thumb:    btn.dataset.productThumb || '',
+        category: btn.dataset.productCat   || '',
+        color:    ''
+      });
+      var overlay = document.getElementById('cart-overlay');
+      var drawer  = document.getElementById('cart-drawer');
+      if (overlay && drawer) {
+        overlay.classList.add('is-open');
+        drawer.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+      var orig = btn.textContent;
+      btn.textContent = '✓ Added!';
+      btn.disabled = true;
+      setTimeout(function () { btn.textContent = orig; btn.disabled = false; }, 1500);
+    });
+  });
+});
+</script>
 </body>
 </html>

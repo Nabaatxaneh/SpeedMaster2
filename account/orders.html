@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders — SpeedMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+<div id="sm-header"></div>
+
+<main>
+  <div class="container">
+    <div class="account-layout">
+      <div class="account-layout__inner">
+
+        <!-- Sidebar -->
+        <aside class="account-sidebar">
+          <nav class="account-nav" aria-label="Account navigation">
+            <a href="dashboard.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Overview
+            </a>
+            <a href="orders.html" class="account-nav__item account-nav__item--active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              My Orders
+            </a>
+            <a href="addresses.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Addresses
+            </a>
+            <a href="details.html" class="account-nav__item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Account Details
+            </a>
+            <button id="signout-btn" class="account-nav__item account-nav__item--danger" style="background:none;border:none;font-family:inherit;text-align:left;width:100%;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </nav>
+        </aside>
+
+        <!-- Main content -->
+        <div>
+          <h1 class="account-greeting">My Orders</h1>
+          <p class="account-subhead">Your complete order history.</p>
+          <div id="orders-list"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="sm-footer"></div>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var user = SM.currentUser();
+  if (!user) {
+    window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+    return;
+  }
+
+  document.getElementById('signout-btn').addEventListener('click', function () {
+    SM.logout(); window.location.href = '../index.html';
+  });
+
+  var orders = SM.userOrders(user.id);
+  var container = document.getElementById('orders-list');
+
+  if (orders.length === 0) {
+    container.innerHTML = '<div style="padding:3rem;text-align:center;background:var(--color-bg-subtle);border-radius:12px;">'
+      + '<p style="color:var(--color-text-muted);margin-bottom:1rem;">No orders yet.</p>'
+      + '<a href="../collections/all-products.html" class="btn btn--primary">Start Shopping →</a>'
+      + '</div>';
+    return;
+  }
+
+  var html = '';
+  orders.forEach(function (order, i) {
+    var date = new Date(order.createdAt).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+    var items = order.items || [];
+    var itemCount = items.reduce(function (s, x) { return s + x.qty; }, 0);
+    html += '<div class="order-row" id="order-row-' + i + '" onclick="toggleDetail(' + i + ')">'
+      + '<span class="order-row__id">' + order.id + '</span>'
+      + '<span class="order-row__date">' + date + '</span>'
+      + '<span class="order-row__items">' + itemCount + ' item' + (itemCount !== 1 ? 's' : '') + '</span>'
+      + '<span class="order-row__total">' + SM.fmt(order.total || 0) + '</span>'
+      + '<span class="order-row__status status--' + (order.status || 'confirmed') + '">' + (order.status || 'Confirmed') + '</span>'
+      + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-' + i + '"><polyline points="6 9 12 15 18 9"/></svg>'
+      + '</div>';
+
+    var itemsHtml = items.map(function (it) {
+      return '<div style="display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0;border-bottom:1px solid var(--color-border);">'
+        + '<div style="width:48px;height:36px;background:var(--color-bg-muted);border-radius:6px;overflow:hidden;flex-shrink:0;">'
+        + (it.thumb ? '<img src="' + it.thumb + '" style="width:100%;height:100%;object-fit:cover;">' : '')
+        + '</div>'
+        + '<div style="flex:1;"><div style="font-size:0.875rem;font-weight:700;">' + it.name + '</div>'
+        + (it.color ? '<div style="font-size:0.75rem;color:var(--color-text-muted);">' + it.color + '</div>' : '')
+        + '</div>'
+        + '<div style="font-size:0.875rem;font-weight:700;">×' + it.qty + '</div>'
+        + '<div style="font-size:0.875rem;font-weight:800;">' + SM.fmt(it.price * it.qty) + '</div>'
+        + '</div>';
+    }).join('');
+
+    var shippingHtml = '';
+    if (order.shipping) {
+      shippingHtml = '<div style="margin-top:1rem;">'
+        + '<div style="font-size:0.75rem;font-weight:900;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);margin-bottom:0.375rem;">Shipped to</div>'
+        + '<div style="font-size:0.875rem;line-height:1.65;">'
+        + (order.shipping.firstName || '') + ' ' + (order.shipping.lastName || '') + '<br>'
+        + (order.shipping.line1 || '') + (order.shipping.line2 ? ', ' + order.shipping.line2 : '') + '<br>'
+        + (order.shipping.city || '') + ', ' + (order.shipping.postcode || '') + '<br>'
+        + (order.shipping.country || 'UK')
+        + '</div></div>';
+    }
+
+    html += '<div class="order-detail" id="order-detail-' + i + '">'
+      + '<div style="margin-bottom:1rem;">' + itemsHtml + '</div>'
+      + '<div style="display:flex;justify-content:space-between;margin-top:0.75rem;font-size:0.875rem;">'
+      + '<span>Shipping</span><span>' + SM.fmt(order.shippingCost || 0) + '</span></div>'
+      + (order.discount ? '<div style="display:flex;justify-content:space-between;font-size:0.875rem;color:var(--color-success);">'
+        + '<span>Discount</span><span>−' + SM.fmt(order.discount) + '</span></div>' : '')
+      + '<div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:900;border-top:1px solid var(--color-border);padding-top:0.75rem;margin-top:0.5rem;">'
+      + '<span>Total</span><span>' + SM.fmt(order.total || 0) + '</span></div>'
+      + shippingHtml
+      + '</div>';
+  });
+
+  container.innerHTML = html;
+
+  window.toggleDetail = function (i) {
+    var detail  = document.getElementById('order-detail-' + i);
+    var chevron = document.getElementById('chevron-' + i);
+    if (!detail) return;
+    var isOpen = detail.classList.toggle('is-open');
+    if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : '';
+  };
+})();
+</script>
+</body>
+</html>
