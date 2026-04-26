@@ -3,1069 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SpeedMaster — Electric Bikes & Scooters | www.speedmaster.bike</title>
+  <title>SpeedMaster — Electric Bikes &amp; Scooters | www.speedmaster.bike</title>
   <meta name="description" content="Shop premium electric bikes and scooters at SpeedMaster. Official UK repair centre and authorised retailer. Free delivery over £200.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <style>
-    /* ── TOKENS ─────────────────────────────────────────── */
-    :root {
-      --color-brand-yellow:       #F8E300;
-      --color-brand-yellow-hover: #FFEC1F;
-      --color-brand-yellow-active:#D9C700;
-      --color-brand-black:        #0E0E0E;
-
-      --color-bg:         #FFFFFF;
-      --color-bg-inverse: #0E0E0E;
-      --color-bg-subtle:  #F7F7F5;
-      --color-bg-muted:   #EFEEE9;
-
-      --color-text:          #0E0E0E;
-      --color-text-muted:    #5A5A58;
-      --color-text-inverse:  #FFFFFF;
-      --color-text-on-yellow:#0E0E0E;
-
-      --color-border:        #E5E4DF;
-      --color-border-strong: #0E0E0E;
-
-      --color-success: #1F9D55;
-      --color-warning: #E0A800;
-      --color-danger:  #D93025;
-
-      --color-price-sale: #D93025;
-
-      --font-sans: 'Exo 2', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-
-      --fw-regular:  400;
-      --fw-medium:   500;
-      --fw-semibold: 600;
-      --fw-bold:     700;
-      --fw-extrabold:800;
-      --fw-black:    900;
-
-      --fs-xs:   0.75rem;
-      --fs-sm:   0.875rem;
-      --fs-base: 1rem;
-      --fs-lg:   1.125rem;
-      --fs-xl:   1.25rem;
-      --fs-2xl:  1.5rem;
-      --fs-3xl:  1.875rem;
-      --fs-4xl:  2.5rem;
-      --fs-5xl:  3.5rem;
-      --fs-6xl:  4.5rem;
-
-      --lh-tight:   1.1;
-      --lh-snug:    1.25;
-      --lh-normal:  1.5;
-      --lh-relaxed: 1.65;
-
-      --space-1:  0.25rem;
-      --space-2:  0.5rem;
-      --space-3:  0.75rem;
-      --space-4:  1rem;
-      --space-5:  1.5rem;
-      --space-6:  2rem;
-      --space-7:  2.5rem;
-      --space-8:  3rem;
-      --space-9:  4rem;
-      --space-10: 6rem;
-
-      --radius-sm:   4px;
-      --radius-md:   8px;
-      --radius-lg:   12px;
-      --radius-pill: 9999px;
-
-      --shadow-sm:     0 1px 2px rgba(14,14,14,0.06);
-      --shadow-md:     0 4px 12px rgba(14,14,14,0.10);
-      --shadow-lg:     0 12px 32px rgba(14,14,14,0.14);
-      --shadow-yellow: 0 6px 20px rgba(248,227,0,0.35);
-
-      --ease-out:       cubic-bezier(0.22, 1, 0.36, 1);
-      --duration-fast:  120ms;
-      --duration-base:  200ms;
-      --duration-slow:  320ms;
-
-      --container-max: 1280px;
-      --container-pad: 1.5rem;
-    }
-    @media (min-width: 768px)  { :root { --container-pad: 2rem; } }
-    @media (min-width: 1024px) { :root { --container-pad: 3rem; } }
-
-    /* ── RESET ──────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; }
-    * { margin: 0; padding: 0; border: 0; }
-    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-    body {
-      font-family: var(--font-sans);
-      font-size: var(--fs-base);
-      line-height: var(--lh-normal);
-      color: var(--color-text);
-      background: var(--color-bg);
-      overflow-y: scroll;
-    }
-    img { display: block; max-width: 100%; }
-    a   { color: inherit; text-decoration: none; }
-    ul  { list-style: none; }
-    button { font-family: inherit; cursor: pointer; }
-    ::selection { background: #373a3d; color: #fff; }
-
-    /* ── LAYOUT ─────────────────────────────────────────── */
-    .container {
-      max-width: var(--container-max);
-      margin-inline: auto;
-      padding-inline: var(--container-pad);
-    }
-
-    /* ── BUTTONS ────────────────────────────────────────── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-2);
-      padding: var(--space-3) var(--space-6);
-      font-family: var(--font-sans);
-      font-weight: var(--fw-bold);
-      font-size: var(--fs-base);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      border-radius: var(--radius-md);
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition:
-        background var(--duration-fast) var(--ease-out),
-        transform  var(--duration-fast) var(--ease-out),
-        box-shadow var(--duration-base) var(--ease-out);
-    }
-    .btn:active      { transform: translateY(1px); }
-    .btn:focus-visible { outline: 3px solid var(--color-brand-yellow); outline-offset: 2px; }
-
-    .btn--primary  { background: var(--color-brand-yellow); color: var(--color-text-on-yellow); }
-    .btn--primary:hover  { background: var(--color-brand-yellow-hover); box-shadow: var(--shadow-yellow); }
-    .btn--primary:active { background: var(--color-brand-yellow-active); }
-
-    .btn--secondary { background: var(--color-brand-black); color: var(--color-text-inverse); }
-    .btn--secondary:hover { background: #2a2a2a; }
-
-    .btn--ghost { background: transparent; color: var(--color-text); border-color: var(--color-border-strong); }
-    .btn--ghost:hover { background: var(--color-bg-muted); }
-
-    .btn--ghost-inv { background: transparent; color: var(--color-text-inverse); border-color: rgba(255,255,255,0.35); }
-    .btn--ghost-inv:hover { background: rgba(255,255,255,0.08); }
-
-    .btn--sm { padding: var(--space-2) var(--space-4); font-size: var(--fs-sm); }
-    .btn--lg { padding: var(--space-4) var(--space-7); font-size: var(--fs-lg); }
-
-    /* ── BADGES ─────────────────────────────────────────── */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: var(--space-1) var(--space-3);
-      font-size: var(--fs-xs);
-      font-weight: var(--fw-bold);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      border-radius: var(--radius-pill);
-    }
-    .badge--new     { background: var(--color-brand-yellow); color: var(--color-text-on-yellow); }
-    .badge--sale    { background: var(--color-danger);       color: #fff; }
-    .badge--instock { background: var(--color-success);      color: #fff; }
-    .badge--low     { background: var(--color-warning);      color: var(--color-brand-black); }
-    .badge--hot     { background: #FF6B00; color: #fff; }
-
-    /* ── PRODUCT CARD ───────────────────────────────────── */
-    .product-card {
-      background: var(--color-bg);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition:
-        transform  var(--duration-base) var(--ease-out),
-        box-shadow var(--duration-base) var(--ease-out);
-    }
-    .product-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-
-    .product-card__media {
-      aspect-ratio: 4 / 3;
-      background: var(--color-bg-muted);
-      display: block;
-      position: relative;
-      overflow: hidden;
-    }
-    .product-card__media img { width: 100%; height: 100%; object-fit: cover; }
-    .product-card__badge { position: absolute; top: var(--space-3); left: var(--space-3); }
-
-    .product-card__body {
-      padding: var(--space-4) var(--space-5);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      flex: 1;
-    }
-    .product-card__category {
-      font-size: var(--fs-xs);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--color-text-muted);
-    }
-    .product-card__title { font-size: var(--fs-base); font-weight: var(--fw-bold); line-height: var(--lh-snug); }
-    .product-card__price { display: flex; align-items: baseline; gap: var(--space-2); margin-top: var(--space-1); }
-    .product-card__actions { margin-top: auto; padding-top: var(--space-3); }
-
-    .price       { font-weight: var(--fw-extrabold); font-size: var(--fs-xl); }
-    .price--sale { color: var(--color-price-sale); }
-    .price--was  { font-weight: var(--fw-medium); font-size: var(--fs-sm); color: var(--color-text-muted); text-decoration: line-through; }
-
-    /* ── STARS ──────────────────────────────────────────── */
-    .stars { color: var(--color-brand-yellow); letter-spacing: 2px; }
-
-    /* ======================================================
-       ANNOUNCEMENT BAR
-    ====================================================== */
-    .announcement-bar {
-      background: var(--color-brand-black);
-      color: var(--color-text-inverse);
-      text-align: center;
-      padding: 9px var(--space-5);
-      font-size: var(--fs-xs);
-      font-weight: var(--fw-medium);
-      letter-spacing: 0.02em;
-    }
-    .announcement-bar a { color: var(--color-brand-yellow); text-decoration: underline; }
-
-    /* ======================================================
-       HEADER
-    ====================================================== */
-    .site-header {
-      background: var(--color-bg);
-      border-bottom: 1px solid var(--color-border);
-      position: sticky;
-      top: 0;
-      z-index: 200;
-    }
-    .site-header__inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-6);
-      padding-block: 10px;
-    }
-    .site-header__logo img { height: 44px; width: auto; display: block; }
-
-    .site-nav { display: flex; align-items: center; gap: var(--space-5); }
-    .site-nav__link {
-      font-size: var(--fs-sm);
-      font-weight: var(--fw-semibold);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--color-text);
-      white-space: nowrap;
-      transition: color var(--duration-fast) var(--ease-out);
-    }
-    .site-nav__link:hover { color: var(--color-brand-yellow-active); }
-
-    .site-header__actions { display: flex; align-items: center; gap: var(--space-3); }
-    .icon-btn {
-      background: none;
-      border: none;
-      padding: var(--space-2);
-      border-radius: var(--radius-sm);
-      color: var(--color-text);
-      position: relative;
-      transition: background var(--duration-fast) var(--ease-out);
-      display: flex;
-      align-items: center;
-    }
-    .icon-btn:hover { background: var(--color-bg-muted); }
-    .icon-btn:focus-visible { outline: 3px solid var(--color-brand-yellow); outline-offset: 2px; }
-    .cart-pill {
-      position: absolute;
-      top: 0; right: 0;
-      background: var(--color-brand-yellow);
-      color: var(--color-text-on-yellow);
-      font-size: 10px;
-      font-weight: var(--fw-black);
-      min-width: 16px; height: 16px;
-      border-radius: var(--radius-pill);
-      display: flex; align-items: center; justify-content: center;
-      padding: 0 3px;
-      line-height: 1;
-    }
-
-    /* ======================================================
-       HERO
-    ====================================================== */
-    .hero {
-      background: var(--color-brand-black);
-      color: var(--color-text-inverse);
-      overflow: hidden;
-      position: relative;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 80% at 20% 60%, rgba(248,227,0,0.07) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 85% 10%, rgba(248,227,0,0.04) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      min-height: 500px;
-      position: relative;
-      z-index: 1;
-    }
-    .hero__left { padding-block: var(--space-10); }
-    .hero__eyebrow {
-      font-size: var(--fs-xs);
-      font-weight: var(--fw-bold);
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--color-brand-yellow);
-      margin-bottom: var(--space-4);
-    }
-    .hero__title {
-      font-size: clamp(3rem, 7vw, var(--fs-6xl));
-      font-weight: var(--fw-black);
-      line-height: var(--lh-tight);
-      text-transform: uppercase;
-      letter-spacing: -0.03em;
-      margin-bottom: var(--space-6);
-      color: #fff;
-    }
-    .hero__body {
-      font-size: var(--fs-base);
-      color: rgba(255,255,255,0.65);
-      line-height: var(--lh-relaxed);
-      max-width: 440px;
-      margin-bottom: var(--space-7);
-    }
-    .hero__title-accent { color: var(--color-brand-yellow); }
-    .hero__actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-
-    .hero__right {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-block: var(--space-8);
-      padding-left: var(--space-5);
-      height: 100%;
-    }
-    .hero__card {
-      position: relative;
-      width: 100%;
-      max-width: 480px;
-      min-height: 360px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hero__card-ring {
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      border: 2px solid rgba(248,227,0,0.7);
-      box-shadow:
-        0 0 60px rgba(248,227,0,0.14),
-        0 0 120px rgba(248,227,0,0.06),
-        inset 0 0 40px rgba(248,227,0,0.05);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -54%);
-    }
-    .hero__card-name {
-      position: absolute;
-      bottom: var(--space-6);
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: var(--fs-xl);
-      font-weight: var(--fw-bold);
-      color: var(--color-brand-yellow);
-      white-space: nowrap;
-      letter-spacing: -0.01em;
-    }
-    .hero__motor-badge {
-      position: absolute;
-      bottom: -16px;
-      left: -16px;
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.28);
-    }
-    .hero__motor-icon {
-      width: 34px;
-      height: 34px;
-      background: var(--color-brand-yellow);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-    .hero__motor-text { display: flex; flex-direction: column; line-height: 1.25; }
-    .hero__motor-label { font-size: var(--fs-xs); color: #888; font-weight: var(--fw-medium); }
-    .hero__motor-value { font-size: var(--fs-sm); font-weight: var(--fw-black); color: var(--color-brand-black); }
-
-    /* stats bar */
-    .hero__stats {
-      border-top: 1px solid rgba(255,255,255,0.09);
-      padding-block: var(--space-6);
-    }
-    .hero__stats-inner {
-      display: flex;
-      align-items: center;
-    }
-    .hero__stat {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      padding-inline: var(--space-7);
-    }
-    .hero__stat:first-child { padding-left: 0; }
-    .hero__stat-value {
-      font-size: var(--fs-3xl);
-      font-weight: var(--fw-black);
-      color: #fff;
-      line-height: 1;
-      letter-spacing: -0.03em;
-    }
-    .hero__stat-label {
-      font-size: var(--fs-xs);
-      font-weight: var(--fw-bold);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.38);
-    }
-    .hero__stat-divider {
-      width: 1px;
-      height: 38px;
-      background: rgba(255,255,255,0.12);
-      flex-shrink: 0;
-    }
-
-    /* trust ticker */
-    .trust-ticker {
-      background: var(--color-brand-yellow);
-      padding-block: 13px;
-    }
-    .trust-ticker__inner {
-      max-width: var(--container-max);
-      margin-inline: auto;
-      padding-inline: var(--container-pad);
-      display: flex;
-      align-items: center;
-      gap: var(--space-5);
-      flex-wrap: wrap;
-    }
-    .trust-ticker__item {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: var(--fs-sm);
-      font-weight: var(--fw-bold);
-      color: var(--color-brand-black);
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      white-space: nowrap;
-    }
-    .trust-ticker__sep { color: rgba(14,14,14,0.28); font-weight: var(--fw-medium); }
-
-    /* ── SHARED SECTION TYPOGRAPHY ─────────────────────── */
-    .section-eyebrow {
-      font-size: var(--fs-xs);
-      font-weight: var(--fw-black);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--color-brand-yellow-active);
-      margin-bottom: var(--space-3);
-    }
-    .section-heading {
-      font-size: clamp(1.75rem, 3.5vw, var(--fs-4xl));
-      font-weight: var(--fw-extrabold);
-      line-height: var(--lh-snug);
-      letter-spacing: -0.02em;
-      margin-bottom: var(--space-3);
-    }
-    .section-subtext {
-      font-size: var(--fs-base);
-      color: var(--color-text-muted);
-      max-width: 520px;
-      line-height: var(--lh-relaxed);
-      margin-bottom: var(--space-8);
-    }
-
-    /* ======================================================
-       SHOP BY CATEGORY
-    ====================================================== */
-    .category-browse { padding-block: var(--space-9); background: var(--color-bg); }
-    .cat-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-5);
-    }
-    .cat-card {
-      background: var(--color-brand-black);
-      border-radius: var(--radius-lg);
-      padding: var(--space-8) var(--space-7);
-      position: relative;
-      overflow: hidden;
-      min-height: 220px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-    .cat-card__ghost {
-      position: absolute;
-      top: 50%;
-      right: -10%;
-      transform: translateY(-50%);
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: var(--fw-black);
-      color: rgba(255,255,255,0.055);
-      white-space: nowrap;
-      pointer-events: none;
-      text-transform: uppercase;
-      letter-spacing: -0.03em;
-      line-height: 1;
-    }
-    .cat-card__eyebrow {
-      font-size: var(--fs-xs);
-      font-weight: var(--fw-black);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--color-brand-yellow);
-      margin-bottom: var(--space-2);
-    }
-    .cat-card__title {
-      font-size: var(--fs-3xl);
-      font-weight: var(--fw-black);
-      color: #fff;
-      text-transform: uppercase;
-      line-height: 1.05;
-      margin-bottom: var(--space-2);
-      letter-spacing: -0.02em;
-    }
-    .cat-card__count {
-      font-size: var(--fs-sm);
-      color: rgba(255,255,255,0.45);
-      margin-bottom: var(--space-5);
-    }
-    .cat-card__btn {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      background: var(--color-brand-yellow);
-      color: var(--color-brand-black);
-      font-size: var(--fs-sm);
-      font-weight: var(--fw-bold);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: var(--space-2) var(--space-4);
-      border-radius: var(--radius-md);
-      width: fit-content;
-      transition:
-        background var(--duration-fast) var(--ease-out),
-        transform  var(--duration-fast) var(--ease-out);
-    }
-    .cat-card__btn:hover { background: var(--color-brand-yellow-hover); transform: translateX(2px); }
-    .cat-card__btn:active { background: var(--color-brand-yellow-active); transform: none; }
-
-    /* ======================================================
-       FEATURED PRODUCTS
-    ====================================================== */
-    .featured-products { padding-block: var(--space-9); background: var(--color-bg); border-top: 1px solid var(--color-border); }
-    .section-header-row {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: var(--space-6);
-    }
-
-    .filter-tabs {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid var(--color-border);
-      margin-bottom: var(--space-6);
-    }
-    .filter-tab {
-      font-family: var(--font-sans);
-      font-size: var(--fs-xs);
-      font-weight: var(--fw-bold);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--color-text-muted);
-      padding: var(--space-3) var(--space-4);
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      background: none;
-      cursor: pointer;
-      white-space: nowrap;
-      transition:
-        color var(--duration-fast) var(--ease-out),
-        border-color var(--duration-fast) var(--ease-out);
-    }
-    .filter-tab:first-child { padding-left: 0; }
-    .filter-tab:hover { color: var(--color-text); }
-    .filter-tab--active { color: var(--color-text); border-bottom-color: var(--color-text); }
-    .filter-tab:focus-visible { outline: 3px solid var(--color-brand-yellow); outline-offset: 2px; }
-    .filter-sort-btn {
-      margin-left: auto;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--color-text-muted);
-      padding: var(--space-2);
-      display: flex;
-      align-items: center;
-      border-radius: var(--radius-sm);
-      transition: background var(--duration-fast) var(--ease-out);
-    }
-    .filter-sort-btn:hover { background: var(--color-bg-muted); }
-
-    .fp-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-4);
-      margin-bottom: var(--space-7);
-    }
-    @media (max-width: 1100px) { .fp-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 540px)  { .fp-grid { grid-template-columns: 1fr; } }
-
-    .fp-card {
-      background: var(--color-bg);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition:
-        transform  var(--duration-base) var(--ease-out),
-        box-shadow var(--duration-base) var(--ease-out);
-    }
-    .fp-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-
-    .fp-card__media {
-      background: var(--color-bg-muted);
-      aspect-ratio: 4 / 3;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .fp-card__name-display {
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      font-weight: var(--fw-black);
-      color: var(--color-text);
-      letter-spacing: -0.03em;
-      text-align: center;
-      padding: var(--space-4);
-      line-height: 1.1;
-      user-select: none;
-    }
-    .fp-card__badge { position: absolute; top: var(--space-3); left: var(--space-3); }
-    .fp-card__body {
-      padding: var(--space-4);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      flex: 1;
-    }
-    .fp-card__category {
-      font-size: var(--fs-xs);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--color-text-muted);
-    }
-    .fp-card__title { font-size: var(--fs-sm); font-weight: var(--fw-bold); line-height: var(--lh-snug); }
-    .fp-card__specs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-      font-size: var(--fs-xs);
-      color: var(--color-text-muted);
-    }
-    .fp-card__price-row { display: flex; align-items: baseline; gap: var(--space-2); margin-top: var(--space-1); }
-    .fp-card__price {
-      font-size: var(--fs-xl);
-      font-weight: var(--fw-extrabold);
-      line-height: 1;
-    }
-    .fp-card__price--sale { color: var(--color-price-sale); }
-    .fp-card__price-was {
-      font-size: var(--fs-sm);
-      font-weight: var(--fw-medium);
-      color: var(--color-text-muted);
-      text-decoration: line-through;
-    }
-    .fp-card__actions { margin-top: auto; padding-top: var(--space-3); }
-
-    .fp-view-all { text-align: center; }
-    .fp-view-all-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      background: var(--color-brand-black);
-      color: var(--color-text-inverse);
-      font-size: var(--fs-sm);
-      font-weight: var(--fw-bold);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: var(--space-4) var(--space-9);
-      border-radius: var(--radius-md);
-      transition: background var(--duration-fast) var(--ease-out);
-    }
-    .fp-view-all-btn:hover { background: #2a2a2a; }
-    .fp-view-all-btn:focus-visible { outline: 3px solid var(--color-brand-yellow); outline-offset: 2px; }
-
-    /* ======================================================
-       SALES & REPAIRS
-    ====================================================== */
-    .sales-repairs { padding-block: var(--space-9); background: var(--color-bg-subtle); }
-    .sales-repairs__inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-9);
-      align-items: center;
-    }
-    .sales-repairs__media { border-radius: var(--radius-lg); overflow: hidden; }
-    .sales-repairs__media img { width: 100%; height: 360px; object-fit: cover; }
-    .sales-repairs__content { display: flex; flex-direction: column; gap: var(--space-5); }
-    .sales-repairs__title {
-      font-size: var(--fs-3xl);
-      font-weight: var(--fw-extrabold);
-      line-height: var(--lh-snug);
-    }
-    .sales-repairs__text { color: var(--color-text-muted); line-height: var(--lh-relaxed); }
-    .sales-repairs__ctas { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-
-    /* ======================================================
-       REVIEWS
-    ====================================================== */
-    .reviews { padding-block: var(--space-9); background: var(--color-bg); }
-    .reviews__header {
-      text-align: center;
-      margin-bottom: var(--space-8);
-    }
-    .reviews__score { font-size: var(--fs-3xl); margin-bottom: var(--space-2); }
-    .reviews__meta  { font-size: var(--fs-sm); color: var(--color-text-muted); }
-
-    .reviews__grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-5);
-    }
-    .review-card {
-      background: var(--color-bg-subtle);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      padding: var(--space-5);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-    .review-card__head { display: flex; align-items: center; gap: var(--space-3); }
-    .review-card__avatar {
-      width: 40px; height: 40px;
-      border-radius: var(--radius-pill);
-      background: var(--color-brand-yellow);
-      display: flex; align-items: center; justify-content: center;
-      font-size: var(--fs-sm);
-      font-weight: var(--fw-black);
-      color: var(--color-text-on-yellow);
-      flex-shrink: 0;
-    }
-    .review-card__name { font-weight: var(--fw-bold); font-size: var(--fs-sm); }
-    .review-card__when { font-size: var(--fs-xs); color: var(--color-text-muted); }
-    .review-card__stars { margin-left: auto; }
-    .review-card__body { font-size: var(--fs-sm); color: var(--color-text); line-height: var(--lh-relaxed); }
-
-    /* ======================================================
-       OFFICIAL RETAILERS STRIP
-    ====================================================== */
-    .retailers {
-      padding-block: var(--space-7);
-      background: var(--color-bg-subtle);
-      border-top: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
-    }
-    .retailers__label {
-      font-size: var(--fs-xs);
-      font-weight: var(--fw-bold);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--color-text-muted);
-      text-align: center;
-      margin-bottom: var(--space-5);
-    }
-    .retailers__logos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-8);
-      flex-wrap: wrap;
-    }
-    .retailer-name {
-      font-size: var(--fs-xl);
-      font-weight: var(--fw-black);
-      text-transform: uppercase;
-      letter-spacing: -0.03em;
-      color: var(--color-text);
-      opacity: 0.35;
-      transition: opacity var(--duration-base) var(--ease-out);
-    }
-    .retailer-name:hover { opacity: 1; }
-
-    /* ======================================================
-       STORES
-    ====================================================== */
-    .stores { padding-block: var(--space-9); background: var(--color-bg); }
-    .stores__inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-9);
-      align-items: start;
-    }
-    .stores__list { display: flex; flex-direction: column; gap: 0; }
-    .store-item {
-      padding-block: var(--space-5);
-      border-bottom: 1px solid var(--color-border);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-    .store-item:first-child { padding-top: 0; }
-    .store-item__name {
-      font-size: var(--fs-lg);
-      font-weight: var(--fw-extrabold);
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
-    .store-item__name::before {
-      content: '';
-      display: inline-block;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--color-success);
-      flex-shrink: 0;
-    }
-    .store-item__address,
-    .store-item__hours { font-size: var(--fs-sm); color: var(--color-text-muted); }
-    .store-item__phone { font-size: var(--fs-sm); font-weight: var(--fw-semibold); }
-    .stores__cta { margin-top: var(--space-6); }
-
-    .stores__photo { border-radius: var(--radius-lg); overflow: hidden; }
-    .stores__photo img { width: 100%; height: 420px; object-fit: cover; }
-
-    /* ======================================================
-       MAKE SCOOTERS LEGAL
-    ====================================================== */
-    .legal { padding-block: var(--space-9); background: var(--color-bg-subtle); }
-    .legal__inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-9);
-      align-items: center;
-    }
-    .legal__media { border-radius: var(--radius-lg); overflow: hidden; }
-    .legal__media img { width: 100%; height: 380px; object-fit: cover; }
-    .legal__content { display: flex; flex-direction: column; gap: var(--space-5); }
-    .legal__title   { font-size: var(--fs-3xl); font-weight: var(--fw-extrabold); line-height: var(--lh-snug); }
-    .legal__text    { color: var(--color-text-muted); line-height: var(--lh-relaxed); }
-
-    /* ======================================================
-       FOOTER
-    ====================================================== */
-    .site-footer {
-      background: var(--color-bg-inverse);
-      color: var(--color-text-inverse);
-      padding-top: var(--space-10);
-    }
-    .footer__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-8);
-      padding-bottom: var(--space-9);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .footer-col__heading {
-      font-size: var(--fs-xs);
-      font-weight: var(--fw-black);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--color-brand-yellow);
-      margin-bottom: var(--space-4);
-    }
-    .footer-col__links { display: flex; flex-direction: column; gap: var(--space-3); }
-    .footer-col__links a {
-      font-size: var(--fs-sm);
-      color: rgba(255,255,255,0.6);
-      transition: color var(--duration-fast) var(--ease-out);
-    }
-    .footer-col__links a:hover { color: var(--color-brand-yellow); }
-    .footer-address {
-      font-size: var(--fs-sm);
-      color: rgba(255,255,255,0.6);
-      line-height: var(--lh-relaxed);
-      margin-bottom: var(--space-4);
-    }
-    .footer-address strong { color: rgba(255,255,255,0.9); }
-
-    .social-row { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-5); }
-    .social-btn {
-      width: 36px; height: 36px;
-      border-radius: var(--radius-sm);
-      background: rgba(255,255,255,0.1);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--color-text-inverse);
-      transition:
-        background var(--duration-fast) var(--ease-out),
-        color var(--duration-fast) var(--ease-out);
-    }
-    .social-btn:hover { background: var(--color-brand-yellow); color: var(--color-text-on-yellow); }
-
-    .newsletter-form { display: flex; flex-direction: column; gap: var(--space-3); }
-    .newsletter-form p { font-size: var(--fs-sm); color: rgba(255,255,255,0.6); line-height: var(--lh-relaxed); }
-    .newsletter-row { display: flex; gap: var(--space-2); }
-    .newsletter-input {
-      flex: 1;
-      font-family: var(--font-sans);
-      font-size: var(--fs-sm);
-      padding: var(--space-3) var(--space-4);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: var(--radius-md);
-      color: var(--color-text-inverse);
-      transition:
-        border-color var(--duration-fast) var(--ease-out),
-        box-shadow var(--duration-fast) var(--ease-out);
-    }
-    .newsletter-input::placeholder { color: rgba(255,255,255,0.35); }
-    .newsletter-input:focus {
-      outline: none;
-      border-color: var(--color-brand-yellow);
-      box-shadow: 0 0 0 2px rgba(248,227,0,0.2);
-    }
-
-    .footer-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: var(--space-4);
-      padding-block: var(--space-5);
-    }
-    .footer-copy { font-size: var(--fs-xs); color: rgba(255,255,255,0.35); }
-    .footer-legal { display: flex; gap: var(--space-5); }
-    .footer-legal a { font-size: var(--fs-xs); color: rgba(255,255,255,0.35); transition: color var(--duration-fast) var(--ease-out); }
-    .footer-legal a:hover { color: rgba(255,255,255,0.8); }
-    .payment-row { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
-    .pay-chip {
-      background: rgba(255,255,255,0.08);
-      border-radius: var(--radius-sm);
-      padding: 4px 9px;
-      font-size: 10px;
-      font-weight: var(--fw-black);
-      color: rgba(255,255,255,0.55);
-      letter-spacing: 0.04em;
-    }
-
-    /* ── RESPONSIVE ─────────────────────────────────────── */
-    @media (max-width: 1024px) {
-      .footer__grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 768px) {
-      .site-nav { display: none; }
-      .hero__grid { grid-template-columns: 1fr; }
-      .hero__right { display: none; }
-      .hero__title { font-size: var(--fs-4xl); }
-      .sales-repairs__inner,
-      .stores__inner,
-      .legal__inner { grid-template-columns: 1fr; }
-      .reviews__grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      .footer__grid { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; align-items: flex-start; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/global.css">
 </head>
 <body>
 
-  <!-- ── ANNOUNCEMENT BAR ──────────────────────────────── -->
-  <div class="announcement-bar">
-    🚚 Free delivery on orders over £200 &nbsp;·&nbsp; Up to 3-year warranty on all models &nbsp;·&nbsp;
-    <a href="#">0% finance available — apply online</a>
-  </div>
-
-  <!-- ── HEADER ───────────────────────────────────────── -->
-  <header class="site-header">
-    <div class="container">
-      <div class="site-header__inner">
-
-        <a href="/" class="site-header__logo" aria-label="SpeedMaster home">
-          <img src="brand_assets/logo.png" alt="SpeedMaster" width="96" height="44">
-        </a>
-
-        <nav aria-label="Primary navigation">
-          <ul class="site-nav">
-            <li><a class="site-nav__link" href="#">E-Scooters</a></li>
-            <li><a class="site-nav__link" href="#">E-Bikes</a></li>
-            <li><a class="site-nav__link" href="#">Parts & Accessories</a></li>
-            <li><a class="site-nav__link" href="#">Repairs</a></li>
-            <li><a class="site-nav__link" href="#">Stores</a></li>
-          </ul>
-        </nav>
-
-        <div class="site-header__actions">
-          <button class="icon-btn" aria-label="Search">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-          </button>
-          <button class="icon-btn" aria-label="My account">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
-          </button>
-          <button class="icon-btn" aria-label="Cart — 0 items">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            <span class="cart-pill">0</span>
-          </button>
-        </div>
-
-      </div>
-    </div>
-  </header>
+  <div id="sm-header"></div>
 
   <!-- ── HERO ─────────────────────────────────────────── -->
   <section class="hero" aria-label="2026 Collection">
@@ -1082,8 +30,8 @@
           </h1>
           <p class="hero__body">Premium electric bikes and scooters engineered for the modern city. Zero emissions, maximum performance, free UK delivery.</p>
           <div class="hero__actions">
-            <a href="#" class="btn btn--primary btn--lg">SHOP E-BIKES</a>
-            <a href="#" class="btn btn--ghost-inv btn--lg">SHOP SCOOTERS</a>
+            <a href="collections/e-bikes.html" class="btn btn--primary btn--lg">SHOP E-BIKES</a>
+            <a href="collections/e-scooters.html" class="btn btn--ghost-inv btn--lg">SHOP SCOOTERS</a>
           </div>
         </div>
 
@@ -1158,20 +106,20 @@
       <h2 id="category-heading" class="section-heading">Shop by Category</h2>
       <p class="section-subtext">Whether you want a powerful electric bike for longer rides or a nimble scooter for the daily commute, we have your perfect ride.</p>
       <div class="cat-grid">
-        <div class="cat-card">
+        <a href="collections/e-bikes.html" class="cat-card" style="text-decoration:none;">
           <span class="cat-card__ghost" aria-hidden="true">Electric Bikes</span>
           <p class="cat-card__eyebrow">Category</p>
           <h3 class="cat-card__title">Electric<br>Bikes</h3>
           <p class="cat-card__count">48 models from £899</p>
-          <a href="#" class="cat-card__btn">SHOP NOW →</a>
-        </div>
-        <div class="cat-card">
+          <span class="cat-card__btn">SHOP NOW →</span>
+        </a>
+        <a href="collections/e-scooters.html" class="cat-card" style="text-decoration:none;">
           <span class="cat-card__ghost" aria-hidden="true">Electric Scooters</span>
           <p class="cat-card__eyebrow">Category</p>
           <h3 class="cat-card__title">Electric<br>Scooters</h3>
           <p class="cat-card__count">32 models from £599</p>
-          <a href="#" class="cat-card__btn">SHOP NOW →</a>
-        </div>
+          <span class="cat-card__btn">SHOP NOW →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -1182,7 +130,7 @@
       <p class="section-eyebrow">Our Range</p>
       <div class="section-header-row">
         <h2 id="featured-heading" class="section-heading" style="margin-bottom:0">Featured Products</h2>
-        <a href="#" class="btn btn--ghost">VIEW ALL PRODUCTS</a>
+        <a href="collections/all-products.html" class="btn btn--ghost">VIEW ALL PRODUCTS</a>
       </div>
 
       <div class="filter-tabs" role="tablist" aria-label="Filter products">
@@ -1202,13 +150,13 @@
       <div class="fp-grid">
 
         <article class="fp-card">
-          <div class="fp-card__media">
+          <a href="products/product-template.html" class="fp-card__media" style="text-decoration:none;">
             <span class="fp-card__name-display">X1 Pro</span>
             <span class="badge badge--new fp-card__badge">NEW</span>
-          </div>
+          </a>
           <div class="fp-card__body">
             <p class="fp-card__category">Electric Bike</p>
-            <h3 class="fp-card__title">SpeedMaster X1 Pro</h3>
+            <h3 class="fp-card__title"><a href="products/product-template.html">SpeedMaster X1 Pro</a></h3>
             <div class="fp-card__specs">
               <span>50km range</span><span>250W</span><span>25 km/h</span>
             </div>
@@ -1222,13 +170,13 @@
         </article>
 
         <article class="fp-card">
-          <div class="fp-card__media">
+          <a href="products/product-template.html" class="fp-card__media" style="text-decoration:none;">
             <span class="fp-card__name-display">Volt S</span>
             <span class="badge badge--sale fp-card__badge">-15%</span>
-          </div>
+          </a>
           <div class="fp-card__body">
             <p class="fp-card__category">Electric Scooter</p>
-            <h3 class="fp-card__title">SpeedMaster Volt S</h3>
+            <h3 class="fp-card__title"><a href="products/product-template.html">SpeedMaster Volt S</a></h3>
             <div class="fp-card__specs">
               <span>40km range</span><span>350W</span><span>25 km/h</span>
             </div>
@@ -1243,13 +191,13 @@
         </article>
 
         <article class="fp-card">
-          <div class="fp-card__media">
+          <a href="products/product-template.html" class="fp-card__media" style="text-decoration:none;">
             <span class="fp-card__name-display">Urban GT</span>
             <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
-          </div>
+          </a>
           <div class="fp-card__body">
             <p class="fp-card__category">Electric Bike</p>
-            <h3 class="fp-card__title">SpeedMaster Urban GT</h3>
+            <h3 class="fp-card__title"><a href="products/product-template.html">SpeedMaster Urban GT</a></h3>
             <div class="fp-card__specs">
               <span>70km range</span><span>500W</span><span>32 km/h</span>
             </div>
@@ -1263,13 +211,13 @@
         </article>
 
         <article class="fp-card">
-          <div class="fp-card__media">
+          <a href="products/product-template.html" class="fp-card__media" style="text-decoration:none;">
             <span class="fp-card__name-display">Glide Pro</span>
             <span class="badge badge--low fp-card__badge">LOW STOCK</span>
-          </div>
+          </a>
           <div class="fp-card__body">
             <p class="fp-card__category">Electric Scooter</p>
-            <h3 class="fp-card__title">SpeedMaster Glide Pro</h3>
+            <h3 class="fp-card__title"><a href="products/product-template.html">SpeedMaster Glide Pro</a></h3>
             <div class="fp-card__specs">
               <span>55km range</span><span>500W</span><span>30 km/h</span>
             </div>
@@ -1283,12 +231,12 @@
         </article>
 
         <article class="fp-card">
-          <div class="fp-card__media">
+          <a href="products/product-template.html" class="fp-card__media" style="text-decoration:none;">
             <span class="fp-card__name-display">Trail E</span>
-          </div>
+          </a>
           <div class="fp-card__body">
             <p class="fp-card__category">Electric Bike</p>
-            <h3 class="fp-card__title">SpeedMaster Trail E</h3>
+            <h3 class="fp-card__title"><a href="products/product-template.html">SpeedMaster Trail E</a></h3>
             <div class="fp-card__specs">
               <span>80km range</span><span>750W</span><span>32 km/h</span>
             </div>
@@ -1302,13 +250,13 @@
         </article>
 
         <article class="fp-card">
-          <div class="fp-card__media">
+          <a href="products/product-template.html" class="fp-card__media" style="text-decoration:none;">
             <span class="fp-card__name-display">City Zip</span>
             <span class="badge badge--sale fp-card__badge">-20%</span>
-          </div>
+          </a>
           <div class="fp-card__body">
             <p class="fp-card__category">Electric Scooter</p>
-            <h3 class="fp-card__title">SpeedMaster City Zip</h3>
+            <h3 class="fp-card__title"><a href="products/product-template.html">SpeedMaster City Zip</a></h3>
             <div class="fp-card__specs">
               <span>30km range</span><span>250W</span><span>20 km/h</span>
             </div>
@@ -1323,13 +271,13 @@
         </article>
 
         <article class="fp-card">
-          <div class="fp-card__media">
+          <a href="products/product-template.html" class="fp-card__media" style="text-decoration:none;">
             <span class="fp-card__name-display">Carbon S</span>
             <span class="badge badge--new fp-card__badge">NEW</span>
-          </div>
+          </a>
           <div class="fp-card__body">
             <p class="fp-card__category">Electric Bike</p>
-            <h3 class="fp-card__title">SpeedMaster Carbon S</h3>
+            <h3 class="fp-card__title"><a href="products/product-template.html">SpeedMaster Carbon S</a></h3>
             <div class="fp-card__specs">
               <span>90km range</span><span>500W</span><span>32 km/h</span>
             </div>
@@ -1343,13 +291,13 @@
         </article>
 
         <article class="fp-card">
-          <div class="fp-card__media">
+          <a href="products/product-template.html" class="fp-card__media" style="text-decoration:none;">
             <span class="fp-card__name-display">Fold &amp; Go</span>
             <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
-          </div>
+          </a>
           <div class="fp-card__body">
             <p class="fp-card__category">Electric Scooter</p>
-            <h3 class="fp-card__title">SpeedMaster Fold &amp; Go</h3>
+            <h3 class="fp-card__title"><a href="products/product-template.html">SpeedMaster Fold &amp; Go</a></h3>
             <div class="fp-card__specs">
               <span>35km range</span><span>350W</span><span>25 km/h</span>
             </div>
@@ -1365,7 +313,7 @@
       </div>
 
       <div class="fp-view-all">
-        <a href="#" class="fp-view-all-btn">VIEW ALL 80+ PRODUCTS</a>
+        <a href="collections/all-products.html" class="fp-view-all-btn">VIEW ALL 80+ PRODUCTS</a>
       </div>
     </div>
   </section>
@@ -1388,8 +336,8 @@
           <p class="sales-repairs__text">We are the UK's official repair centre and authorised retailer for the country's leading electric scooter and e-bike brands. Our certified technicians service all major makes and models — whether you bought from us or not.</p>
           <p class="sales-repairs__text">From battery replacements and tyre changes to motor diagnostics and brake servicing, our fully-equipped workshops have you covered. Fast turnaround, fair pricing, and a 90-day repair guarantee.</p>
           <div class="sales-repairs__ctas">
-            <a href="#" class="btn btn--primary">BOOK A REPAIR</a>
-            <a href="#" class="btn btn--ghost">LEARN MORE</a>
+            <a href="pages/repairs.html" class="btn btn--primary">BOOK A REPAIR</a>
+            <a href="pages/repairs.html" class="btn btn--ghost">LEARN MORE</a>
           </div>
         </div>
 
@@ -1470,26 +418,26 @@
         <div>
           <ul class="stores__list">
             <li class="store-item">
-              <span class="store-item__name">Birmingham — City Centre</span>
+              <a href="pages/store-birmingham.html" class="store-item__name">Birmingham — City Centre</a>
               <span class="store-item__address">42 Corporation Street, Birmingham, B4 6SX</span>
               <span class="store-item__hours">Mon–Sat: 9am–6pm &nbsp;|&nbsp; Sun: 10am–4pm</span>
               <span class="store-item__phone">0121 234 5678</span>
             </li>
             <li class="store-item">
-              <span class="store-item__name">Manchester — Deansgate</span>
+              <a href="pages/store-manchester.html" class="store-item__name">Manchester — Deansgate</a>
               <span class="store-item__address">18 Deansgate, Manchester, M3 2QS</span>
               <span class="store-item__hours">Mon–Sat: 9am–6pm &nbsp;|&nbsp; Sun: 11am–4pm</span>
               <span class="store-item__phone">0161 345 6789</span>
             </li>
             <li class="store-item">
-              <span class="store-item__name">Glasgow — Buchanan Street</span>
+              <a href="pages/store-glasgow.html" class="store-item__name">Glasgow — Buchanan Street</a>
               <span class="store-item__address">25 Buchanan Street, Glasgow, G1 3HL</span>
               <span class="store-item__hours">Mon–Sat: 9am–6pm &nbsp;|&nbsp; Sun: 11am–4pm</span>
               <span class="store-item__phone">0141 456 7890</span>
             </li>
           </ul>
           <div class="stores__cta">
-            <a href="#" class="btn btn--secondary">VIEW ALL STORES</a>
+            <a href="pages/stores.html" class="btn btn--secondary">VIEW ALL STORES</a>
           </div>
         </div>
 
@@ -1529,127 +477,7 @@
     </div>
   </section>
 
-  <!-- ── FOOTER ────────────────────────────────────────── -->
-  <footer class="site-footer" aria-label="Site footer">
-    <div class="container">
-      <div class="footer__grid">
-
-        <!-- Quick Links -->
-        <div>
-          <h3 class="footer-col__heading">Quick Links</h3>
-          <ul class="footer-col__links">
-            <li><a href="#">E-Scooters</a></li>
-            <li><a href="#">E-Bikes</a></li>
-            <li><a href="#">Parts &amp; Accessories</a></li>
-            <li><a href="#">Book a Repair</a></li>
-            <li><a href="#">Finance Options</a></li>
-            <li><a href="#">Gift Cards</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
-
-        <!-- England -->
-        <div>
-          <h3 class="footer-col__heading">SpeedMaster in England</h3>
-          <div class="footer-address">
-            <strong>Birmingham</strong><br>
-            42 Corporation Street<br>
-            Birmingham, B4 6SX<br>
-            Tel: 0121 234 5678
-          </div>
-          <div class="footer-address">
-            <strong>Manchester</strong><br>
-            18 Deansgate<br>
-            Manchester, M3 2QS<br>
-            Tel: 0161 345 6789
-          </div>
-        </div>
-
-        <!-- Scotland -->
-        <div>
-          <h3 class="footer-col__heading">SpeedMaster in Scotland</h3>
-          <div class="footer-address">
-            <strong>Glasgow</strong><br>
-            25 Buchanan Street<br>
-            Glasgow, G1 3HL<br>
-            Tel: 0141 456 7890
-          </div>
-          <div class="footer-address">
-            <strong>Edinburgh</strong><br>
-            14 Princes Street<br>
-            Edinburgh, EH2 2BY<br>
-            Tel: 0131 567 8901
-          </div>
-        </div>
-
-        <!-- Social + Newsletter -->
-        <div>
-          <h3 class="footer-col__heading">Follow Us</h3>
-          <div class="social-row">
-            <a href="#" class="social-btn" aria-label="Facebook">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-            <a href="#" class="social-btn" aria-label="Instagram">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            </a>
-            <a href="#" class="social-btn" aria-label="TikTok">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34v-7.1a8.16 8.16 0 0 0 4.77 1.52V6.26a4.85 4.85 0 0 1-1-.57z"/></svg>
-            </a>
-            <a href="#" class="social-btn" aria-label="YouTube">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="#0E0E0E" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-            </a>
-            <a href="#" class="social-btn" aria-label="X / Twitter">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-          </div>
-          <h3 class="footer-col__heading">Newsletter</h3>
-          <div class="newsletter-form">
-            <p>Exclusive deals, new arrivals, and ride tips — straight to your inbox.</p>
-            <div class="newsletter-row">
-              <label for="footer-email" class="sr-only">Email address</label>
-              <input id="footer-email" class="newsletter-input" type="email" placeholder="Your email address" autocomplete="email">
-              <button class="btn btn--primary btn--sm">GO</button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Footer bottom -->
-      <div class="footer-bottom">
-        <p class="footer-copy">© 2026 SpeedMaster Ltd. All rights reserved. Registered in England &amp; Wales. VAT No. GB 123 456 789.</p>
-        <ul class="footer-legal">
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">Cookie Policy</a></li>
-          <li><a href="#">Accessibility</a></li>
-        </ul>
-        <div class="payment-row">
-          <span class="pay-chip">VISA</span>
-          <span class="pay-chip">MC</span>
-          <span class="pay-chip">AMEX</span>
-          <span class="pay-chip">PAYPAL</span>
-          <span class="pay-chip">KLARNA</span>
-          <span class="pay-chip">APPLE PAY</span>
-        </div>
-      </div>
-
-    </div>
-  </footer>
-
-  <script>
-    document.querySelectorAll('.filter-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.filter-tab').forEach(t => {
-          t.classList.remove('filter-tab--active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        tab.classList.add('filter-tab--active');
-        tab.setAttribute('aria-selected', 'true');
-      });
-    });
-  </script>
-
+  <div id="sm-footer"></div>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

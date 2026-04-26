@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — SpeedMaster</title>
+  <meta name="description" content="Get in touch with SpeedMaster. Contact our stores, customer service team, or use our online enquiry form.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+<div id="sm-header"></div>
+
+<main>
+  <section class="collection-hero">
+    <div class="container">
+      <p class="collection-hero__eyebrow">Get in Touch</p>
+      <h1 class="collection-hero__title">Contact Us</h1>
+      <p class="collection-hero__sub">We're here to help. Typically respond within 2 business hours.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="breadcrumb__sep">›</span>
+      <span>Contact</span>
+    </nav>
+  </div>
+
+  <div class="static-layout">
+    <div class="container">
+      <div class="static-layout__inner">
+
+        <aside>
+          <nav class="sidebar-nav" aria-label="Contact navigation">
+            <p class="sidebar-nav__heading">Contact</p>
+            <ul class="sidebar-nav__list">
+              <li><a href="#enquiry-form" class="sidebar-nav__link sidebar-nav__link--active">Send a Message</a></li>
+              <li><a href="#contact-details" class="sidebar-nav__link">Contact Details</a></li>
+              <li><a href="#stores" class="sidebar-nav__link">Store Contacts</a></li>
+            </ul>
+          </nav>
+        </aside>
+
+        <div class="content-prose">
+          <h1>Get in Touch</h1>
+          <p>Have a question about a product, an order, a repair, or anything else? We'd love to hear from you. Fill in the form below and a member of our customer service team will respond within 2 business hours during our opening hours (Mon–Sat, 9am–5pm).</p>
+          <p>For urgent matters, please call your nearest store directly — store phone numbers are listed below.</p>
+
+          <h2 id="enquiry-form">Send a Message</h2>
+          <form action="#" method="post" style="max-width:560px;margin-top:1rem;">
+            <div class="form-group">
+              <label class="form-label" for="ct-name">Full Name *</label>
+              <input class="form-input" type="text" id="ct-name" name="name" required placeholder="Your full name">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ct-email">Email Address *</label>
+              <input class="form-input" type="email" id="ct-email" name="email" required placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ct-subject">Subject *</label>
+              <select class="form-select" id="ct-subject" name="subject" required>
+                <option value="">Select a subject</option>
+                <option>Product enquiry</option>
+                <option>Order / delivery</option>
+                <option>Repair / service booking</option>
+                <option>Returns &amp; refunds</option>
+                <option>Finance enquiry</option>
+                <option>Warranty claim</option>
+                <option>General enquiry</option>
+                <option>Press / partnerships</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ct-message">Message *</label>
+              <textarea class="form-textarea" id="ct-message" name="message" required placeholder="How can we help?" style="min-height:150px;"></textarea>
+            </div>
+            <div class="form-group" style="flex-direction:row;align-items:center;gap:0.5rem;">
+              <input type="checkbox" id="ct-consent" name="consent" required style="width:16px;height:16px;flex-shrink:0;">
+              <label for="ct-consent" style="font-size:0.8125rem;color:var(--color-text-muted);">I agree to SpeedMaster processing my personal data in accordance with the <a href="privacy.html">Privacy Policy</a>.</label>
+            </div>
+            <button type="submit" class="btn btn--primary btn--lg">SEND MESSAGE</button>
+          </form>
+
+          <h2 id="contact-details">Contact Details</h2>
+          <div class="store-info-grid">
+            <div class="store-info-card">
+              <p class="store-info-card__label">General Enquiries</p>
+              <p class="store-info-card__value"><a href="mailto:hello@speedmaster.bike">hello@speedmaster.bike</a></p>
+            </div>
+            <div class="store-info-card">
+              <p class="store-info-card__label">Customer Service</p>
+              <p class="store-info-card__value"><a href="mailto:support@speedmaster.bike">support@speedmaster.bike</a><br><span style="font-size:0.8125rem;color:var(--color-text-muted);">Mon–Sat, 9am–5pm</span></p>
+            </div>
+            <div class="store-info-card">
+              <p class="store-info-card__label">Returns</p>
+              <p class="store-info-card__value"><a href="mailto:returns@speedmaster.bike">returns@speedmaster.bike</a></p>
+            </div>
+            <div class="store-info-card">
+              <p class="store-info-card__label">Press &amp; Partnerships</p>
+              <p class="store-info-card__value"><a href="mailto:press@speedmaster.bike">press@speedmaster.bike</a></p>
+            </div>
+          </div>
+
+          <h2 id="stores">Store Phone Numbers</h2>
+          <ul>
+            <li><strong>Birmingham:</strong> <a href="tel:01212345678">0121 234 5678</a></li>
+            <li><strong>Manchester:</strong> <a href="tel:01613456789">0161 345 6789</a></li>
+            <li><strong>Glasgow:</strong> <a href="tel:01414567890">0141 456 7890</a></li>
+            <li><strong>Edinburgh:</strong> <a href="tel:01315678901">0131 567 8901</a></li>
+          </ul>
+          <p>Stores are open Mon–Sat 9am–6pm and Sunday 10am–5pm (hours vary by location — see <a href="stores.html">Stores</a> for full details).</p>
+
+          <h2>Registered Address</h2>
+          <p>SpeedMaster Ltd<br>
+          42 Corporation Street<br>
+          Birmingham<br>
+          B4 6SX<br>
+          United Kingdom</p>
+          <p style="font-size:0.8125rem;color:var(--color-text-muted);">Registered in England &amp; Wales. Company No. 11234567. VAT No. GB 123 456 789.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="sm-footer"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
