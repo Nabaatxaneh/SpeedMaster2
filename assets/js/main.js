@@ -404,6 +404,27 @@
       });
       tab.classList.add('filter-tab--active');
       tab.setAttribute('aria-selected', 'true');
+
+      // Filter the fp-grid cards in the same section
+      var label   = tab.textContent.trim().toLowerCase();
+      var section = tab.closest('section');
+      var fpGrid  = section ? section.querySelector('.fp-grid') : null;
+      if (!fpGrid) return;
+
+      fpGrid.querySelectorAll('.fp-card').forEach(function (card) {
+        var catEl   = card.querySelector('.fp-card__category');
+        var cat     = catEl ? catEl.textContent.trim().toLowerCase() : '';
+        var hasSale = !!card.querySelector('.badge--sale');
+        var hasNew  = !!card.querySelector('.badge--new');
+        var show;
+        if      (label === 'all')          show = true;
+        else if (label === 'e-bikes')      show = cat.indexOf('bike') !== -1;
+        else if (label === 'e-scooters')   show = cat.indexOf('scooter') !== -1;
+        else if (label === 'on sale')      show = hasSale;
+        else if (label === 'new arrivals') show = hasNew;
+        else                               show = true;
+        card.style.display = show ? '' : 'none';
+      });
     });
   });
 
