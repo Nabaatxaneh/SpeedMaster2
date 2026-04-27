@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -42,18 +42,47 @@
         <option>Newest First</option>
         <option>Best Selling</option>
       </select>
-      <select class="filter-select" aria-label="Filter by range">
-        <option>Range: All</option>
-        <option>Up to 50km</option>
-        <option>50–80km</option>
-        <option>80km+</option>
-      </select>
       <select class="filter-select" aria-label="Filter by style">
         <option>Style: All</option>
         <option>Road / Urban</option>
         <option>Mountain / Trail</option>
         <option>Folding</option>
         <option>Cargo</option>
+      </select>
+      <select class="filter-select" aria-label="Filter by motor power">
+        <option>Motor Power: All</option>
+        <option>0–150 W</option>
+        <option>200–300 W</option>
+        <option>350–400 W</option>
+        <option>400–500 W</option>
+        <option>600–900 W</option>
+        <option>900+ W</option>
+        <option>1000+ W</option>
+      </select>
+      <select class="filter-select" aria-label="Filter by speed">
+        <option>Speed: All</option>
+        <option>10–20 mph</option>
+        <option>20–30 mph</option>
+        <option>30–40 mph</option>
+        <option>40–50 mph</option>
+        <option>50+ mph</option>
+      </select>
+      <select class="filter-select" aria-label="Filter by range">
+        <option>Range: All</option>
+        <option>10–20 miles</option>
+        <option>20–30 miles</option>
+        <option>30–40 miles</option>
+        <option>40–50 miles</option>
+        <option>50+ miles</option>
+      </select>
+      <select class="filter-select" aria-label="Filter by weight">
+        <option>Weight: All</option>
+        <option>0–10 kg</option>
+        <option>10–20 kg</option>
+        <option>20–30 kg</option>
+        <option>30–40 kg</option>
+        <option>40–50 kg</option>
+        <option>50+ kg</option>
       </select>
       <span class="collection-filters__count">Showing 12 of 48 products</span>
     </div>
@@ -68,11 +97,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster X1 Pro</a></h3>
-          <div class="fp-card__specs"><span>50km</span><span>250W</span><span>25 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">25 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">250W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">50km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£2,199</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="x1-pro" data-product-name="SpeedMaster X1 Pro" data-product-price="2199" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=X1+Pro">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="x1-pro" data-product-name="SpeedMaster X1 Pro" data-product-price="2199" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=X1+Pro">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -84,11 +132,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Urban GT</a></h3>
-          <div class="fp-card__specs"><span>70km</span><span>500W</span><span>32 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">32 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">500W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">70km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£3,499</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="urban-gt" data-product-name="SpeedMaster Urban GT" data-product-price="3499" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Urban+GT">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="urban-gt" data-product-name="SpeedMaster Urban GT" data-product-price="3499" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Urban+GT">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -99,11 +166,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Trail E</a></h3>
-          <div class="fp-card__specs"><span>80km</span><span>750W</span><span>32 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">32 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">750W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">80km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£4,199</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="trail-e" data-product-name="SpeedMaster Trail E" data-product-price="4199" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Trail+E">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="trail-e" data-product-name="SpeedMaster Trail E" data-product-price="4199" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Trail+E">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -115,11 +201,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Carbon S</a></h3>
-          <div class="fp-card__specs"><span>90km</span><span>500W</span><span>32 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">32 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">500W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">90km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£5,499</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="carbon-s" data-product-name="SpeedMaster Carbon S" data-product-price="5499" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Carbon+S">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="carbon-s" data-product-name="SpeedMaster Carbon S" data-product-price="5499" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Carbon+S">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -131,11 +236,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Falcon E</a></h3>
-          <div class="fp-card__specs"><span>75km</span><span>500W</span><span>32 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">32 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">500W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">75km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£3,799</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="falcon-e" data-product-name="SpeedMaster Falcon E" data-product-price="3799" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Falcon+E">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="falcon-e" data-product-name="SpeedMaster Falcon E" data-product-price="3799" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Falcon+E">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -147,11 +271,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Summit X</a></h3>
-          <div class="fp-card__specs"><span>85km</span><span>750W</span><span>32 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">32 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">750W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">85km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£4,799</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="summit-x" data-product-name="SpeedMaster Summit X" data-product-price="4799" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Summit+X">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="summit-x" data-product-name="SpeedMaster Summit X" data-product-price="4799" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Summit+X">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -163,12 +306,31 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Cruiser 5</a></h3>
-          <div class="fp-card__specs"><span>60km</span><span>350W</span><span>25 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">25 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">350W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">60km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price fp-card__price--sale">£1,759</span>
             <span class="fp-card__price-was">£1,999</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="cruiser-5" data-product-name="SpeedMaster Cruiser 5" data-product-price="1759" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Cruiser+5">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="cruiser-5" data-product-name="SpeedMaster Cruiser 5" data-product-price="1759" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Cruiser+5">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -180,11 +342,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Sprint GT</a></h3>
-          <div class="fp-card__specs"><span>65km</span><span>500W</span><span>32 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">32 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">500W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">65km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£2,799</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="sprint-gt" data-product-name="SpeedMaster Sprint GT" data-product-price="2799" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Sprint+GT">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="sprint-gt" data-product-name="SpeedMaster Sprint GT" data-product-price="2799" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Sprint+GT">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -195,11 +376,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Enduro X</a></h3>
-          <div class="fp-card__specs"><span>80km</span><span>750W</span><span>32 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">32 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">750W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">80km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£5,199</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="enduro-x" data-product-name="SpeedMaster Enduro X" data-product-price="5199" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Enduro+X">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="enduro-x" data-product-name="SpeedMaster Enduro X" data-product-price="5199" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Enduro+X">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -211,11 +411,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Road King</a></h3>
-          <div class="fp-card__specs"><span>90km</span><span>500W</span><span>32 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">32 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">500W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">90km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£4,499</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="road-king" data-product-name="SpeedMaster Road King" data-product-price="4499" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Road+King">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="road-king" data-product-name="SpeedMaster Road King" data-product-price="4499" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Road+King">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -227,11 +446,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster City Glider</a></h3>
-          <div class="fp-card__specs"><span>55km</span><span>350W</span><span>25 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">25 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">350W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">55km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£1,599</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="city-glider" data-product-name="SpeedMaster City Glider" data-product-price="1599" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=City+Glider">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="city-glider" data-product-name="SpeedMaster City Glider" data-product-price="1599" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=City+Glider">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
@@ -243,11 +481,30 @@
         <div class="fp-card__body">
           <p class="fp-card__category">Electric Bike</p>
           <h3 class="fp-card__title"><a href="../products/product-template.html">SpeedMaster Power Max</a></h3>
-          <div class="fp-card__specs"><span>100km</span><span>1000W</span><span>45 km/h</span></div>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">45 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">1000W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">100km</span>
+            </div>
+          </div>
           <div class="fp-card__price-row">
             <span class="fp-card__price">£6,999</span>
           </div>
-          <div class="fp-card__actions"><button class="btn btn--primary btn--sm" style="width:100%" data-add-to-cart data-product-id="power-max" data-product-name="SpeedMaster Power Max" data-product-price="6999" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Power+Max">ADD TO CART</button></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart data-product-id="power-max" data-product-name="SpeedMaster Power Max" data-product-price="6999" data-product-cat="Electric Bike" data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=Power+Max">ADD TO CART</button>
+            <a href="../products/product-template.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
         </div>
       </article>
 
