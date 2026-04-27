@@ -1,0 +1,39 @@
+A. The Supplier Table: To manage the 5 to 6 suppliers you expect to onboard.
+supplier_id (Primary Key), 
+name (e.g., KOOLUX, VIPCOO), 
+contact_email (e.g., lilian@koolux.eu), 
+contact_phone (e.g., +86 1507908 9940),  
+shipping_sla (e.g., "1-5 days"), 
+flat_shipping_cost (Some items have delivery fees like £305.00).
+
+B. The Product Table: The core entity holding the main product data.
+product_id (Primary Key), 
+supplier_id (Foreign Key), 
+sku (e.g., HD-P1, IENYRID-ES1), 
+brand (e.g., Hidoes, IENYRID), 
+model_name (e.g., X3 E-Bike, BK6S 4.0),  
+is_active (Boolean - turn off if the supplier reports out of stock), 
+sales_channel_restrictions (Array/Tags - e.g., ["No_eBay"]). 
+
+C. The Pricing Table (One-to-One with Product): Separating this allows you to safely update costs without touching product marketing copy.
+product_id (Foreign Key), 
+supplier_unit_cost (e.g., £479.00), 
+supplier_rrp (The price floor, e.g., £869.00), 
+retail_price (Your actual selling price on the frontend), 
+margin_percentage (Calculated field). 
+
+D. The Specifications Table (JSONB or Relational): Because the specs are identical across almost all these bikes and scooters, you should standardize these into strict fields rather than an open text box. This allows customers on your frontend to filter by "Range" or "Motor Power".
+product_id (Foreign Key), 
+battery_capacity (e.g., "48V 15Ah"), 
+motor_power (e.g., "500W"), 
+max_speed (e.g., "25KM/H"), 
+range (e.g., "45-85KM"), 
+tire_size (e.g., "26 Inch"), 
+max_load (e.g., "120kg"), 
+net_weight / gross_weight.  
+
+E. The Variants Table: Many of the bikes (like the X3 and X16) come in multiple colors (Red, Gray, White, Pink).
+variant_id (Primary Key), 
+product_id (Foreign Key), 
+color (e.g., Gray), 
+stock_status (Available, Out of Stock, Pre-sale). 

@@ -1,94 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Electric Bikes — SpeedMaster</title>
-  <meta name="description" content="Shop our full range of electric bikes. Road, mountain, urban and cargo e-bikes from leading brands at SpeedMaster.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/global.css">
-</head>
-<body>
-
-<div id="sm-header"></div>
-
-<main>
-
-  <!-- Collection Hero -->
-  <section class="collection-hero">
-    <div class="container">
-      <p class="collection-hero__eyebrow">SpeedMaster Collection</p>
-      <h1 class="collection-hero__title">Electric Bikes</h1>
-      <p class="collection-hero__sub">48 models from £899 — urban commuters to off-road adventures.</p>
-    </div>
-  </section>
-
-  <!-- Filters & Grid -->
-  <div class="container" style="padding-block: 2rem 4rem;">
-
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="../index.html">Home</a>
-      <span class="breadcrumb__sep">›</span>
-      <span>Electric Bikes</span>
-    </nav>
-
-    <div class="collection-filters">
-      <select class="filter-select" aria-label="Sort by">
-        <option>Sort by: Featured</option>
-        <option>Price: Low to High</option>
-        <option>Price: High to Low</option>
-        <option>Newest First</option>
-        <option>Best Selling</option>
-      </select>
-      <select class="filter-select" aria-label="Filter by style">
-        <option>Style: All</option>
-        <option>Road / Urban</option>
-        <option>Mountain / Trail</option>
-        <option>Folding</option>
-        <option>Cargo</option>
-      </select>
-      <select class="filter-select" aria-label="Filter by motor power">
-        <option>Motor Power: All</option>
-        <option>0–150 W</option>
-        <option>200–300 W</option>
-        <option>350–400 W</option>
-        <option>400–500 W</option>
-        <option>600–900 W</option>
-        <option>900+ W</option>
-        <option>1000+ W</option>
-      </select>
-      <select class="filter-select" aria-label="Filter by speed">
-        <option>Speed: All</option>
-        <option>10–20 mph</option>
-        <option>20–30 mph</option>
-        <option>30–40 mph</option>
-        <option>40–50 mph</option>
-        <option>50+ mph</option>
-      </select>
-      <select class="filter-select" aria-label="Filter by range">
-        <option>Range: All</option>
-        <option>10–20 miles</option>
-        <option>20–30 miles</option>
-        <option>30–40 miles</option>
-        <option>40–50 miles</option>
-        <option>50+ miles</option>
-      </select>
-      <select class="filter-select" aria-label="Filter by weight">
-        <option>Weight: All</option>
-        <option>0–10 kg</option>
-        <option>10–20 kg</option>
-        <option>20–30 kg</option>
-        <option>30–40 kg</option>
-        <option>40–50 kg</option>
-        <option>50+ kg</option>
-      </select>
-      <span class="collection-filters__count">Showing 12 of 22 products</span>
-    </div>
-
-    <div class="collection-grid">
-
+=== E-BIKES GRID ===
       <article class="fp-card">
         <a href="../products/koolux-x3.html" class="fp-card__media" style="text-decoration:none;">
           <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=X3+E-Bike"
@@ -557,24 +467,356 @@
         </div>
       </article>
 
-    </div>
 
-    <!-- Pagination -->
-    <nav class="pagination" aria-label="Product pages">
-      <button class="page-btn page-btn--nav" aria-label="Previous page">←</button>
-      <button class="page-btn page-btn--active" aria-current="page">1</button>
-      <button class="page-btn">2</button>
-      <button class="page-btn">3</button>
-      <button class="page-btn">4</button>
-      <button class="page-btn page-btn--nav" aria-label="Next page">→</button>
-    </nav>
+=== E-SCOOTERS GRID ===
+      <article class="fp-card">
+        <a href="../products/ienyrid-m4s-24.html" class="fp-card__media" style="text-decoration:none;">
+          <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=M4+Pro+S++2024"
+               alt="iENYRID M4 Pro S+ 2024" style="width:100%;height:100%;object-fit:cover;">
+          <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
+        </a>
+        <div class="fp-card__body">
+          <p class="fp-card__category">Electric Scooter</p>
+          <h3 class="fp-card__title"><a href="../products/ienyrid-m4s-24.html">iENYRID M4 Pro S+ 2024</a></h3>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">25 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">500W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">40-80 km</span>
+            </div>
+          </div>
+          <div class="fp-card__price-row"><span class="fp-card__price">£409</span></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart
+              data-product-id="ienyrid-m4s-24"
+              data-product-name="iENYRID M4 Pro S+ 2024"
+              data-product-price="409"
+              data-product-cat="Electric Scooter"
+              data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=M4+Pro+S++2024">ADD TO CART</button>
+            <a href="../products/ienyrid-m4s-24.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
+        </div>
+      </article>
 
-  </div>
+      <article class="fp-card">
+        <a href="../products/ienyrid-s1.html" class="fp-card__media" style="text-decoration:none;">
+          <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=S1+E-Scooter"
+               alt="iENYRID S1 E-Scooter" style="width:100%;height:100%;object-fit:cover;">
+          <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
+        </a>
+        <div class="fp-card__body">
+          <p class="fp-card__category">Electric Scooter</p>
+          <h3 class="fp-card__title"><a href="../products/ienyrid-s1.html">iENYRID S1 E-Scooter</a></h3>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">25 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">500W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">45-80 km</span>
+            </div>
+          </div>
+          <div class="fp-card__price-row"><span class="fp-card__price">£459</span></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart
+              data-product-id="ienyrid-s1"
+              data-product-name="iENYRID S1 E-Scooter"
+              data-product-price="459"
+              data-product-cat="Electric Scooter"
+              data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=S1+E-Scooter">ADD TO CART</button>
+            <a href="../products/ienyrid-s1.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
+        </div>
+      </article>
 
-</main>
+      <article class="fp-card">
+        <a href="../products/koolux-u1.html" class="fp-card__media" style="text-decoration:none;">
+          <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=U1+E-Scooter"
+               alt="KOOLUX U1 E-Scooter" style="width:100%;height:100%;object-fit:cover;">
+          <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
+        </a>
+        <div class="fp-card__body">
+          <p class="fp-card__category">Electric Scooter</p>
+          <h3 class="fp-card__title"><a href="../products/koolux-u1.html">KOOLUX U1 E-Scooter</a></h3>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">25 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">500W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">40-80 km</span>
+            </div>
+          </div>
+          <div class="fp-card__price-row"><span class="fp-card__price">£469</span></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart
+              data-product-id="koolux-u1"
+              data-product-name="KOOLUX U1 E-Scooter"
+              data-product-price="469"
+              data-product-cat="Electric Scooter"
+              data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=U1+E-Scooter">ADD TO CART</button>
+            <a href="../products/koolux-u1.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
+        </div>
+      </article>
 
-<div id="sm-footer"></div>
-<script src="../assets/js/store.js"></script>
-<script src="../assets/js/main.js"></script>
-</body>
-</html>
+      <article class="fp-card">
+        <a href="../products/ienyrid-m4s25.html" class="fp-card__media" style="text-decoration:none;">
+          <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=M4+Pro+S+2025"
+               alt="iENYRID M4 Pro S 2025" style="width:100%;height:100%;object-fit:cover;">
+          <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
+        </a>
+        <div class="fp-card__body">
+          <p class="fp-card__category">Electric Scooter</p>
+          <h3 class="fp-card__title"><a href="../products/ienyrid-m4s25.html">iENYRID M4 Pro S 2025</a></h3>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">25 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">500W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">45-85 km</span>
+            </div>
+          </div>
+          <div class="fp-card__price-row"><span class="fp-card__price">£459</span></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart
+              data-product-id="ienyrid-m4s25"
+              data-product-name="iENYRID M4 Pro S 2025"
+              data-product-price="459"
+              data-product-cat="Electric Scooter"
+              data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=M4+Pro+S+2025">ADD TO CART</button>
+            <a href="../products/ienyrid-m4s25.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fp-card">
+        <a href="../products/vipcoo-vs6.html" class="fp-card__media" style="text-decoration:none;">
+          <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=VS6+2025"
+               alt="VIPCOO VS6 2025" style="width:100%;height:100%;object-fit:cover;">
+          <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
+        </a>
+        <div class="fp-card__body">
+          <p class="fp-card__category">Electric Scooter</p>
+          <h3 class="fp-card__title"><a href="../products/vipcoo-vs6.html">VIPCOO VS6 2025</a></h3>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">35 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">800W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">50-90 km</span>
+            </div>
+          </div>
+          <div class="fp-card__price-row"><span class="fp-card__price">£549</span></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart
+              data-product-id="vipcoo-vs6"
+              data-product-name="VIPCOO VS6 2025"
+              data-product-price="549"
+              data-product-cat="Electric Scooter"
+              data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=VS6+2025">ADD TO CART</button>
+            <a href="../products/vipcoo-vs6.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fp-card">
+        <a href="../products/ienyrid-es1.html" class="fp-card__media" style="text-decoration:none;">
+          <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=ES1+E-Scooter"
+               alt="iENYRID ES1 E-Scooter" style="width:100%;height:100%;object-fit:cover;">
+          <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
+        </a>
+        <div class="fp-card__body">
+          <p class="fp-card__category">Electric Scooter</p>
+          <h3 class="fp-card__title"><a href="../products/ienyrid-es1.html">iENYRID ES1 E-Scooter</a></h3>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">45 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">1000W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">55-90 km</span>
+            </div>
+          </div>
+          <div class="fp-card__price-row"><span class="fp-card__price">£649</span></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart
+              data-product-id="ienyrid-es1"
+              data-product-name="iENYRID ES1 E-Scooter"
+              data-product-price="649"
+              data-product-cat="Electric Scooter"
+              data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=ES1+E-Scooter">ADD TO CART</button>
+            <a href="../products/ienyrid-es1.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fp-card">
+        <a href="../products/vipcoo-vs6pro.html" class="fp-card__media" style="text-decoration:none;">
+          <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=VS6+Pro+2025"
+               alt="VIPCOO VS6 Pro 2025" style="width:100%;height:100%;object-fit:cover;">
+          <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
+        </a>
+        <div class="fp-card__body">
+          <p class="fp-card__category">Electric Scooter</p>
+          <h3 class="fp-card__title"><a href="../products/vipcoo-vs6pro.html">VIPCOO VS6 Pro 2025</a></h3>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">45 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">1000W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">55-100 km</span>
+            </div>
+          </div>
+          <div class="fp-card__price-row"><span class="fp-card__price">£689</span></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart
+              data-product-id="vipcoo-vs6pro"
+              data-product-name="VIPCOO VS6 Pro 2025"
+              data-product-price="689"
+              data-product-cat="Electric Scooter"
+              data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=VS6+Pro+2025">ADD TO CART</button>
+            <a href="../products/vipcoo-vs6pro.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fp-card">
+        <a href="../products/koolux-u1pro.html" class="fp-card__media" style="text-decoration:none;">
+          <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=U1+Pro+E-Scooter"
+               alt="KOOLUX U1 Pro E-Scooter" style="width:100%;height:100%;object-fit:cover;">
+          <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
+        </a>
+        <div class="fp-card__body">
+          <p class="fp-card__category">Electric Scooter</p>
+          <h3 class="fp-card__title"><a href="../products/koolux-u1pro.html">KOOLUX U1 Pro E-Scooter</a></h3>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">35 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">1000W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">55-100 km</span>
+            </div>
+          </div>
+          <div class="fp-card__price-row"><span class="fp-card__price">£609</span></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart
+              data-product-id="koolux-u1pro"
+              data-product-name="KOOLUX U1 Pro E-Scooter"
+              data-product-price="609"
+              data-product-cat="Electric Scooter"
+              data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=U1+Pro+E-Scooter">ADD TO CART</button>
+            <a href="../products/koolux-u1pro.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fp-card">
+        <a href="../products/vipcoo-vs9.html" class="fp-card__media" style="text-decoration:none;">
+          <img src="https://placehold.co/340x260/0E0E0E/F8E300?text=VS9+2025"
+               alt="VIPCOO VS9 2025" style="width:100%;height:100%;object-fit:cover;">
+          <span class="badge badge--instock fp-card__badge">IN STOCK ✓</span>
+        </a>
+        <div class="fp-card__body">
+          <p class="fp-card__category">Electric Scooter</p>
+          <h3 class="fp-card__title"><a href="../products/vipcoo-vs9.html">VIPCOO VS9 2025</a></h3>
+          <div class="fp-card__specs">
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Speed25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Speed</span>
+              <span class="fp-card__spec-val">60 km/h</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Engine25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Motor</span>
+              <span class="fp-card__spec-val">2000W</span>
+            </div>
+            <div class="fp-card__spec">
+              <img src="../brand_assets/Distance25V3.svg" alt="" class="fp-card__spec-icon">
+              <span class="fp-card__spec-label">Range</span>
+              <span class="fp-card__spec-val">70-120 km</span>
+            </div>
+          </div>
+          <div class="fp-card__price-row"><span class="fp-card__price">£1049</span></div>
+          <div class="fp-card__actions">
+            <button class="btn btn--primary btn--sm" data-add-to-cart
+              data-product-id="vipcoo-vs9"
+              data-product-name="VIPCOO VS9 2025"
+              data-product-price="1049"
+              data-product-cat="Electric Scooter"
+              data-product-thumb="https://placehold.co/80x60/0E0E0E/F8E300?text=VS9+2025">ADD TO CART</button>
+            <a href="../products/vipcoo-vs9.html" class="btn btn--dark btn--sm">VIEW</a>
+          </div>
+        </div>
+      </article>
+
