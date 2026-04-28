@@ -1,0 +1,105 @@
+<%- include('_header', { navActive: 'orders' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+
+<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+  <a href="/admin/orders" class="btn btn--ghost btn--sm">← Orders</a>
+  <% const fc={Unfulfilled:'badge--red','Sent to Supplier':'badge--orange',Shipped:'badge--green'}; %>
+  <span class="badge <%= fc[order.fulfillment_status]||'badge--gray' %>" style="font-size:0.75rem"><%= order.fulfillment_status %></span>
+  <span class="badge <%= order.supplier_payment_status==='Settled'?'badge--green':'badge--gray' %>" style="font-size:0.75rem"><%= order.supplier_payment_status %></span>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+
+  <div class="card">
+    <div class="card__header"><h2 class="card__title">Customer</h2></div>
+    <div class="kv-grid">
+      <div class="kv-cell"><div class="kv-cell__label">Name</div><div class="kv-cell__value"><%= order.customer_name %></div></div>
+      <div class="kv-cell"><div class="kv-cell__label">Email</div><div class="kv-cell__value"><%= order.customer_email %></div></div>
+      <div class="kv-cell"><div class="kv-cell__label">Phone</div><div class="kv-cell__value"><%= order.customer_phone||'—' %></div></div>
+      <div class="kv-cell"><div class="kv-cell__label">Address</div>
+        <div class="kv-cell__value">
+          <%= order.shipping_address_line1 %><% if(order.shipping_address_line2){%>, <%= order.shipping_address_line2 %><% } %><br>
+          <%= order.shipping_city %>, <%= order.shipping_postcode %><br><%= order.shipping_country %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card__header"><h2 class="card__title">Product</h2></div>
+    <div class="kv-grid">
+      <div class="kv-cell"><div class="kv-cell__label">Reference</div><div class="kv-cell__value"><%= order.order_reference %></div></div>
+      <div class="kv-cell"><div class="kv-cell__label">SKU</div><div class="kv-cell__value"><%= order.sku %></div></div>
+      <div class="kv-cell"><div class="kv-cell__label">Product</div><div class="kv-cell__value"><%= order.product_name_snapshot %></div></div>
+      <% if (variant && variant.color) { %>
+      <div class="kv-cell"><div class="kv-cell__label">Colour</div><div class="kv-cell__value"><%= variant.color %></div></div>
+      <% } %>
+      <div class="kv-cell"><div class="kv-cell__label">Retail Paid</div><div class="kv-cell__value"><%= formatGBP(order.retail_price_paid_pence) %></div></div>
+      <div class="kv-cell"><div class="kv-cell__label">Supplier Cost</div><div class="kv-cell__value"><%= formatGBP(order.supplier_cost_basis_pence) %></div></div>
+      <div class="kv-cell"><div class="kv-cell__label">Payment</div><div class="kv-cell__value"><%= order.payment_provider||'—' %> <span class="text-xs text-muted"><%= order.payment_provider_ref||'' %></span></div></div>
+      <div class="kv-cell"><div class="kv-cell__label">Ordered</div><div class="kv-cell__value"><%= new Date(order.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}) %></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Supplier actions -->
+<div class="card" style="margin-bottom:1.5rem;">
+  <div class="card__header">
+    <h2 class="card__title">Supplier: <%= order.supplier_name||'Unassigned' %></h2>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+      <% if (waLink) { %>
+      <a href="<%= waLink %>" target="_blank" rel="noopener" class="btn btn--secondary btn--sm">Send via WhatsApp</a>
+      <% } %>
+      <% if (order.notify_retry_count > 0 || order.fulfillment_status === 'Unfulfilled') { %>
+      <form action="/admin/orders/<%= order.order_id %>/resend-supplier" method="post" style="display:inline">
+        <button type="submit" class="btn btn--ghost btn--sm">Resend Email to Supplier</button>
+      </form>
+      <% } %>
+    </div>
+  </div>
+  <div class="kv-grid">
+    <div class="kv-cell"><div class="kv-cell__label">Notified At</div><div class="kv-cell__value"><%= order.supplier_notified_at ? new Date(order.supplier_notified_at).toLocaleString('en-GB') : 'Not yet' %></div></div>
+    <div class="kv-cell"><div class="kv-cell__label">SMTP Retry Count</div><div class="kv-cell__value"><%= order.notify_retry_count||0 %></div></div>
+  </div>
+</div>
+
+<!-- Tracking -->
+<% if (order.fulfillment_status !== 'Shipped') { %>
+<div class="card" style="margin-bottom:1.5rem;">
+  <div class="card__header"><h2 class="card__title">Enter Tracking & Mark Shipped</h2></div>
+  <form action="/admin/orders/<%= order.order_id %>/tracking" method="post">
+    <div class="form-grid" style="margin-bottom:1rem;">
+      <div class="field">
+        <label class="field__label">Carrier</label>
+        <select class="field__select" name="tracking_carrier" required>
+          <option value="">Select carrier…</option>
+          <% ['Royal Mail','DPD','DHL','Evri','ParcelForce'].forEach(c => { %>
+          <option value="<%= c %>"><%= c %></option>
+          <% }) %>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field__label">Tracking Number</label>
+        <input class="field__input" type="text" name="tracking_number" required placeholder="e.g. JD123456789GB">
+      </div>
+    </div>
+    <button type="submit" class="btn btn--primary" data-confirm="This will mark the order as Shipped and email the customer. Continue?">Mark as Shipped & Notify Customer</button>
+  </form>
+</div>
+<% } else { %>
+<div class="card" style="margin-bottom:1.5rem;">
+  <div class="card__header"><h2 class="card__title">Tracking</h2></div>
+  <div class="kv-grid">
+    <div class="kv-cell"><div class="kv-cell__label">Carrier</div><div class="kv-cell__value"><%= order.tracking_carrier||'—' %></div></div>
+    <div class="kv-cell"><div class="kv-cell__label">Tracking #</div><div class="kv-cell__value"><%= order.tracking_number||'—' %></div></div>
+    <div class="kv-cell"><div class="kv-cell__label">Shipped At</div><div class="kv-cell__value"><%= order.shipped_at ? new Date(order.shipped_at).toLocaleString('en-GB') : '—' %></div></div>
+    <div class="kv-cell"><div class="kv-cell__label">Settled At</div><div class="kv-cell__value"><%= order.settled_at ? new Date(order.settled_at).toLocaleString('en-GB') : 'Pending' %></div></div>
+  </div>
+</div>
+<% } %>
+
+<%- include('_footer') %>

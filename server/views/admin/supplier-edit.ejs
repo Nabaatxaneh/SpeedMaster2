@@ -1,0 +1,49 @@
+<%- include('_header', { navActive: 'suppliers' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+<% if (errors && errors.length) { %>
+<div class="alert alert--error"><% errors.forEach(e => { %><div><%= e %></div><% }) %></div>
+<% } %>
+
+<a href="/admin/suppliers" class="btn btn--ghost btn--sm" style="margin-bottom:1.5rem">← Suppliers</a>
+
+<div class="card" style="max-width:640px;">
+  <div class="card__header"><h2 class="card__title"><%= supplier ? 'Edit Supplier' : 'New Supplier' %></h2></div>
+  <form action="/admin/suppliers<%= supplier?.id ? '/'+supplier.id : '' %>" method="post">
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div class="field">
+        <label class="field__label">Name <sup>*</sup></label>
+        <input class="field__input" type="text" name="name" value="<%= supplier?.name||'' %>" required>
+      </div>
+      <div class="field">
+        <label class="field__label">Contact Email</label>
+        <input class="field__input" type="email" name="contact_email" value="<%= supplier?.contact_email||'' %>">
+      </div>
+      <div class="field">
+        <label class="field__label">WhatsApp Number (E.164)</label>
+        <input class="field__input" type="text" name="contact_whatsapp" value="<%= supplier?.contact_whatsapp||'' %>" placeholder="+447700900123">
+        <span class="field__hint">E.164 format including + and country code. Used for click-to-chat links.</span>
+      </div>
+      <div class="field">
+        <label class="field__label">Phone</label>
+        <input class="field__input" type="text" name="contact_phone" value="<%= supplier?.contact_phone||'' %>">
+      </div>
+      <div class="field">
+        <label class="field__label">Shipping SLA</label>
+        <input class="field__input" type="text" name="shipping_sla" value="<%= supplier?.shipping_sla||'' %>" placeholder="e.g. 1-5 days">
+      </div>
+      <div class="field">
+        <label class="field__label">Notes</label>
+        <textarea class="field__textarea" name="notes" rows="4"><%= supplier?.notes||'' %></textarea>
+      </div>
+      <div style="display:flex;gap:.5rem;">
+        <button type="submit" class="btn btn--primary">Save Supplier</button>
+        <a href="/admin/suppliers" class="btn btn--ghost">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<%- include('_footer') %>

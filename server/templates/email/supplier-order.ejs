@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 15px; color: #0E0E0E; margin: 0; padding: 0; background: #f4f4f4; }
+    .wrap { max-width: 600px; margin: 24px auto; background: #fff; border-radius: 8px; overflow: hidden; }
+    .header { background: #0E0E0E; padding: 24px 32px; }
+    .header h1 { color: #F8E300; font-size: 22px; margin: 0; letter-spacing: 0.04em; }
+    .header p { color: #aaa; margin: 4px 0 0; font-size: 13px; }
+    .body { padding: 32px; }
+    .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin: 24px 0 8px; }
+    .box { background: #F7F7F5; border-radius: 6px; padding: 16px 20px; margin-bottom: 8px; }
+    .row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #E5E4DF; }
+    .row:last-child { border-bottom: none; }
+    .label { color: #5A5A58; font-size: 13px; }
+    .value { font-weight: 600; font-size: 14px; }
+    .highlight { background: #F8E300; border-radius: 6px; padding: 16px 20px; }
+    .footer { padding: 24px 32px; background: #F7F7F5; font-size: 12px; color: #888; border-top: 1px solid #E5E4DF; }
+    .cta { background: #0E0E0E; color: #F8E300; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 16px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1><%= brandName %></h1>
+    <p>New Order — Please dispatch to customer</p>
+  </div>
+  <div class="body">
+    <p>Hi <%= supplier.name %>,</p>
+    <p>We have a new order ready for dispatch. Please arrange shipment to the customer address below as soon as possible.</p>
+
+    <div class="section-title">Order Details</div>
+    <div class="box">
+      <div class="row"><span class="label">Order Reference</span><span class="value"><%= order.order_reference %></span></div>
+      <div class="row"><span class="label">Order Date</span><span class="value"><%= new Date(order.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) %></span></div>
+    </div>
+
+    <div class="section-title">Product to Ship</div>
+    <div class="box">
+      <div class="row"><span class="label">SKU</span><span class="value"><%= order.sku %></span></div>
+      <div class="row"><span class="label">Product</span><span class="value"><%= order.product_name_snapshot %></span></div>
+      <% if (variant && variant.color) { %>
+      <div class="row"><span class="label">Colour</span><span class="value"><%= variant.color %></span></div>
+      <% } %>
+      <div class="row"><span class="label">Qty</span><span class="value">1</span></div>
+    </div>
+
+    <div class="section-title">Ship To</div>
+    <div class="box">
+      <div class="row"><span class="label">Name</span><span class="value"><%= order.customer_name %></span></div>
+      <div class="row"><span class="label">Address</span><span class="value"><%= order.shipping_address_line1 %><% if (order.shipping_address_line2) { %>, <%= order.shipping_address_line2 %><% } %></span></div>
+      <div class="row"><span class="label">City</span><span class="value"><%= order.shipping_city %></span></div>
+      <div class="row"><span class="label">Postcode</span><span class="value"><%= order.shipping_postcode %></span></div>
+      <div class="row"><span class="label">Country</span><span class="value"><%= order.shipping_country %></span></div>
+    </div>
+
+    <div class="section-title">Settlement</div>
+    <div class="highlight">
+      <div class="row"><span class="label">Your agreed wholesale cost</span><span class="value">£<%= (order.supplier_cost_basis_pence / 100).toFixed(2) %></span></div>
+    </div>
+
+    <p style="margin-top:24px; color:#5A5A58; font-size:14px;">
+      <strong>Please reply to this email with the carrier name and tracking number once dispatched.</strong><br>
+      This allows us to update the customer promptly.
+    </p>
+
+    <p>Questions? Reply to this email or reach us at <%= process.env.OPS_CC || 'ops@speedmaster.bike' %>.</p>
+    <p>Thank you,<br><strong><%= brandName %> Operations</strong></p>
+  </div>
+  <div class="footer">
+    <%= brandName %> · <%= brandDomain %> · This email was sent automatically. Do not reply unless you have order queries.
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<%- include('_header', { navActive: '' }) %>
+
+<form method="get" action="/admin/audit">
+<div class="filter-row" style="margin-bottom:1.5rem;">
+  <div class="field">
+    <label class="field__label">Entity Type</label>
+    <select class="field__select" name="entity_type">
+      <option value="">All</option>
+      <% ['order','product','variant','page','supplier','user','import','settings','media'].forEach(t => { %>
+      <option value="<%= t %>" <%=query.entity_type===t?'selected':''%>><%= t %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <label class="field__label">Action</label>
+    <select class="field__select" name="action">
+      <option value="">All</option>
+      <% ['create','update','bulk_update','delete','settle','import','import_create'].forEach(a => { %>
+      <option value="<%= a %>" <%=query.action===a?'selected':''%>><%= a %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="field" style="justify-content:flex-end">
+    <button type="submit" class="btn btn--secondary">Filter</button>
+  </div>
+</div>
+</form>
+
+<div class="section-heading">Audit Log <span class="section-heading__count"><%= total %> entries</span></div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Timestamp</th><th>User</th><th>Entity</th><th>ID</th><th>Action</th><th>Details</th></tr>
+    </thead>
+    <tbody>
+      <% if (logs.length === 0) { %>
+      <tr><td colspan="6" style="text-align:center;padding:2rem;" class="text-muted">No audit log entries.</td></tr>
+      <% } %>
+      <% logs.forEach(l => { %>
+      <tr>
+        <td class="text-xs text-muted"><%= new Date(l.ts).toLocaleString('en-GB') %></td>
+        <td class="text-sm"><%= l.user_name||'System' %></td>
+        <td><span class="badge badge--gray"><%= l.entity_type %></span></td>
+        <td class="text-xs text-muted"><%= l.entity_id %></td>
+        <td><span class="badge badge--blue"><%= l.action %></span></td>
+        <td class="text-xs text-muted" style="max-width:280px;word-break:break-all;"><%= l.details ? JSON.stringify(JSON.parse(l.details)).slice(0,120) : '—' %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<% const totalPages = Math.ceil(total / perPage); %>
+<% if (totalPages > 1) { %>
+<div class="pagination">
+  <% for (let p = 1; p <= Math.min(totalPages, 10); p++) { %>
+    <% if (p === currentPage) { %><span class="current"><%= p %></span>
+    <% } else { %><a href="?<%= new URLSearchParams({...query, page: p}).toString() %>"><%= p %></a><% } %>
+  <% } %>
+</div>
+<% } %>
+
+<%- include('_footer') %>

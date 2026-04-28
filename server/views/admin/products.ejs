@@ -1,0 +1,76 @@
+<%- include('_header', { navActive: 'products' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+
+<div class="toolbar">
+  <form method="get" action="/admin/products" style="display:contents">
+    <input class="field__input" style="max-width:220px" type="search" name="q" value="<%= query.q||'' %>" placeholder="Search products…">
+    <select class="field__select" style="max-width:160px" name="category">
+      <option value="">All categories</option>
+      <% ['e-bike','e-scooter','dirt-bike','parts'].forEach(c => { %>
+      <option value="<%= c %>" <%=query.category===c?'selected':''%>><%= c %></option>
+      <% }) %>
+    </select>
+    <select class="field__select" style="max-width:140px" name="active">
+      <option value="">Active & inactive</option>
+      <option value="1" <%=query.active==='1'?'selected':''%>>Active only</option>
+      <option value="0" <%=query.active==='0'?'selected':''%>>Inactive only</option>
+    </select>
+    <button type="submit" class="btn btn--secondary btn--sm">Search</button>
+  </form>
+  <a href="/admin/products/new" class="btn btn--primary btn--sm" style="margin-left:auto">+ New Product</a>
+</div>
+
+<form action="/admin/products/bulk/action" method="post">
+<div class="bulk-bar" id="bulk-bar">
+  <span><span id="bulk-count">0</span> selected</span>
+  <select class="field__select" name="bulk_action" style="width:auto;font-size:.8rem">
+    <option value="activate">Mark Active</option>
+    <option value="deactivate">Mark Inactive</option>
+  </select>
+  <button type="submit" class="btn btn--primary btn--sm" data-confirm="Apply bulk action to selected products?">Apply</button>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="select-all"></th>
+        <th>SKU</th><th>Brand / Model</th><th>Category</th>
+        <th>Variants</th><th>Supplier</th><th>Status</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (products.length === 0) { %>
+      <tr><td colspan="8" style="text-align:center;padding:2rem;" class="text-muted">No products found.</td></tr>
+      <% } %>
+      <% products.forEach(p => { %>
+      <tr>
+        <td><input type="checkbox" name="product_ids[]" value="<%= p.id %>" class="row-check"></td>
+        <td class="text-xs text-muted"><%= p.sku %></td>
+        <td><a href="/admin/products/<%= p.id %>"><strong><%= p.brand||'' %></strong> <%= p.model_name %></a></td>
+        <td><span class="badge badge--gray"><%= p.category||'—' %></span></td>
+        <td class="text-sm"><%= p.variant_count %></td>
+        <td class="text-sm"><%= p.supplier_name||'—' %></td>
+        <td><span class="badge <%= p.is_active?'badge--green':'badge--gray' %>"><%= p.is_active?'Active':'Inactive' %></span></td>
+        <td><a href="/admin/products/<%= p.id %>" class="btn btn--ghost btn--sm">Edit</a></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+</form>
+
+<% const totalPages = Math.ceil(total / perPage); %>
+<% if (totalPages > 1) { %>
+<div class="pagination">
+  <% for (let p = 1; p <= totalPages; p++) { %>
+    <% if (p === currentPage) { %><span class="current"><%= p %></span>
+    <% } else { %><a href="?<%= new URLSearchParams({...query, page: p}).toString() %>"><%= p %></a><% } %>
+  <% } %>
+</div>
+<% } %>
+
+<%- include('_footer') %>

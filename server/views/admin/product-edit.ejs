@@ -1,0 +1,130 @@
+<%- include('_header', { navActive: 'products' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+
+<% if (errors && errors.length) { %>
+<div class="alert alert--error"><% errors.forEach(e => { %><div><%= e %></div><% }) %></div>
+<% } %>
+
+<div style="display:flex;gap:1rem;align-items:center;margin-bottom:1.5rem;">
+  <a href="/admin/products" class="btn btn--ghost btn--sm">← Products</a>
+</div>
+
+<form action="/admin/products<%= product?.id ? '/'+product.id : '' %>" method="post">
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;">
+
+  <div style="display:flex;flex-direction:column;gap:1.5rem;">
+    <div class="card">
+      <div class="card__header"><h2 class="card__title">Product Details</h2></div>
+      <div class="form-grid" style="gap:1rem;">
+        <div class="field">
+          <label class="field__label">SKU <sup>*</sup></label>
+          <input class="field__input" type="text" name="sku" value="<%= product?.sku||'' %>" required>
+        </div>
+        <div class="field">
+          <label class="field__label">Brand</label>
+          <input class="field__input" type="text" name="brand" value="<%= product?.brand||'' %>">
+        </div>
+        <div class="field form-full">
+          <label class="field__label">Model Name <sup>*</sup></label>
+          <input class="field__input" type="text" name="model_name" value="<%= product?.model_name||'' %>" required>
+        </div>
+        <div class="field form-full">
+          <label class="field__label">Description</label>
+          <textarea class="field__textarea" name="description" rows="4"><%= product?.description||'' %></textarea>
+        </div>
+        <div class="field">
+          <label class="field__label">Category</label>
+          <select class="field__select" name="category">
+            <option value="">Select…</option>
+            <% ['e-bike','e-scooter','dirt-bike','parts'].forEach(c => { %>
+            <option value="<%= c %>" <%=(product?.category===c)?'selected':''%>><%= c %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field__label">Supplier</label>
+          <select class="field__select" name="supplier_id">
+            <option value="">None</option>
+            <% suppliers.forEach(s => { %>
+            <option value="<%= s.id %>" <%=(product?.supplier_id==s.id)?'selected':''%>><%= s.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field__label">Status</label>
+          <select class="field__select" name="is_active">
+            <option value="1" <%=(product?.is_active!=0)?'selected':''%>>Active</option>
+            <option value="0" <%=(product?.is_active==0)?'selected':''%>>Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <% if (product?.id && variants && variants.length) { %>
+    <div class="card">
+      <div class="card__header">
+        <h2 class="card__title">Variants</h2>
+        <a href="/admin/variants?product_id=<%= product.id %>" class="btn btn--ghost btn--sm">Manage All</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>SKU</th><th>Colour</th><th>Cost</th><th>RRP</th><th>Retail</th><th>Stock</th></tr></thead>
+          <tbody>
+            <% variants.forEach(v => { %>
+            <tr>
+              <td class="text-xs"><%= v.sku %></td>
+              <td><%= v.color||'—' %></td>
+              <td><%= formatGBP(v.wholesale_cost_pence) %></td>
+              <td><%= formatGBP(v.rrp_pence) %></td>
+              <td><%= formatGBP(v.retail_price_pence) %></td>
+              <td><span class="badge <%= v.stock_status==='Available'?'badge--green':v.stock_status==='Pre-sale'?'badge--orange':'badge--red' %>"><%= v.stock_status %></span></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <% } %>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:1.5rem;">
+    <div class="card">
+      <div class="card__header"><h2 class="card__title">SEO</h2></div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="field">
+          <label class="field__label">Meta Title <span class="field__counter" id="meta_title-counter"></span></label>
+          <input class="field__input" type="text" name="meta_title" id="meta_title" data-maxlen="60" value="<%= product?.meta_title||'' %>">
+          <span class="field__hint">Recommended ≤ 60 characters</span>
+        </div>
+        <div class="field">
+          <label class="field__label">Meta Description <span class="field__counter" id="meta_description-counter"></span></label>
+          <textarea class="field__textarea" name="meta_description" id="meta_description" rows="3" data-maxlen="160"><%= product?.meta_description||'' %></textarea>
+          <span class="field__hint">Recommended ≤ 160 characters</span>
+        </div>
+        <div class="field">
+          <label class="field__label">Canonical URL</label>
+          <input class="field__input" type="url" name="canonical_url" value="<%= product?.canonical_url||'' %>">
+        </div>
+        <div class="field">
+          <label class="field__label">Robots</label>
+          <select class="field__select" name="robots">
+            <option value="index,follow"    <%=(product?.robots||'index,follow')==='index,follow'?'selected':''%>>index,follow</option>
+            <option value="noindex,nofollow"<%=product?.robots==='noindex,nofollow'?'selected':''%>>noindex,nofollow</option>
+            <option value="noindex,follow"  <%=product?.robots==='noindex,follow'?'selected':''%>>noindex,follow</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+      <button type="submit" class="btn btn--primary btn--lg">Save Product</button>
+      <a href="/admin/products" class="btn btn--ghost">Cancel</a>
+    </div>
+  </div>
+</div>
+</form>
+
+<%- include('_footer') %>

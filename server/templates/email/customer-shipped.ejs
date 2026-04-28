@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 15px; color: #0E0E0E; margin: 0; padding: 0; background: #f4f4f4; }
+    .wrap { max-width: 600px; margin: 24px auto; background: #fff; border-radius: 8px; overflow: hidden; }
+    .header { background: #0E0E0E; padding: 32px; text-align: center; }
+    .header h1 { color: #F8E300; font-size: 24px; margin: 0 0 4px; letter-spacing: 0.04em; }
+    .header p { color: #ccc; margin: 0; font-size: 14px; }
+    .hero { background: #F8E300; padding: 24px 32px; text-align: center; }
+    .hero h2 { margin: 0 0 4px; font-size: 20px; color: #0E0E0E; }
+    .hero p { margin: 0; font-size: 14px; color: #333; }
+    .body { padding: 32px; }
+    .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin: 24px 0 8px; }
+    .box { background: #F7F7F5; border-radius: 6px; padding: 16px 20px; margin-bottom: 8px; }
+    .row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #E5E4DF; }
+    .row:last-child { border-bottom: none; }
+    .label { color: #5A5A58; font-size: 13px; }
+    .value { font-weight: 600; font-size: 14px; }
+    .cta-wrap { text-align: center; margin: 24px 0; }
+    .cta { background: #F8E300; color: #0E0E0E; padding: 14px 32px; border-radius: 6px; text-decoration: none; font-weight: 700; display: inline-block; font-size: 15px; }
+    .footer { padding: 20px 32px; background: #F7F7F5; font-size: 12px; color: #888; border-top: 1px solid #E5E4DF; text-align: center; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1><%= brandName %></h1>
+    <p><%= brandDomain %></p>
+  </div>
+  <div class="hero">
+    <h2>Your order is on its way! 🚀</h2>
+    <p>Sit tight — your <%= order.product_name_snapshot %> is heading to you.</p>
+  </div>
+  <div class="body">
+    <p>Hi <%= order.customer_name.split(' ')[0] %>,</p>
+    <p>Great news — your order has been dispatched and is now on its way to you. Here are your tracking details:</p>
+
+    <div class="section-title">Tracking Information</div>
+    <div class="box">
+      <div class="row"><span class="label">Carrier</span><span class="value"><%= order.tracking_carrier || 'See email below' %></span></div>
+      <div class="row"><span class="label">Tracking Number</span><span class="value"><%= order.tracking_number || '—' %></span></div>
+    </div>
+
+    <% if (trackingUrl) { %>
+    <div class="cta-wrap">
+      <a href="<%= trackingUrl %>" class="cta">Track Your Parcel</a>
+    </div>
+    <% } else if (order.tracking_number) { %>
+    <p style="font-size:14px; color:#5A5A58;">Your tracking number is <strong><%= order.tracking_number %></strong>. Visit your carrier's website to track your parcel.</p>
+    <% } %>
+
+    <div class="section-title">Order Summary</div>
+    <div class="box">
+      <div class="row"><span class="label">Order Reference</span><span class="value"><%= order.order_reference %></span></div>
+      <div class="row"><span class="label">Product</span><span class="value"><%= order.product_name_snapshot %></span></div>
+      <div class="row"><span class="label">Ship To</span><span class="value"><%= order.shipping_address_line1 %>, <%= order.shipping_city %>, <%= order.shipping_postcode %></span></div>
+    </div>
+
+    <p style="font-size:14px; color:#5A5A58;">
+      If you have any questions or concerns, please reply to this email or visit our website at
+      <a href="https://<%= brandDomain %>"><%= brandDomain %></a>.
+    </p>
+
+    <p>Thanks for choosing <%= brandName %>!<br><strong>The <%= brandName %> Team</strong></p>
+  </div>
+  <div class="footer">
+    © <%= new Date().getFullYear() %> <%= brandName %> · <%= brandDomain %><br>
+    This email was sent to <%= order.customer_email %> regarding order <%= order.order_reference %>.
+  </div>
+</div>
+</body>
+</html>

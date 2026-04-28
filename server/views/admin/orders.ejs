@@ -1,0 +1,91 @@
+<%- include('_header', { navActive: 'orders' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+
+<form method="get" action="/admin/orders">
+<div class="filter-row">
+  <div class="field">
+    <label class="field__label">Fulfilment</label>
+    <select class="field__select" name="fulfillment">
+      <option value="">All</option>
+      <option value="Unfulfilled"     <%=query.fulfillment==='Unfulfilled'?'selected':''%>>Unfulfilled</option>
+      <option value="Sent to Supplier"<%=query.fulfillment==='Sent to Supplier'?'selected':''%>>Sent to Supplier</option>
+      <option value="Shipped"         <%=query.fulfillment==='Shipped'?'selected':''%>>Shipped</option>
+    </select>
+  </div>
+  <div class="field">
+    <label class="field__label">Payment</label>
+    <select class="field__select" name="status">
+      <option value="">All</option>
+      <option value="Pending" <%=query.status==='Pending'?'selected':''%>>Pending</option>
+      <option value="Settled" <%=query.status==='Settled'?'selected':''%>>Settled</option>
+    </select>
+  </div>
+  <div class="field">
+    <label class="field__label">Supplier</label>
+    <select class="field__select" name="supplier_id">
+      <option value="">All suppliers</option>
+      <% suppliers.forEach(s => { %><option value="<%= s.id %>" <%=query.supplier_id==s.id?'selected':''%>><%= s.name %></option><% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <label class="field__label">From</label>
+    <input class="field__input" type="date" name="from" value="<%= query.from||'' %>">
+  </div>
+  <div class="field">
+    <label class="field__label">To</label>
+    <input class="field__input" type="date" name="to" value="<%= query.to||'' %>">
+  </div>
+  <div class="field" style="justify-content:flex-end">
+    <button type="submit" class="btn btn--secondary">Filter</button>
+  </div>
+</div>
+</form>
+
+<div class="section-heading">
+  Orders <span class="section-heading__count"><%= total %> found</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Reference</th><th>Date</th><th>Customer</th><th>Product</th>
+        <th>Retail Paid</th><th>Supplier Cost</th><th>Fulfilment</th><th>Payment</th><th>Supplier</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (orders.length === 0) { %>
+      <tr><td colspan="9" style="text-align:center;padding:2rem;" class="text-muted">No orders match your filters.</td></tr>
+      <% } %>
+      <% orders.forEach(o => { %>
+      <tr>
+        <td><a href="/admin/orders/<%= o.order_id %>"><%= o.order_reference %></a></td>
+        <td class="text-muted text-xs"><%= new Date(o.created_at).toLocaleDateString('en-GB') %></td>
+        <td><%= o.customer_name %><br><span class="text-xs text-muted"><%= o.customer_email %></span></td>
+        <td class="text-sm"><%= o.product_name_snapshot %><br><span class="text-xs text-muted"><%= o.sku %></span></td>
+        <td><%= formatGBP(o.retail_price_paid_pence) %></td>
+        <td><%= formatGBP(o.supplier_cost_basis_pence) %></td>
+        <td><% const fc={Unfulfilled:'badge--red','Sent to Supplier':'badge--orange',Shipped:'badge--green'}; %>
+          <span class="badge <%= fc[o.fulfillment_status]||'badge--gray' %>"><%= o.fulfillment_status %></span></td>
+        <td><span class="badge <%= o.supplier_payment_status==='Settled'?'badge--green':'badge--gray' %>"><%= o.supplier_payment_status %></span></td>
+        <td class="text-sm"><%= o.supplier_name||'—' %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<% const totalPages = Math.ceil(total / perPage); %>
+<% if (totalPages > 1) { %>
+<div class="pagination">
+  <% for (let p = 1; p <= totalPages; p++) { %>
+    <% if (p === currentPage) { %><span class="current"><%= p %></span>
+    <% } else { %><a href="?<%= new URLSearchParams({...query, page: p}).toString() %>"><%= p %></a><% } %>
+  <% } %>
+</div>
+<% } %>
+
+<%- include('_footer') %>

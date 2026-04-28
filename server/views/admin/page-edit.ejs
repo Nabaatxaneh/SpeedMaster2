@@ -1,0 +1,69 @@
+<%- include('_header', { navActive: 'pages' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+<% if (errors && errors.length) { %>
+<div class="alert alert--error"><% errors.forEach(e => { %><div><%= e %></div><% }) %></div>
+<% } %>
+
+<a href="/admin/pages" class="btn btn--ghost btn--sm" style="margin-bottom:1.5rem">← Pages</a>
+
+<form action="/admin/pages<%= page?.slug ? '/'+page.slug : '' %>" method="post">
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;">
+  <div class="card">
+    <div class="card__header"><h2 class="card__title">Content</h2></div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <% if (!page?.slug) { %>
+      <div class="field">
+        <label class="field__label">Slug <sup>*</sup></label>
+        <input class="field__input" type="text" name="slug" value="<%= page?.slug||'' %>" required pattern="[a-z0-9\-]+" placeholder="e.g. about-us">
+        <span class="field__hint">Lowercase letters, numbers, hyphens only.</span>
+      </div>
+      <% } %>
+      <div class="field">
+        <label class="field__label">Page Title <sup>*</sup></label>
+        <input class="field__input" type="text" name="title" value="<%= page?.title||'' %>" required>
+      </div>
+      <div class="field">
+        <label class="field__label">Content (JSON blocks)</label>
+        <textarea class="field__textarea" name="content" rows="12" style="font-family:monospace;font-size:.8rem"><%= page?.content||'{}' %></textarea>
+        <span class="field__hint">Store content blocks as JSON. Rendered by the frontend.</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:1.5rem;">
+    <div class="card">
+      <div class="card__header"><h2 class="card__title">SEO</h2></div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="field">
+          <label class="field__label">Meta Title <span class="field__counter" id="meta_title-counter"></span></label>
+          <input class="field__input" type="text" name="meta_title" id="meta_title" data-maxlen="60" value="<%= page?.meta_title||'' %>">
+        </div>
+        <div class="field">
+          <label class="field__label">Meta Description <span class="field__counter" id="meta_description-counter"></span></label>
+          <textarea class="field__textarea" name="meta_description" id="meta_description" rows="3" data-maxlen="160"><%= page?.meta_description||'' %></textarea>
+        </div>
+        <div class="field">
+          <label class="field__label">Canonical URL</label>
+          <input class="field__input" type="url" name="canonical_url" value="<%= page?.canonical_url||'' %>">
+        </div>
+        <div class="field">
+          <label class="field__label">Robots</label>
+          <select class="field__select" name="robots">
+            <option value="index,follow"    <%=(page?.robots||'index,follow')==='index,follow'?'selected':''%>>index,follow</option>
+            <option value="noindex,nofollow"<%=page?.robots==='noindex,nofollow'?'selected':''%>>noindex,nofollow</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.5rem;">
+      <button type="submit" class="btn btn--primary btn--lg">Save Page</button>
+      <a href="/admin/pages" class="btn btn--ghost">Cancel</a>
+    </div>
+  </div>
+</div>
+</form>
+
+<%- include('_footer') %>

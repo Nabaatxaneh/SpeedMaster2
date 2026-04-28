@@ -1,0 +1,43 @@
+<%- include('_header', { navActive: 'settings' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+
+<div class="card" style="max-width:580px;">
+  <div class="card__header"><h2 class="card__title">Global Settings</h2></div>
+  <form action="/admin/settings" method="post">
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div class="field">
+        <label class="field__label">Brand Name</label>
+        <input class="field__input" type="text" name="brand_name" value="<%= settings.brand_name||'SpeedMaster' %>">
+      </div>
+      <div class="field">
+        <label class="field__label">Brand Domain</label>
+        <input class="field__input" type="text" name="brand_domain" value="<%= settings.brand_domain||'www.speedmaster.bike' %>">
+      </div>
+      <div class="field">
+        <label class="field__label">Ops Email (CC on supplier notifications)</label>
+        <input class="field__input" type="email" name="ops_email" value="<%= settings.ops_email||'ops@speedmaster.bike' %>">
+      </div>
+      <div class="field">
+        <label class="field__label">Currency</label>
+        <select class="field__select" name="currency">
+          <option value="GBP" <%=settings.currency==='GBP'?'selected':''%>>GBP — British Pound (£)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field__label">Default Robots</label>
+        <select class="field__select" name="default_robots">
+          <option value="index,follow"    <%=settings.default_robots==='index,follow'?'selected':''%>>index,follow</option>
+          <option value="noindex,nofollow"<%=settings.default_robots==='noindex,nofollow'?'selected':''%>>noindex,nofollow</option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" class="btn btn--primary">Save Settings</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<%- include('_footer') %>

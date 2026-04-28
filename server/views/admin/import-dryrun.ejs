@@ -1,0 +1,45 @@
+<%- include('_header', { navActive: 'imports' }) %>
+
+<div class="section-heading">Dry-Run Preview</div>
+<p class="text-muted text-sm" style="margin-bottom:1.5rem;">Review what will happen. Nothing has been saved yet.</p>
+
+<div class="stat-grid" style="margin-bottom:1.5rem;">
+  <div class="stat-tile stat-tile--green"><div class="stat-tile__label">Will Update</div><div class="stat-tile__value"><%= counts.update %></div></div>
+  <div class="stat-tile"><div class="stat-tile__label">Will Create</div><div class="stat-tile__value"><%= counts.create %></div></div>
+  <div class="stat-tile"><div class="stat-tile__label">Skip</div><div class="stat-tile__value"><%= counts.skip %></div></div>
+  <div class="stat-tile stat-tile--red"><div class="stat-tile__label">Errors (RRP etc.)</div><div class="stat-tile__value"><%= counts.error %></div></div>
+</div>
+
+<% if (counts.error > 0) { %>
+<div class="alert alert--warning" style="margin-bottom:1rem;">
+  <div>
+    <strong><%= counts.error %> row(s) have errors</strong> — these will be skipped by default.
+    <% if (!allowBelowRrp) { %>
+    Rows with RRP violations are blocked. Check the box below to override (requires typing the SKU to confirm in production — simplified here for dev).
+    <% } %>
+  </div>
+</div>
+<% } %>
+
+<div class="table-wrap" style="margin-bottom:1.5rem;">
+  <table>
+    <thead><tr><th>SKU</th><th>Action</th><th>Errors</th></tr></thead>
+    <tbody>
+      <% results.forEach(r => { %>
+      <% const ac={update:'badge--blue',create:'badge--green',updated:'badge--blue',created:'badge--green',skip:'badge--gray',skip_not_found:'badge--gray',skip_no_product:'badge--gray'}; %>
+      <tr>
+        <td class="text-xs"><%= r.sku %></td>
+        <td><span class="badge <%= ac[r.action]||'badge--red' %>"><%= r.action %></span></td>
+        <td class="text-xs" style="color:var(--color-danger)"><%= r.errors?.join(', ')||'' %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<form action="/admin/imports/confirm" method="post" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+  <button type="submit" class="btn btn--primary btn--lg" data-confirm="Apply all valid rows? This cannot be undone.">Confirm Import</button>
+  <a href="/admin/imports" class="btn btn--ghost">Cancel</a>
+</form>
+
+<%- include('_footer') %>

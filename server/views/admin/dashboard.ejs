@@ -1,0 +1,61 @@
+<%- include('_header', { navActive: 'dashboard' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+
+<div class="stat-grid">
+  <div class="stat-tile stat-tile--red">
+    <div class="stat-tile__label">Unfulfilled Orders</div>
+    <div class="stat-tile__value"><%= unfulfilledCount %></div>
+  </div>
+  <div class="stat-tile stat-tile--yellow">
+    <div class="stat-tile__label">Pending Settlements</div>
+    <div class="stat-tile__value"><%= pendingSettlements %></div>
+  </div>
+  <div class="stat-tile stat-tile--green">
+    <div class="stat-tile__label">Total Revenue</div>
+    <div class="stat-tile__value"><%= totalRevenue %></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card__header">
+    <h2 class="card__title">Recent Orders</h2>
+    <a href="/admin/orders" class="btn btn--ghost btn--sm">View All</a>
+  </div>
+  <% if (recentOrders.length === 0) { %>
+  <p class="text-muted text-sm">No orders yet.</p>
+  <% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Reference</th><th>Date</th><th>Customer</th><th>Product</th>
+          <th>Paid</th><th>Fulfilment</th><th>Payment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% recentOrders.forEach(o => { %>
+        <tr>
+          <td><a href="/admin/orders/<%= o.order_id %>"><%= o.order_reference %></a></td>
+          <td class="text-muted"><%= new Date(o.created_at).toLocaleDateString('en-GB') %></td>
+          <td><%= o.customer_name %></td>
+          <td class="text-sm"><%= o.product_name_snapshot %></td>
+          <td><%= formatGBP(o.retail_price_paid_pence) %></td>
+          <td>
+            <% const fc = {Unfulfilled:'badge--red','Sent to Supplier':'badge--orange',Shipped:'badge--green'}; %>
+            <span class="badge <%= fc[o.fulfillment_status]||'badge--gray' %>"><%= o.fulfillment_status %></span>
+          </td>
+          <td>
+            <span class="badge <%= o.supplier_payment_status==='Settled'?'badge--green':'badge--gray' %>"><%= o.supplier_payment_status %></span>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</div>
+
+<%- include('_footer') %>

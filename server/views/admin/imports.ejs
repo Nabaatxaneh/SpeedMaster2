@@ -1,0 +1,71 @@
+<%- include('_header', { navActive: 'imports' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;">
+  <div class="card">
+    <div class="card__header"><h2 class="card__title">Upload CSV or PDF</h2></div>
+    <form action="/admin/imports/upload" method="post" enctype="multipart/form-data">
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="field">
+          <label class="field__label">Supplier</label>
+          <select class="field__select" name="supplier_id">
+            <option value="">Select supplier…</option>
+            <% suppliers.forEach(s => { %><option value="<%= s.id %>"><%= s.name %></option><% }) %>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field__label">File <sup>*</sup></label>
+          <input class="field__input" type="file" name="file" accept=".csv,.pdf" required>
+          <span class="field__hint">Supported: .csv and .pdf. Max 20 MB.</span>
+        </div>
+        <button type="submit" class="btn btn--primary">Upload & Preview</button>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <div class="card__header"><h2 class="card__title">How It Works</h2></div>
+    <ol style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;font-size:.875rem;color:var(--color-text-muted);">
+      <li>Upload a CSV or PDF price list from your supplier.</li>
+      <li>Map spreadsheet columns to product fields.</li>
+      <li>Review the dry-run preview (nothing is saved yet).</li>
+      <li>Confirm to apply updates inside a single transaction.</li>
+      <li>Download the error CSV for any rows that failed.</li>
+    </ol>
+    <p class="text-xs text-muted" style="margin-top:1rem;">RRP violations are flagged in the dry-run and blocked by default.</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card__header"><h2 class="card__title">Recent Imports</h2></div>
+  <% if (imports.length === 0) { %>
+  <p class="text-muted text-sm">No imports yet.</p>
+  <% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>File</th><th>Type</th><th>Supplier</th><th>Rows</th><th>Result</th><th>Date</th></tr></thead>
+      <tbody>
+        <% imports.forEach(i => { %>
+        <% let result = {}; try { result = JSON.parse(i.result||'{}'); } catch(e) {} %>
+        <tr>
+          <td class="text-xs"><%= i.filename %></td>
+          <td><span class="badge badge--gray"><%= i.type %></span></td>
+          <td><%= i.supplier_name||'—' %></td>
+          <td><%= i.row_count||'—' %></td>
+          <td class="text-xs">
+            <% if (result.updated) { %><span class="badge badge--green">✓ <%= result.updated %> updated</span> <% } %>
+            <% if (result.created) { %><span class="badge badge--blue">+ <%= result.created %> created</span> <% } %>
+            <% if (result.failed) { %><span class="badge badge--red">✗ <%= result.failed %> failed</span><% } %>
+          </td>
+          <td class="text-xs text-muted"><%= new Date(i.imported_at).toLocaleDateString('en-GB') %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</div>
+
+<%- include('_footer') %>

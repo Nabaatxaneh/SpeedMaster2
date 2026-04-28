@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — SpeedMaster Admin</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="/admin/static/admin.css">
+</head>
+<body>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-box__logo">
+      <img src="/brand_assets/logo.png" alt="SpeedMaster" style="height:48px;">
+    </div>
+    <h1 class="login-box__title">Admin Sign In</h1>
+
+    <% if (error) { %>
+    <div class="alert alert--error" style="margin-bottom:1rem;"><%= error %></div>
+    <% } %>
+
+    <form action="/admin/login" method="post">
+      <div class="field">
+        <label class="field__label" for="email">Email</label>
+        <input class="field__input" type="email" id="email" name="email" value="<%= email %>" required autofocus>
+      </div>
+      <div class="field">
+        <label class="field__label" for="password">Password</label>
+        <input class="field__input" type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn--primary btn--lg">Sign In</button>
+    </form>
+  </div>
+</div>
+<script src="/admin/static/admin.js"></script>
+</body>
+</html>

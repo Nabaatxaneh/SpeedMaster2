@@ -1,159 +1,214 @@
-# SpeedMaster — Static E-Commerce Site
+# SpeedMaster CMS
 
-## How to Open
+## Discovery Summary (§0)
 
-Open `index.html` in any modern browser. No build step required.
+**What existed before this CMS was added:**
 
-To serve locally (recommended for correct asset paths):
-```
-node serve.mjs
-```
-Then visit `http://localhost:3000`
+The repo contained a fully-static HTML/CSS/JS e-commerce frontend (homepage, collection pages, product detail, checkout flow, account pages) with all state stored in `localStorage`. A Python script at `database/create_db.py` created a demo SQLite database at `database/speedmaster.db` with five tables — `Supplier`, `Product`, `Pricing`, `Specifications`, and `Variants` — seeded with 33 real products across two suppliers (KOOLUX and VIPCOO/iENYRID/Hidoes). Prices were stored as REAL (decimal £), table names were PascalCase, and there were no `orders`, `users`, `pages`, `audit_log`, or any server-side session tables.
 
-## File Structure
+**How this CMS extends it:**
 
-```
-SpeedMaster2/
-├── index.html                          # Homepage
-├── README.md                           # This file
-├── serve.mjs                           # Local dev server
-├── screenshot.mjs                      # Puppeteer screenshot tool
-│
-├── assets/
-│   ├── css/
-│   │   └── global.css                  # All site-wide CSS (tokens, reset, components)
-│   └── js/
-│       └── main.js                     # All site-wide JS (header/footer injection, cart, mobile nav)
-│
-├── brand_assets/
-│   └── logo.png                        # SpeedMaster logo
-│
-├── collections/
-│   ├── e-scooters.html                 # Electric Scooters collection (12 products)
-│   ├── e-bikes.html                    # Electric Bikes collection (12 products)
-│   ├── parts-accessories.html          # Parts & Accessories collection (12 products)
-│   └── all-products.html               # All Products collection (12 products)
-│
-├── products/
-│   └── product-template.html           # Product Detail Page (SpeedMaster X1 Pro example)
-│
-└── pages/
-    ├── repairs.html                    # Repairs & Servicing (booking form, pricing, FAQ)
-    ├── stores.html                     # All Stores overview
-    ├── store-birmingham.html           # Birmingham store page
-    ├── store-manchester.html           # Manchester store page
-    ├── store-glasgow.html              # Glasgow store page
-    ├── store-edinburgh.html            # Edinburgh store page
-    ├── finance.html                    # Finance & Klarna options
-    ├── about.html                      # About Us
-    ├── contact.html                    # Contact page (form + details)
-    ├── faqs.html                       # FAQs (accordion)
-    ├── privacy.html                    # Privacy Policy
-    ├── terms.html                      # Terms of Service
-    ├── cookies.html                    # Cookie Policy
-    └── accessibility.html             # Accessibility Statement
+The CMS creates a new database at `./data/speedmaster.db` (separate from the demo DB). Migrations translate the existing schema into a new lowercase, integer-pence schema (`suppliers`, `products`, `variants`, etc.) and add the full CMS surface on top: `orders`, `pages`, `users`, `media`, `settings`, `audit_log`, `import_files`, and `import_mappings`. The existing frontend is served unchanged by the Express server (which replaces `serve.mjs` as the dev server). SEO data is served via a runtime JSON API (`GET /api/seo/:type/:slug`) which the static frontend can optionally fetch; existing inline `<meta>` tags continue to work without changes.
+
+**Conflicts noted:**
+- Existing schema: PascalCase names, REAL prices, SKU on `Product` not `Variants`, no `contact_whatsapp`, no `pages`/`orders`/`users`.
+- Resolution: New CMS schema is authoritative. Demo DB at `database/speedmaster.db` is untouched and can be used for reference or discarded.
+- Existing `serve.mjs` is superseded by `npm run dev` (`server/index.js`) which serves both the frontend and the admin.
+
+---
+
+## Quick Start (Windows + Git Bash)
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Create .env from example and fill in values
+cp .env.example .env
+# Edit .env — at minimum set SESSION_SECRET and ORDERS_API_SECRET
+
+# 3. Seed the database (creates ./data/speedmaster.db, applies migrations, inserts demo data)
+npm run seed
+
+# 4. Start the dev server
+npm run dev
+# → http://localhost:3000        (frontend)
+# → http://localhost:3000/admin  (admin panel)
 ```
 
-## Navigation Map
+**First sign-in:**
+| Field | Value |
+|-------|-------|
+| Email | `admin@speedmaster.bike` |
+| Password | `change-me-on-first-login` |
 
-| Page | URL | Links from |
-|------|-----|------------|
-| Homepage | `index.html` | All pages → header logo |
-| E-Scooters | `collections/e-scooters.html` | Nav, homepage category card, footer |
-| E-Bikes | `collections/e-bikes.html` | Nav, homepage category card, footer |
-| Parts & Accessories | `collections/parts-accessories.html` | Nav, footer |
-| All Products | `collections/all-products.html` | Homepage "View All" button, cart drawer |
-| Product Template | `products/product-template.html` | All product cards site-wide |
-| Repairs | `pages/repairs.html` | Nav, footer, homepage CTA |
-| All Stores | `pages/stores.html` | Nav, footer, homepage |
-| Birmingham Store | `pages/store-birmingham.html` | Footer, stores page |
-| Manchester Store | `pages/store-manchester.html` | Footer, stores page |
-| Glasgow Store | `pages/store-glasgow.html` | Footer, stores page |
-| Edinburgh Store | `pages/store-edinburgh.html` | Footer, stores page |
-| Finance | `pages/finance.html` | Footer, announcement bar, PDP |
-| About Us | `pages/about.html` | Footer |
-| Contact | `pages/contact.html` | Footer |
-| FAQs | `pages/faqs.html` | (linked from repairs and contact) |
-| Privacy Policy | `pages/privacy.html` | Footer legal bar |
-| Terms of Service | `pages/terms.html` | Footer legal bar |
-| Cookie Policy | `pages/cookies.html` | Footer legal bar |
-| Accessibility | `pages/accessibility.html` | Footer legal bar |
+Change the password immediately via `/admin/users`.
 
-## Architecture Notes
+---
 
-- **Header & footer** are injected by `assets/js/main.js` via `<div id="sm-header">` and `<div id="sm-footer">` placeholders on every page.
-- **Root path detection** in `main.js` automatically prefixes all links with `../` for pages in `/collections/`, `/products/`, or `/pages/`, and no prefix for the homepage.
-- **Cart drawer** is injected by `main.js` and slides in from the right. Currently shows empty state only (no real cart logic).
-- **Announcement bar** rotates 3 messages every 4 seconds.
-- **Mobile nav** toggles via hamburger button at <768px viewport width.
-- **Accordion, PDP tabs, filter tabs, qty selector** are all handled in `main.js`.
+## Commands
 
-## Cart & Account Features
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start the CMS + frontend server |
+| `npm run seed` | Apply migrations and insert seed data |
+| `npm run serve-frontend` | Start the original static server (port 3000, no admin) |
 
-### New Pages
+---
 
-| Page | URL | Description |
-|------|-----|-------------|
-| Login | `account/login.html` | Sign-in form with inline validation, forgot-password notice, guest checkout link |
-| Register | `account/register.html` | New account creation with client-side validation |
-| Dashboard | `account/dashboard.html` | Account overview: order count, default address, recent orders |
-| My Orders | `account/orders.html` | Full order history with expandable order details |
-| Addresses | `account/addresses.html` | Saved addresses CRUD — add, remove, set default |
-| Account Details | `account/details.html` | Edit name/email/phone and change password |
-| Checkout | `checkout/index.html` | 4-step checkout: Cart → Details → Payment → Review |
-| Order Confirmation | `checkout/confirmation.html` | Post-purchase confirmation with guest account creation prompt |
+## Project Structure
 
-### localStorage Data Model
+```
+/
+├── server/
+│   ├── index.js                      # Express bootstrap + static serving
+│   ├── db.js                         # better-sqlite3 + migration runner
+│   ├── auth.js                       # bcrypt, session, account lockout
+│   ├── routes/
+│   │   ├── api.orders.js             # POST /api/orders (HMAC-signed)
+│   │   ├── api.seo.js                # GET /api/seo/:type/:slug
+│   │   ├── admin.auth.js             # /admin/login, /admin/logout
+│   │   ├── admin.dashboard.js        # /admin/dashboard
+│   │   ├── admin.orders.js           # /admin/orders
+│   │   ├── admin.reconciliation.js   # /admin/reconciliation
+│   │   ├── admin.products.js         # /admin/products
+│   │   ├── admin.variants.js         # /admin/variants
+│   │   ├── admin.pages.js            # /admin/pages
+│   │   ├── admin.media.js            # /admin/media
+│   │   ├── admin.suppliers.js        # /admin/suppliers
+│   │   ├── admin.imports.js          # /admin/imports
+│   │   ├── admin.users.js            # /admin/users
+│   │   ├── admin.settings.js         # /admin/settings
+│   │   └── admin.audit.js            # /admin/audit
+│   ├── automations/
+│   │   ├── notify-supplier.js        # Email supplier on order creation
+│   │   ├── customer-shipped.js       # Email customer when order ships
+│   │   └── whatsapp-link.js          # Build WhatsApp click-to-chat URL
+│   ├── importers/
+│   │   ├── csv.js                    # Parse, dry-run, apply CSV imports
+│   │   └── pdf.js                    # Extract text + heuristic table detection
+│   ├── templates/email/
+│   │   ├── supplier-order.ejs        # Supplier notification email
+│   │   └── customer-shipped.ejs      # Customer dispatch email
+│   ├── views/admin/                  # All EJS admin templates
+│   ├── util/
+│   │   ├── money.js                  # toPence / formatGBP
+│   │   ├── slug.js                   # toSlug
+│   │   └── audit.js                  # audit.log(...)
+│   └── public/admin/                 # admin.css + admin.js
+├── migrations/
+│   ├── 001_initial_schema.sql        # All base tables
+│   └── 002_add_orders.sql            # Orders table + indexes
+├── scripts/
+│   └── seed.js                       # npm run seed
+├── data/
+│   └── speedmaster.db                # SQLite DB (gitignored)
+├── uploads/                          # Uploaded files (gitignored)
+├── logs/                             # Pino log files (gitignored)
+├── .env.example
+└── package.json
+```
 
-| Key | Contents |
-|-----|----------|
-| `sm_cart` | Array of cart items `{ id, name, price, qty, thumb, category, color }` |
-| `sm_users` | Array of user objects `{ id, email, password, firstName, lastName, addresses[], orderIds[] }` |
-| `sm_session` | Current session `{ userId, email }` |
-| `sm_orders` | Array of orders `{ id, status, items[], shipping, total, createdAt, ... }` |
+---
 
-All data is managed via the `window.SM` global exposed by `assets/js/store.js`, which must be loaded **before** `main.js` on every page.
+## Backing Up the Database
 
-### Demo Coupon Code
+The entire CMS state is in a single file: `./data/speedmaster.db`.
 
-Enter `SPEED10` at checkout for **10% off** any order.
+```bash
+# Simple file copy (safe with WAL mode when no writes are in flight)
+cp data/speedmaster.db data/speedmaster-backup-$(date +%Y%m%d).db
 
-### Reset All Data
+# Or use SQLite's online backup
+sqlite3 data/speedmaster.db ".backup data/speedmaster-backup.db"
+```
 
-To clear all cart, user, and order data, run in the browser console:
+For production, schedule a daily backup using Windows Task Scheduler or a cron job and copy to an offsite location (S3, etc.).
+
+---
+
+## HMAC Signing Recipe (POST /api/orders)
+
+The frontend must sign the raw JSON body with **HMAC-SHA256** using the shared secret in `ORDERS_API_SECRET`.
+
+### JavaScript (frontend / Node.js)
+
 ```javascript
-localStorage.clear();
+const crypto = require('crypto'); // Node.js built-in
+
+async function placeOrder(payload) {
+  const body = JSON.stringify(payload);
+  const sig  = crypto
+    .createHmac('sha256', process.env.ORDERS_API_SECRET)
+    .update(body)
+    .digest('hex');
+
+  const res = await fetch('https://YOUR_DOMAIN/api/orders', {
+    method:  'POST',
+    headers: {
+      'Content-Type':             'application/json',
+      'X-SpeedMaster-Signature':  sig,
+    },
+    body,
+  });
+  return res.json(); // { order_id, order_reference }
+}
 ```
 
-### Security Notice
+### Payload shape
 
-**Passwords are stored in plaintext in localStorage.** This is a demo only. In production you must use a real backend with proper password hashing (bcrypt/argon2) and secure session management. Never ship this to production as-is.
+```json
+{
+  "payment_provider":     "stripe",
+  "payment_provider_ref": "ch_3PqXyZ...",
+  "customer": {
+    "name":          "Alice Johnson",
+    "email":         "alice@example.com",
+    "phone":         "+447700900123",
+    "address_line1": "12 High Street",
+    "address_line2": "",
+    "city":          "London",
+    "postcode":      "EC1A 1BB",
+    "country":       "GB"
+  },
+  "items": [
+    {
+      "variant_id":              42,
+      "retail_price_paid_pence": 86900
+    }
+  ]
+}
+```
 
-### TODO: Production Integrations
+**Prices are in integer pence.** £869.00 → `86900`.
 
-- Replace localStorage with a real backend API (Node/Django/Laravel etc.)
-- Add real payment processors: Stripe for card, Klarna SDK, PayPal JS SDK
-- Add server-side email confirmations (order receipt, shipping notifications)
-- Add password hashing before any backend implementation
-- Replace guest session storage with server-side sessions / JWTs
-- Add Google OAuth / social login
-- Wire newsletter signup to Mailchimp/Klaviyo
-- Add Trustpilot / Judge.me reviews integration
+**Validation rules applied server-side:**
+- HMAC mismatch → 401
+- `retail_price_paid_pence < variant.rrp_pence` → 422 `{ code: "RRP_VIOLATION" }`
+- Unknown `variant_id` → 422
 
-## TODOs / Placeholders
+---
 
-- **Replace placehold.co images** with real product photos
-- **Replace placeholder copy** with real product descriptions and marketing text
-- **Wire up all forms** to a real backend (booking, contact, newsletter — currently submit does nothing)
-- **Download and self-host Exo 2 font** for true offline support (currently loads from Google Fonts CDN)
-- **Implement real cart/checkout logic** — add to cart, update quantities, checkout flow
-- **Replace map placeholder divs** with real Google Maps embeds (requires Google Maps API key)
-- **Add real product data** — full catalogue, filtering logic, search
-- **Add cookie consent banner** — currently referenced in cookie policy but not implemented
-- **SEO metadata** — add Open Graph tags, structured data (Product schema), sitemap.xml, robots.txt
-- **Analytics** — wire up Google Analytics or equivalent
-- **Payment integration** — Klarna, Stripe, or similar payment processor
-- **User accounts** — login, order history, saved addresses
-- **Stock management** — real-time stock levels from backend
-- **Product variants** — colour/size selection with separate SKUs
-- **Review system** — real customer reviews integration (Trustpilot or similar)
+## Decisions Made
+
+| Decision | Choice | Reason |
+|----------|--------|--------|
+| CMS DB path | `./data/speedmaster.db` | Separate from the demo Python DB at `database/speedmaster.db` |
+| SEO wiring | Runtime API (`GET /api/seo/:type/:slug`) | The frontend is static HTML; the endpoint is available for future SPA or SSG use. Existing inline `<meta>` tags are not removed. |
+| PDF import | Assisted (show candidate CSV, admin edits) | PDF parsing is heuristic; forcing a manual review step prevents silent bad imports |
+| Carrier tracking URLs | Royal Mail, DPD, DHL, Evri, ParcelForce | Covers the main UK carriers; admin can note other carriers as plain text |
+| Pagination size | 25 (orders/products), 50 (variants/reconciliation) | Balances information density with page performance |
+| Session duration | 8 hours | Covers a full working day without forcing re-login |
+| Account lockout | 5 failed attempts → 15-minute lockout | Standard brute-force protection |
+
+---
+
+## TODOs / Known Gaps
+
+- **SMTP in production:** Set `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` in `.env`. For local dev, use [Mailpit](https://mailpit.axllent.org/) (`smtp://localhost:1025`).
+- **ORDERS_API_SECRET:** Must be shared with the frontend Stripe/payment completion webhook. Keep it out of version control.
+- **Image CDN:** Uploaded images are served from `./uploads/` — consider object storage (S3/Cloudflare R2) in production.
+- **Log rotation:** Pino writes to `./logs/app.log` indefinitely. Add a log rotation tool (e.g. `logrotate` or `pino-roll`) for production.
+- **Variant SKU generation:** The seed manually appends `-GRAY`, `-RED` etc. A UI for adding new variants to a product should be built as a follow-up to the product edit page.
+- **Supplier WhatsApp for real numbers:** The seed uses a Chinese mobile number from the demo data; replace with a real UK WhatsApp Business number once onboarded.
+- **Production domain:** Replace `www.speedmaster.bike` in `.env` (`BRAND_DOMAIN`) and SMTP `From` header before going live.

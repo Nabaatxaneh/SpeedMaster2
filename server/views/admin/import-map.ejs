@@ -1,0 +1,75 @@
+<%- include('_header', { navActive: 'imports' }) %>
+
+<a href="/admin/imports" class="btn btn--ghost btn--sm" style="margin-bottom:1.5rem">← Back</a>
+
+<div class="section-heading">Map Columns</div>
+<p class="text-muted text-sm" style="margin-bottom:1.5rem;">Match each column in your file to a product field. Columns mapped to <em>—skip—</em> are ignored.</p>
+
+<form action="/admin/imports/dryrun" method="post">
+  <input type="hidden" name="mapping" id="mapping-input">
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;">
+    <div class="card">
+      <div class="card__header"><h2 class="card__title">Column Mapping</h2></div>
+      <div style="display:flex;flex-direction:column;gap:.75rem;">
+        <% headers.forEach(col => { %>
+        <div class="field" style="flex-direction:row;align-items:center;gap:1rem;">
+          <span style="min-width:160px;font-weight:600;font-size:.875rem;"><%= col %></span>
+          <select class="field__select map-select" data-col="<%= col %>" style="flex:1" name="col_<%= col %>">
+            <option value="">— skip —</option>
+            <% fieldOptions.forEach(f => { %>
+            <option value="<%= f %>" <%=savedMapping[col]===f?'selected':''%>><%= f %></option>
+            <% }) %>
+          </select>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+      <div class="card">
+        <div class="card__header"><h2 class="card__title">Import Mode</h2></div>
+        <div style="display:flex;flex-direction:column;gap:.75rem;">
+          <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;">
+            <input type="radio" name="mode" value="update_only" checked> Update existing SKUs only
+          </label>
+          <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;">
+            <input type="radio" name="mode" value="create"> Update + create new
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn--primary btn--lg" onclick="
+        const m={};
+        document.querySelectorAll('.map-select').forEach(s=>{if(s.value)m[s.dataset.col]=s.value;});
+        document.getElementById('mapping-input').value=JSON.stringify(m);
+      ">Run Dry-Run Preview →</button>
+    </div>
+  </div>
+
+  <% if (previewRows.length > 0) { %>
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card__header"><h2 class="card__title">File Preview (first 20 rows)</h2></div>
+    <div class="table-wrap" style="max-height:320px;overflow:auto;">
+      <table>
+        <thead><tr><% headers.forEach(h => { %><th><%= h %></th><% }) %></tr></thead>
+        <tbody>
+          <% previewRows.forEach(row => { %>
+          <tr><% headers.forEach(h => { %><td class="text-xs"><%= row[h]||'' %></td><% }) %></tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% } %>
+
+  <% if (rawText) { %>
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card__header">
+      <h2 class="card__title">PDF Raw Text</h2>
+      <a href="#" onclick="const b=new Blob([document.getElementById('pdf-raw').textContent],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='pdf-raw.txt';a.click()" class="btn btn--ghost btn--sm">Download as Text</a>
+    </div>
+    <pre id="pdf-raw" style="font-size:.75rem;max-height:240px;overflow:auto;white-space:pre-wrap;background:var(--color-bg-muted);padding:1rem;border-radius:.5rem;"><%= rawText.slice(0,5000) %><%= rawText.length>5000?'\n…(truncated)':'' %></pre>
+  </div>
+  <% } %>
+</form>
+
+<%- include('_footer') %>

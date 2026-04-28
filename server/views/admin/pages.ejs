@@ -1,0 +1,33 @@
+<%- include('_header', { navActive: 'pages' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+
+<div class="toolbar">
+  <a href="/admin/pages/new" class="btn btn--primary btn--sm" style="margin-left:auto">+ New Page</a>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Slug</th><th>Title</th><th>Meta Title</th><th>Updated</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% if (pages.length === 0) { %>
+      <tr><td colspan="5" style="text-align:center;padding:2rem;" class="text-muted">No pages yet. Create your first page.</td></tr>
+      <% } %>
+      <% pages.forEach(p => { %>
+      <tr>
+        <td class="text-xs text-muted">/<%= p.slug %></td>
+        <td><a href="/admin/pages/<%= p.slug %>"><strong><%= p.title %></strong></a></td>
+        <td class="text-sm"><%= p.meta_title||'—' %></td>
+        <td class="text-xs text-muted"><%= new Date(p.updated_at).toLocaleDateString('en-GB') %></td>
+        <td><a href="/admin/pages/<%= p.slug %>" class="btn btn--ghost btn--sm">Edit</a></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('_footer') %>

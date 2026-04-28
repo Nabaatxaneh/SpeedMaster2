@@ -1,0 +1,50 @@
+<%- include('_header', { navActive: 'media' }) %>
+
+<% if (locals.flash) { %>
+<div class="alert alert--<%= flash.type %>" data-autodismiss><%= flash.message %></div>
+<% } %>
+
+<div class="toolbar" style="flex-wrap:wrap;gap:1rem;align-items:flex-start;">
+  <form method="get" action="/admin/media" style="display:contents">
+    <input class="field__input" style="max-width:220px" type="search" name="q" value="<%= query.q||'' %>" placeholder="Search by filename or alt text…">
+    <button type="submit" class="btn btn--secondary btn--sm">Search</button>
+  </form>
+  <form action="/admin/media/upload" method="post" enctype="multipart/form-data" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-left:auto">
+    <input class="field__input" type="file" name="file" accept="image/*" required style="max-width:200px">
+    <input class="field__input" type="text" name="alt_text" placeholder="Alt text" style="max-width:160px">
+    <button type="submit" class="btn btn--primary btn--sm">Upload</button>
+  </form>
+</div>
+
+<p class="text-muted text-sm" style="margin-bottom:1rem;"><%= total %> image<%= total!==1?'s':'' %></p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;">
+  <% images.forEach(img => { %>
+  <div class="card" style="padding:.75rem;">
+    <div style="aspect-ratio:4/3;background:var(--color-bg-muted);border-radius:.5rem;overflow:hidden;margin-bottom:.5rem;">
+      <img src="/uploads/media/<%= img.filename %>" alt="<%= img.alt_text||img.original_name %>"
+        style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+    </div>
+    <p class="text-xs text-muted" style="word-break:break-all;margin-bottom:.5rem;"><%= img.original_name %></p>
+    <input id="alt-<%= img.id %>" class="field__input" type="text" value="<%= img.alt_text||'' %>" placeholder="Alt text" style="font-size:.75rem;padding:.25rem .5rem;margin-bottom:.5rem;">
+    <div style="display:flex;gap:.25rem;">
+      <button class="btn btn--ghost btn--sm alt-save-btn" data-id="<%= img.id %>" style="flex:1">Save</button>
+      <form action="/admin/media/<%= img.id %>/delete" method="post">
+        <button type="submit" class="btn btn--danger btn--sm" data-confirm="Delete this image? This cannot be undone.">✕</button>
+      </form>
+    </div>
+  </div>
+  <% }) %>
+</div>
+
+<% const totalPages = Math.ceil(total / perPage); %>
+<% if (totalPages > 1) { %>
+<div class="pagination" style="margin-top:1.5rem;">
+  <% for (let p = 1; p <= totalPages; p++) { %>
+    <% if (p === currentPage) { %><span class="current"><%= p %></span>
+    <% } else { %><a href="?<%= new URLSearchParams({...query, page: p}).toString() %>"><%= p %></a><% } %>
+  <% } %>
+</div>
+<% } %>
+
+<%- include('_footer') %>
